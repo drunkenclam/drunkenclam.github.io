@@ -58,9 +58,9 @@
         #container { height: 100vh; display: table-cell; vertical-align: middle}
         #progresslabel { position: fixed; top:-3px; font-weight: bold; left: 26%; font-size: x-small; color:black; z-index: 18;}
         #progress { position: fixed; top:1px; left: 25%; height: 8px; width: 50%; z-index: 13;}
-        img { max-height: 98vh; max-width: 99%}
-        video { max-height: 98vh; max-width: 99%}
-        .imageF { height: 98vh}
+        img { max-height: 100vh; max-width: 100%}
+        video { max-height: 100vh; max-width: 100%}
+        .imageF { height: 100vh}
         #lol { font-size: small; position: fixed; top:1px; left:1px; z-index: 15}
         #lel { font-size: small; position: fixed; top:40px; left:1px;}
         .comms {
@@ -68,20 +68,27 @@
           padding-right: 32px; position: fixed; text-align: left; max-height: 98vh; max-width: 90vh; min-width: 50vh; overflow-y:auto;
           border: grey 1px solid; z-index: 50
         }
-        .slide-fade-leave-active, .slide-fake-leave-active, .slide-fadeup-leave-active, .slide-fadedown-leave-active {
+        /* .slide-fade-leave-active, .slide-fake-leave-active, .slide-fadeup-leave-active, .slide-fadedown-leave-active {
           margin-top: auto;
           margin-bottom: auto;
           top: 0;
           bottom: 0;
-        }
+        } */
       }
       @media all and (orientation: portrait) {
-        #container { height: 100vh; display: table-cell; vertical-align: middle}
+        #container { height: 100vh; }
         #progresslabel { position: fixed; top:-4px; font-weight: bold; left: 5px; font-size: x-small; color:black; z-index: 18;}
         #progress { position: fixed; top:0px; left: 0px; height: 7px; width: 100%; z-index: 13;}
         #radios { margin-top: 10px}
         a { color: white; }
-        img { max-height: 100vh; max-width: 100%}
+        img { max-height: 100vh; max-width: 100%;
+          /* position: absolute; */
+          margin-top: 48px;
+          /* margin-bottom: auto; */
+          /* top: 40px; */
+          /* bottom: 0;
+          left: 0; */
+        }
         video { max-height: 100vh; max-width: 100%}
         .imageF { height: 100vh}
         #lol { display: none;}
@@ -89,12 +96,13 @@
         #commsID {
           font-size: medium; background-color: black; left:0px; position: fixed; text-align: left; max-height: 100%; width: 100%; overflow-y: scroll; z-index: 50
         }
-        .slide-fade-leave-active, .slide-fake-leave-active, .slide-fadeup-leave-active, .slide-fadedown-leave-active {
+        /* .slide-fade-leave-active, .slide-fake-leave-active, .slide-fadeup-leave-active, .slide-fadedown-leave-active {
+          position: absolute;
           margin-top: auto;
           margin-bottom: auto;
           top: 0;
           bottom: 0;
-        }
+        } */
       }
       .origSize { max-height: 100%; max-width: 100%}
       #headline { font-size: medium; background-color: black; position: fixed; top: 0px; left: 0px; width: 100%; text-align: center; z-index: 10;}
@@ -299,7 +307,17 @@
           </div>
         </transition>
         <a :href="imageSrc" target="_blank"><div v-if="chicken2" id="container" v-on:click="toggleSize">
-          <transition v-if="chicken === 0" name="slide-fade" v-bind:mode="transmode" @before-leave="beforeLeave">
+          <transition-group v-if="gonext" tag="div" name="slide-fade">
+          <div v-for="number in [currentImg]" v-bind:key="number">
+            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+          </div>
+          </transition-group>
+          <transition-group v-if="!gonext" tag="div" name="slide-fake">
+          <div v-for="number in [currentImg]" v-bind:key="number" >
+            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+          </div>
+          </transition-group>
+          <!-- <transition v-if="chicken === 0" name="slide-fade" v-bind:mode="transmode" @before-leave="beforeLeave">
             <video v-bind:class="{imageF: full}" key="no3" v-if="vid" v-bind:src="imageSrc" autoplay controls muted preload="metadata"></video>
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no1" v-else-if="show1" v-bind:src="imageSrc">
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no2" v-else-if="!show1" v-bind:src="imageSrc">
@@ -318,7 +336,7 @@
             <video v-bind:class="{imageF: full}" key="no3" v-if="vid" v-bind:src="imageSrc" autoplay controls muted preload="metadata"></video>
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no1" v-else-if="show1" v-bind:src="imageSrc">
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no2" v-else-if="!show1" v-bind:src="imageSrc">
-          </transition>
+          </transition> -->
         </div></a>
         <!-- <div class="imgurlinks" v-show="il" v-on:click="fetchmic">
           <img id="imgurComms" v-bind:src="ilSrc">

@@ -46,8 +46,15 @@ var app = new Vue({
     return { url: 'boobies', links: ''}
   },
 */
+  data: {
+  },
+
   data: function (){
     return {
+      message: 'Click for slide',
+      show: true,
+      imgList: [],
+      currentImg: 0,
         entries : links,
         imageSrc: '',
         imageSrcA: '',
@@ -85,6 +92,7 @@ var app = new Vue({
         chicken4: false,
         chicken5: false,
         full: false,
+        gonext: true,
         showconf: true,
         imgCache: false,
         showComms: false,
@@ -93,7 +101,7 @@ var app = new Vue({
         transmode: '',
         transStyle: '',
         nextvid: false,
-        picked: 'redditSFW',
+        picked: 'reddit',
         checked: false,
         checkedP: true,
         selected: 'All',
@@ -640,7 +648,7 @@ var app = new Vue({
   },
 
   mounted: function () {
-    this.options = this.optionsRS;
+    this.options = this.optionsR;
     window.addEventListener('keyup', this.myMethod, { passive: true });
     //document.getElementsByName("slide")[0].addEventListener('change', this.doThing, { passive: true });
     // document.getElementsByName("slide")[0].addEventListener('input', function (evt) {
@@ -757,8 +765,12 @@ var app = new Vue({
     },
 
     myMethod: function (key) {
-      //console.log(k.code);
+      //console.log(key.code);
       if (key.code == 'ArrowRight' && !waitForNext) {app.showComms = false; app.next()}
+      else if (key.code == 'Numpad1') {app.zlast()}
+      else if (key.code == 'Numpad2') {app.zdown()}
+      else if (key.code == 'Numpad3') {app.znext()}
+      else if (key.code == 'Numpad5') {app.zup()}
       else if (key.code == 'ArrowLeft') {app.last()}
       else if (key.code == 'ArrowUp' && !app.showComms) {app.down()}
       else if (key.code == 'ArrowDown') {muuh = true; app.up()}
@@ -783,6 +795,17 @@ var app = new Vue({
       }
       else if (key.code == 'KeyD') { app.truesize = !app.truesize; app.full = false}
       app.hehe = '  (truesize ' + app.truesize + ', maximize ' + app.full + ')';
+    },
+
+    znext: function () {
+      app.gonext = true;
+      app.currentImg = app.currentImg + 1;
+      app.nextpic();
+    },
+    zlast: function () {
+      app.gonext = false;
+      app.currentImg = app.currentImg - 1;
+      app.nextpic();
     },
 
     getCommentsFromArray: function(arr) {
@@ -1621,6 +1644,7 @@ var app = new Vue({
                 json.data.children[i].data.num_comments,
                 json.data.children[i].data.author,
               ]);
+              // app.imgList.push(json.data.children[i].data.url);
               app.fetched = ' / ' + pic.length;
             } else {
               ciao.push([json.data.children[i].data.url, json.data.children[i].data.title]);
@@ -1658,7 +1682,9 @@ var app = new Vue({
               pic.splice(0,1);
             }
             if (app.picked === 'redditSFW') {app.transmode = 'out-in'};
+            app.imgList.push(pic[0][0])
             app.nextpic();
+            //console.log('fäddich!')
           };
         }).catch(function(err) {
           counter++;
@@ -1666,6 +1692,19 @@ var app = new Vue({
           app.err = 'error: ' + err.message;
         });
       }
+    },
+
+    beforeLeave(el) {
+      console.log(el);
+      const {marginLeft, marginTop, width, height} = window.getComputedStyle(el)
+      // el.style.left = '${el.offsetLeft - parseFloat(marginLeft, 10)}px'
+      console.log(el.offsetTop);
+      console.log(marginTop);
+      // el.style.top = '${el.offsetTop - parseFloat(marginTop, 10)}px'
+      el.style.top = '{el.offsetTop}px';
+      console.log(el.style.top);
+      // el.style.width = width
+      el.style.height = height
     },
 
     toggleSize: function () {
@@ -1834,11 +1873,11 @@ var app = new Vue({
         if (k < pic.length-1 && (pic[k+1][0].indexOf('www.gfycat') > 0 || pic[k+1][0].indexOf('/gfycat') > 0)) {app.gfycat()}
         if (pic[k][8] === 'video') {app.vid = true; console.log('video!')};
         //console.log('app.vid: ' + app.vid);
-        if (nextBlob != '' && k != 0) {
-          app.imageSrc = nextBlob;
-        } else {
-          app.imageSrc = pic[k][0];
-        };
+        // if (nextBlob != '' && k != 0) {
+        //   app.imageSrc = nextBlob;
+        // } else {
+        //   app.imageSrc = pic[k][0];
+        // };
         if (k < pic.length-1 && k >= ath && pic[k+1][0].indexOf('blob') === -1) {
 
           var progressBar = document.getElementById("progress");
@@ -1867,6 +1906,7 @@ var app = new Vue({
             if (nextBlob != '') {
               //console.log('nextBlob ist nicht leer, daher normal weiter');
               nextBlob = imgSrc;
+              app.imgList.push(imgSrc);
               app.imageNext = imgSrc;
               if (pic[k+1][0].indexOf('imgur.com/a/') === -1 && pic[k+1][0].indexOf('gfycat') === -1) {pic[k+1][0] = imgSrc};
             } else {
@@ -1990,6 +2030,8 @@ var app = new Vue({
             console.log('ath: ' + ath);
           };
         } else {k=0; ath=0};
+        app.gonext = true;
+        app.currentImg = app.currentImg + 1;
         app.nextpic();
         // if (nextBlob != '' && k != 0) {
         //   app.imageSrc = nextBlob;
@@ -2018,6 +2060,8 @@ var app = new Vue({
         imgNo = '';
         nextBlob = '';
         if (k > 0) {k--} else {k = pic.length-1};
+        app.gonext = false;
+        app.currentImg = app.currentImg - 1;
         app.nextpic();
         // app.imageSrc = pic[k][0];
       }
