@@ -55,6 +55,8 @@ var app = new Vue({
       show: true,
       imgList: [],
       currentImg: 0,
+      imgListA: [],
+      currentImgA: 0,
         entries : links,
         imageSrc: '',
         imageSrcA: '',
@@ -663,7 +665,6 @@ var app = new Vue({
 
     loadImage: function (imageUrl, onprogress) {
       if (pic[k+1][0].indexOf('mp4') != -1) {app.nextvid = true}
-      //else if (pic[k+1][0].indexOf('gfycat') != -1) {app.nextvid = true}
       else {app.nextvid = false};
       //console.log(imageUrl);
       return new Promise((resolve, reject) => {
@@ -743,10 +744,10 @@ var app = new Vue({
               //app.fetched = ' / ' + pic.length;
               nextBlob = '';
             } else {
-              if ((app.picked === 'reddit' || app.picked === 'redditSFW') && app.selected === 'All' && pic[k+1][0].indexOf('com/a/') === -1) {
+              if ((app.picked === 'reddit' || app.picked === 'redditSFW') && app.selected === 'All' && pic[k+2][0].indexOf('com/a/') === -1) {
                 var ppp = dd.findIndex(function (obj) { return obj === blob.size; });
                 if (ppp != -1) {
-                  console.log(pic[k+1][1] + ' doppelt: https://www.reddit.com/user/' + pic[k+1][7] + ' bei Index ' + ppp + ' in Subreddit ' + pic[k+1][5]);
+                  console.log(pic[k+2][1] + ' doppelt: https://www.reddit.com/user/' + pic[k+2][7] + ' bei Index ' + ppp + ' in Subreddit ' + pic[k+2][5]);
                   //pic.splice(k+1,1);
                   app.fetched = ' / ' + pic.length;
                   nextBlob = '';
@@ -982,18 +983,16 @@ var app = new Vue({
     },
 
     beforeLeave: function (el) {
-      //console.log(el)
-      //console.log(el.offsetTop);
-      if (app.picked === 'redditSFW') {
-        //const {marginLeft, marginTop, width, height} = window.getComputedStyle(el)
-        //console.log(window.getComputedStyle(el))
-        //el.style.left = '${el.offsetLeft - parseFloat(marginLeft, 10)}px'
-        //el.style.top = '${el.offsetTop - parseFloat(marginTop, 20}px'
-        el.style.top = el.offsetTop + 'px';
-        el.style.transition = 'all .25s ease';
-        // el.style.width = width
-        //el.style.height = height
-      }
+      // console.log(el);
+      const {marginLeft, marginTop, width, height} = window.getComputedStyle(el)
+      // el.style.left = '${el.offsetLeft - parseFloat(marginLeft, 10)}px'
+      // console.log(el.offsetTop);
+      // console.log(marginTop);
+      // el.style.top = '${el.offsetTop - parseFloat(marginTop, 10)}px'
+      el.style.top = el.offsetTop + 'px';
+      // console.log(el.style.top);
+      // el.style.width = width
+      //el.style.height = height
     },
 
     fetchNow: function (event) {
@@ -1010,6 +1009,9 @@ var app = new Vue({
       ath = 0;
       app.err = '';
       app.fetched = ' / ';
+      app.gonext = true;
+      app.currentImg = 0;
+      app.imgList = [];
       if (app.loaded != '') {app.loaded = '1'};
       //if (app.picked === 'redditSFW') {app.transStyle = '{position: relative}'};
       if (app.picked === 'reddit' || app.picked === 'redditSFW') {
@@ -1126,7 +1128,11 @@ var app = new Vue({
           titleLink = 5;
           counter++;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
-          if (counter === j-1) {app.nextpic()};
+          if (counter === j-1) {
+            app.imgList.push(pic[0][0]);
+            app.imgList.push(pic[1][0]);
+            app.nextpic();
+          };
         }).catch(function(err) {
           counter++;
           console.log(err);
@@ -1247,7 +1253,14 @@ var app = new Vue({
           titleLink = 5;
           counter++;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
-          if (counter === j-1) {console.log('Anzahl Videos: ' + uuu); app.nextpic()};
+          app.imgList.push(pic[0][0]);
+          app.imgList.push(pic[1][0]);
+          if (counter === j-1) {
+            console.log('Anzahl Videos: ' + uuu);
+            app.imgList.push(pic[0][0]);
+            app.imgList.push(pic[1][0]);
+            app.nextpic();
+          };
         }).catch(function(err) {
           console.log('wwwww ' + err);
           counter++;
@@ -1357,7 +1370,11 @@ var app = new Vue({
           titleLink = 5;
           counter++;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
-          if (counter === j-1) {app.nextpic()};
+          if (counter === j-1) {
+            app.imgList.push(pic[0][0]);
+            app.imgList.push(pic[1][0]);
+            app.nextpic();
+          };
         }).catch(function(err) {
           counter++;
           console.log(err);
@@ -1425,7 +1442,11 @@ var app = new Vue({
           app.sort();
           counter++;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
-          if (counter === j-1) {app.nextpic()};
+          if (counter === j-1) {
+            app.imgList.push(pic[0][0]);
+            app.imgList.push(pic[1][0]);
+            app.nextpic();
+          };
         }).catch(function(err) {
           counter++;
           console.log(err);
@@ -1492,6 +1513,8 @@ var app = new Vue({
           titleLink = 5;
           counter++;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
+          app.imgList.push(pic[0][0]);
+          app.imgList.push(pic[1][0]);
           app.nextpic();
         }).catch(function(err) {
           counter++;
@@ -1682,7 +1705,8 @@ var app = new Vue({
               pic.splice(0,1);
             }
             if (app.picked === 'redditSFW') {app.transmode = 'out-in'};
-            app.imgList.push(pic[0][0])
+            app.imgList.push(pic[0][0]);
+            app.imgList.push(pic[1][0]);
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -1692,19 +1716,6 @@ var app = new Vue({
           app.err = 'error: ' + err.message;
         });
       }
-    },
-
-    beforeLeave(el) {
-      console.log(el);
-      const {marginLeft, marginTop, width, height} = window.getComputedStyle(el)
-      // el.style.left = '${el.offsetLeft - parseFloat(marginLeft, 10)}px'
-      console.log(el.offsetTop);
-      console.log(marginTop);
-      // el.style.top = '${el.offsetTop - parseFloat(marginTop, 10)}px'
-      el.style.top = '{el.offsetTop}px';
-      console.log(el.style.top);
-      // el.style.width = width
-      el.style.height = height
     },
 
     toggleSize: function () {
@@ -1751,10 +1762,10 @@ var app = new Vue({
 
         var progressBar = document.getElementById("progress");
         //app.loading = true;
-        if (k < pic.length-1 && k >= ath && pic[k+1][0].indexOf('blob') === -1) {
+        if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
           app.hihi = 100;
           app.err = 100;
-          app.loadImage(pic[k+1][0], (ratio) => {
+          app.loadImage(pic[k+2][0], (ratio) => {
             if (ratio == -1) {
               // Ratio not computable. Let's make this bar an undefined one.
               // Remember that since ratio isn't computable, calling this function
@@ -1773,17 +1784,17 @@ var app = new Vue({
               //console.log('nextBlob ist nicht leer, daher normal weiter');
               nextBlob = imgSrc;
               app.imageNext = imgSrc;
-              if (pic[k+1][0].indexOf('imgur.com/a/') === -1) {pic[k+1][0] = imgSrc};
+              if (pic[k+2][0].indexOf('imgur.com/a/') === -1) {pic[k+2][0] = imgSrc};
             } else {
               //console.log('nextBlob leer, daher kein preloading');
-              app.imageNext = pic[k+1][0];
+              app.imageNext = pic[k+2][0];
             };
           }, xhr => {
             // An error occured. We have the XHR object to see what happened.
-            console.log('xhr error, killed ' + pic[k+1][2]);
+            console.log('xhr error, killed ' + pic[k+2][2]);
             nextBlob = '';
             app.chicken4 = false;
-            pic.splice(k+1,1);
+            pic.splice(k+2,1);
             app.fetched = ' / ' + pic.length;
           });
         };
@@ -1798,6 +1809,7 @@ var app = new Vue({
           pic[k][11] = pic[k][7];
           imgNo = pic[k][10];
           app.aaPos = qq+1 + ' / ' + imgNo;
+          app.imgListA = pic[k][11];
         }
         app.loaded = k+1;
         if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
@@ -1812,10 +1824,10 @@ var app = new Vue({
 
         var progressBar = document.getElementById("progress");
         //app.loading = true;
-        if (k < pic.length-1 && k >= ath && pic[k+1][0].indexOf('blob') === -1) {
+        if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
           app.hihi = 100;
           app.err = 100;
-          app.loadImage(pic[k+1][0], (ratio) => {
+          app.loadImage(pic[k+2][0], (ratio) => {
             if (ratio == -1) {
               // Ratio not computable. Let's make this bar an undefined one.
               // Remember that since ratio isn't computable, calling this function
@@ -1836,17 +1848,17 @@ var app = new Vue({
               //console.log('nextBlob ist nicht leer, daher normal weiter');
               nextBlob = imgSrc;
               app.imageNext = imgSrc;
-              if (pic[k+1][0].indexOf('imgur.com/a/') === -1) {pic[k+1][0] = imgSrc};
+              if (pic[k+2][0].indexOf('imgur.com/a/') === -1) {pic[k+2][0] = imgSrc};
             } else {
               //console.log('nextBlob leer, daher kein preloading');
-              app.imageNext = pic[k+1][0];
+              app.imageNext = pic[k+2][0];
             };
           }, xhr => {
             // An error occured. We have the XHR object to see what happened.
-            console.log('xhr error, killed ' + pic[k+1][1]);
+            console.log('xhr error, killed ' + pic[k+2][1]);
             nextBlob = '';
             app.chicken4 = false;
-            pic.splice(k+1,1);
+            pic.splice(k+2,1);
             app.fetched = ' / ' + pic.length;
           });
         };
@@ -1856,19 +1868,19 @@ var app = new Vue({
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         app.loaded = k+1;
         if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
-      } else {
+      } else { // reddit, insta, 500px, flickr
         app.vid = false;
         if (typeof pic[k][9] != 'undefined') {app.vid=false; app.albums()}
         //else if (pic[k][9].indexOf('imgur.com/a/') > 0) {app.vid=false; app.albums()}
         else if (pic[k][0].indexOf('tumblr.com/post') > 0) {app.vid=false; app.tumblr()}
         //else if (pic[k][0].indexOf('instagram') > 0) {app.vid=false; app.ig()}
-        if (k < pic.length-1 && pic[k+1][0].indexOf('.gifv') != -1) {pic[k+1][8] = 'video';pic[k+1][0] = pic[k+1][0].replace("gifv", "mp4");console.log("mp4: " + pic[k+1][0]);}
-        else if (k < pic.length-1 && pic[k+1][0].indexOf('.mp4') != -1) {pic[k+1][8] = 'video'}
+        if (k < pic.length-2 && pic[k+2][0].indexOf('.gifv') != -1) {pic[k+2][8] = 'video';pic[k+2][0] = pic[k+2][0].replace("gifv", "mp4");console.log("mp4: " + pic[k+2][0]);}
+        else if (k < pic.length-2 && pic[k+2][0].indexOf('.mp4') != -1) {pic[k+2][8] = 'video'}
+        if (k < pic.length-3 && pic[k+3][0].indexOf('imgur.com/a/') > 0) {jump = 3; app.albumsnext()}
+        else if (k < pic.length-3 && pic[k+3][0].indexOf('.flickr.com') > 0) {app.flickrnext()}
+        else if (k < pic.length-3 && pic[k+3][0].indexOf('flic.kr') > 0) {app.flickrnext()}
+        else if (k < pic.length-3 && pic[k+3][0].indexOf('500px') > 0) {app.s500pxnext()}
         if (k < pic.length-2 && pic[k+2][0].indexOf('imgur.com/a/') > 0) {jump = 2; app.albumsnext()}
-        else if (k < pic.length-2 && pic[k+2][0].indexOf('.flickr.com') > 0) {app.flickrnext()}
-        else if (k < pic.length-2 && pic[k+2][0].indexOf('flic.kr') > 0) {app.flickrnext()}
-        else if (k < pic.length-2 && pic[k+2][0].indexOf('500px') > 0) {app.s500pxnext()}
-        if (k < pic.length-1 && pic[k+1][0].indexOf('imgur.com/a/') > 0) {jump = 1; app.albumsnext()}
         if (k < pic.length-2 && (pic[k+2][0].indexOf('www.gfycat') > 0 || pic[k+2][0].indexOf('/gfycat') > 0)) {app.gfycat()}
         if (k < pic.length-1 && (pic[k+1][0].indexOf('www.gfycat') > 0 || pic[k+1][0].indexOf('/gfycat') > 0)) {app.gfycat()}
         if (pic[k][8] === 'video') {app.vid = true; console.log('video!')};
@@ -1878,14 +1890,14 @@ var app = new Vue({
         // } else {
         //   app.imageSrc = pic[k][0];
         // };
-        if (k < pic.length-1 && k >= ath && pic[k+1][0].indexOf('blob') === -1) {
+        if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
 
           var progressBar = document.getElementById("progress");
           //app.loading = true;
           //console.log('yeeeeaaaaaah ' + pic[k+1][0]);
           app.hihi = 100;
           app.err = 100;
-          app.loadImage(pic[k+1][0], (ratio) => {
+          app.loadImage(pic[k+2][0], (ratio) => {
             if (ratio == -1) {
               // Ratio not computable. Let's make this bar an undefined one.
               // Remember that since ratio isn't computable, calling this function
@@ -1906,21 +1918,21 @@ var app = new Vue({
             if (nextBlob != '') {
               //console.log('nextBlob ist nicht leer, daher normal weiter');
               nextBlob = imgSrc;
-              app.imgList.push(imgSrc);
               app.imageNext = imgSrc;
-              if (pic[k+1][0].indexOf('imgur.com/a/') === -1 && pic[k+1][0].indexOf('gfycat') === -1) {pic[k+1][0] = imgSrc};
+              if (pic[k+2][0].indexOf('imgur.com/a/') === -1 && pic[k+2][0].indexOf('gfycat') === -1) {pic[k+2][0] = imgSrc};
             } else {
-              //console.log('nextBlob leer, daher kein preloading');
-              app.imageNext = pic[k+1][0];
+              console.log('nextBlob leer, daher kein preloading');
+              app.imageNext = pic[k+2][0];
             };
           }, xhr => {
             // An error occured. We have the XHR object to see what happened.
-            console.log('xhr error, killed ' + pic[k+1][1]);
+            console.log('xhr error, killed ' + pic[k+2]);
             nextBlob = '';
             app.hihi = 0;
             app.err = 0;
             app.chicken4 = false;
-            pic.splice(k+1,1);
+            pic.splice(k+2,1);
+            //imgList.splice(k+1,1);
             app.fetched = ' / ' + pic.length;
           });
         };
@@ -1947,7 +1959,15 @@ var app = new Vue({
           if (pic[k][2].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
         }
         //console.log(pic[k]);
-        if (typeof pic[k][9] != 'undefined') {app.imageSrcA = ''; app.imgNo = ' (' + imgNo + ')'} else {app.imageSrcA = ''; app.imgNo = ''};
+        if (typeof pic[k][9] != 'undefined') {
+          app.imageSrcA = '';
+          app.imgNo = ' (' + imgNo + ')';
+          app.imgListA = pic[k][11];
+          //console.log(app.imgListA);
+        } else {
+          app.imageSrcA = '';
+          app.imgNo = '';
+        };
         if (imgNo != '') {app.mic = ''};
         app.loaded = k+1;
       };
@@ -2017,6 +2037,7 @@ var app = new Vue({
         app.show1 = !app.show1;
         app.hoho = '';
         app.albumImageNext = '';
+        app.currentImgA = 0;
         waitForNext = false;
         qq = 0;
         aa = [];
@@ -2025,6 +2046,7 @@ var app = new Vue({
           k++;
           if (k > ath) {
             ath = k;
+            app.imgList.push(pic[k+1][0]);
           } else {
             console.log('k: ' + k);
             console.log('ath: ' + ath);
@@ -2052,6 +2074,7 @@ var app = new Vue({
         app.chicken = 1;
         app.show1 = !app.show1;
         app.albumImageNext = '';
+        app.currentImgA = 0;
         app.ilSrc = [];
         app.il = false;
         if (!wentBack) {dd.shift(); wentBack = true};
@@ -2084,6 +2107,7 @@ var app = new Vue({
         if (qq > 0) {qq--} else {qq = pic[k][10]-1};
         app.imageSrc = pic[k][11][qq];
         app.aaPos = qq+1 + ' / ' + pic[k][10];
+        app.currentImgA = app.currentImgA - 1;
       }
     },
 
@@ -2119,6 +2143,7 @@ var app = new Vue({
         } else {
           app.chicken = 3;
           app.show1 = !app.show1;
+          app.currentImgA = app.currentImgA + 1;
           if (qq < pic[k][10]-1) {
             qq++;
             console.log('qq: ' + qq);
@@ -2163,16 +2188,16 @@ var app = new Vue({
     },
 
     s500pxnext: function () {
-      var url = pic[k+2][0];
+      var url = pic[k+3][0];
       console.log(url);
       var pieces = url.split("/");
       fetch('https://ratv-cors-proxy.herokuapp.com/' + 'https://api.500px.com/v1/photos/' + pieces[4] + '?consumer_key=sUcWp6BWMYJZ3BTKwpQXHJiiUy2pzRveuuDSL0C8&image_size=1080').then(function(response) {
         return response.json();
       }).then(function(json) {
         //console.log(json.photo.image_url);
-        pic[k+2][0] = json.photo.image_url;
+        pic[k+3][0] = json.photo.image_url;
       }).catch(function(err) {
-        pic[k+2][0] = '404.jpg';
+        pic[k+3][0] = '404.jpg';
         console.log(err);
         app.err = 'error: ' + err.message;
       });
@@ -2192,7 +2217,7 @@ var app = new Vue({
     },
 
     flickrnext: function () {
-      var url = pic[k+2][0];
+      var url = pic[k+3][0];
       console.log(url);
       var pieces = url.split("/");
       var pieces2 = '';
@@ -2208,9 +2233,9 @@ var app = new Vue({
         return response.json();
       }).then(function(json) {
         //console.log(json.sizes.size[json.sizes.size.length-1]);
-        pic[k+2][0] = json.sizes.size[json.sizes.size.length-1].source;
+        pic[k+3][0] = json.sizes.size[json.sizes.size.length-1].source;
       }).catch(function(err) {
-        pic[k+2][0] = '404.jpg';
+        pic[k+3][0] = '404.jpg';
         console.log(err);
         app.err = 'error: ' + err.message;
       });
@@ -2278,6 +2303,8 @@ var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://ap
         titleLink = 5;
         counter++;
         //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
+        app.imgList.push(pic[0][0]);
+        app.imgList.push(pic[1][0]);
         app.nextpic();
       }).catch(function(err) {
         counter++;
@@ -2312,7 +2339,7 @@ var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://ap
             aa[z] = 'https://i.imgur.com/' + json.data.images[z].id + '.jpg';
           };
           //console.log(aa);
-          pic[k+jump][9] = pic[k+1][0];
+          pic[k+jump][9] = pic[k+jump][0];
           pic[k+jump][10] = json.data.images.length;
           pic[k+jump][11] = aa;
           var imgID = json.data.images[0].id;

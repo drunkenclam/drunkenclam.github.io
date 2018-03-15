@@ -76,14 +76,14 @@
         } */
       }
       @media all and (orientation: portrait) {
-        #container { height: 100vh; }
+        #container { height: 100vh; display: table-cell; vertical-align: middle}
         #progresslabel { position: fixed; top:-4px; font-weight: bold; left: 5px; font-size: x-small; color:black; z-index: 18;}
         #progress { position: fixed; top:0px; left: 0px; height: 7px; width: 100%; z-index: 13;}
         #radios { margin-top: 10px}
         a { color: white; }
         img { max-height: 100vh; max-width: 100%;
           /* position: absolute; */
-          margin-top: 48px;
+          /* margin-top: 48px; */
           /* margin-bottom: auto; */
           /* top: 40px; */
           /* bottom: 0;
@@ -307,14 +307,24 @@
           </div>
         </transition>
         <a :href="imageSrc" target="_blank"><div v-if="chicken2" id="container" v-on:click="toggleSize">
-          <transition-group v-if="gonext" tag="div" name="slide-fade">
+          <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave">
           <div v-for="number in [currentImg]" v-bind:key="number">
             <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
           </div>
           </transition-group>
-          <transition-group v-if="!gonext" tag="div" name="slide-fake">
+          <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
           <div v-for="number in [currentImg]" v-bind:key="number" >
             <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+          </div>
+          </transition-group>
+          <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
+          <div v-for="number in [currentImgA]" v-bind:key="number">
+            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+          </div>
+          </transition-group>
+          <transition-group v-if="chicken === 3" tag="div" name="slide-fadeup">
+          <div v-for="number in [currentImgA]" v-bind:key="number" >
+            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
           </div>
           </transition-group>
           <!-- <transition v-if="chicken === 0" name="slide-fade" v-bind:mode="transmode" @before-leave="beforeLeave">
@@ -344,7 +354,7 @@
         <div id="behind24" v-show="bh24"></div>
         <div class="fixed" v-show="imgCache">
           <video id="nextv" v-if="nextvid" v-bind:src="imageNext"></video>
-          <img id="nextimg" v-if="!nextvid" v-bind:src="imageNext"><br/>
+          <img id="nextimg" v-if="!nextvid" v-bind:src="imgList[Math.abs(currentImg+1) % imgList.length]"><br/>
           <img id="nextalbumimg" v-bind:src="albumImageNext">
         </div>
         <div class="sleep" v-if="checkedP">
