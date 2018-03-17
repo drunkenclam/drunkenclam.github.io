@@ -498,7 +498,6 @@ var app = new Vue({
         'boutinela',
         'ohrangutang',
         'lindapalacio1',
-        'sophiedalzellreal',
         'ogfoto',
         'stormiimichelle',
         'deniseschaefer',
@@ -996,7 +995,6 @@ var app = new Vue({
     },
 
     afterLeave: function (el) {
-      console.log('go!')
       app.nextpic();
     },
 
@@ -1167,6 +1165,7 @@ var app = new Vue({
           //var tp = json.response.items;
           //console.log(json);
           var tp = json.graphql.user.edge_owner_to_timeline_media.edges;
+          //console.log(tp)
           //console.log('tp.lenght: ' + tp.length);
           if (tp.length >= 0) {
             for (var z = 0; z < tp.length; z++) {
@@ -1179,8 +1178,8 @@ var app = new Vue({
                 var posturl = 'https://www.instagram.com/p/' + tp[z].node.shortcode;
                 var createdT = tp[z].node.taken_at_timestamp;
                 if (typeof tp[z].node.edge_media_to_caption.edges[0].node.text != 'undefined') {
-                  if (tp[z].node.edge_media_to_caption.edges[0].node.text.length > 50) {
-                    var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text.substring(0, 50) + ' [...]';
+                  if (tp[z].node.edge_media_to_caption.edges[0].node.text.length > 190) {
+                    var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text.substring(0, 190) + ' [...]';
                   } else {
                     var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text;
                   }
@@ -1217,8 +1216,8 @@ var app = new Vue({
                   var posturl = 'https://www.instagram.com/p/' + tp[z].node.shortcode;
                   var createdT = tp[z].node.taken_at_timestamp;
                   if (typeof tp[z].node.edge_media_to_caption.edges[0].node.text != 'undefined') {
-                    if (tp[z].node.edge_media_to_caption.edges[0].node.text.length > 50) {
-                      var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text.substring(0, 50) + ' [...]';
+                    if (tp[z].node.edge_media_to_caption.edges[0].node.text.length > 190) {
+                      var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text.substring(0, 190) + ' [...]';
                     } else {
                       var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text;
                     }
@@ -1815,7 +1814,7 @@ var app = new Vue({
           app.imgListA = pic[k][11];
         }
         app.loaded = k+1;
-        if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][2].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
       } else if (app.picked === 'pint') {
         if (pic[k][0].indexOf('.mp4') != -1) {app.vid=true}
         else {app.vid=false};
