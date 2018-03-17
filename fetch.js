@@ -995,7 +995,7 @@ var app = new Vue({
     },
 
     afterLeave: function (el) {
-      app.nextpic();
+      app.preload();
     },
 
     fetchNow: function (event) {
@@ -1622,7 +1622,11 @@ var app = new Vue({
               if (json.data.children[i].data.url.indexOf('//m.imgur.com/a/') != -1)
               {
                 json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//imgur")
-              };
+              } else if (json.data.children[i].data.url.indexOf('//m.imgur.com/') != -1)
+              {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//i.imgur")
+                json.data.children[i].data.url += '.jpg';
+              }
               if (json.data.children[i].data.url.indexOf('imgur.com/a/') != -1 && json.data.children[i].data.url.indexOf('#') != -1)
               {
                 var jupp = json.data.children[i].data.url.split("#");
@@ -1762,44 +1766,6 @@ var app = new Vue({
           app.imageSrc = pic[k][0];
         };
 
-        var progressBar = document.getElementById("progress");
-        //app.loading = true;
-        if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
-          app.hihi = 100;
-          app.err = 100;
-          app.loadImage(pic[k+2][0], (ratio) => {
-            if (ratio == -1) {
-              // Ratio not computable. Let's make this bar an undefined one.
-              // Remember that since ratio isn't computable, calling this function
-              // makes no further sense, so it won't be called again.
-              progressBar.removeAttribute("value");
-            } else if (app.checkedP) {
-              // We have progress ratio; update the bar.
-              if (!wentBack) {app.hihi = 100-ratio; app.err = 100-ratio}
-            }
-          })
-          .then(imgSrc => {
-            // Loading successfuly complete; set the image and probably do other stuff.
-            //imgContainer.src = imgSrc;
-            app.chicken4 = false;
-            if (nextBlob != '') {
-              //console.log('nextBlob ist nicht leer, daher normal weiter');
-              nextBlob = imgSrc;
-              app.imageNext = imgSrc;
-              if (pic[k+2][0].indexOf('imgur.com/a/') === -1) {pic[k+2][0] = imgSrc};
-            } else {
-              //console.log('nextBlob leer, daher kein preloading');
-              app.imageNext = pic[k+2][0];
-            };
-          }, xhr => {
-            // An error occured. We have the XHR object to see what happened.
-            console.log('xhr error, killed ' + pic[k+2][2]);
-            nextBlob = '';
-            app.chicken4 = false;
-            pic.splice(k+2,1);
-            app.fetched = ' / ' + pic.length;
-          });
-        };
         app.postlink = pic[k][2];
         if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][1]};
         app.created = pic[k][3] + ' at';
@@ -1824,46 +1790,6 @@ var app = new Vue({
           app.imageSrc = pic[k][0];
         };
 
-        var progressBar = document.getElementById("progress");
-        //app.loading = true;
-        if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
-          app.hihi = 100;
-          app.err = 100;
-          app.loadImage(pic[k+2][0], (ratio) => {
-            if (ratio == -1) {
-              // Ratio not computable. Let's make this bar an undefined one.
-              // Remember that since ratio isn't computable, calling this function
-              // makes no further sense, so it won't be called again.
-              progressBar.removeAttribute("value");
-            } else if (app.checkedP) {
-              // We have progress ratio; update the bar.
-              if (!wentBack) {app.hihi = 100-ratio; app.err = 100-ratio}
-            }
-          })
-          .then(imgSrc => {
-            // Loading successfuly complete; set the image and probably do other stuff.
-            //imgContainer.src = imgSrc;
-            //img.src = pic[k+1][0];
-            app.chicken4 = false;
-
-            if (nextBlob != '') {
-              //console.log('nextBlob ist nicht leer, daher normal weiter');
-              nextBlob = imgSrc;
-              app.imageNext = imgSrc;
-              if (pic[k+2][0].indexOf('imgur.com/a/') === -1) {pic[k+2][0] = imgSrc};
-            } else {
-              //console.log('nextBlob leer, daher kein preloading');
-              app.imageNext = pic[k+2][0];
-            };
-          }, xhr => {
-            // An error occured. We have the XHR object to see what happened.
-            console.log('xhr error, killed ' + pic[k+2][1]);
-            nextBlob = '';
-            app.chicken4 = false;
-            pic.splice(k+2,1);
-            app.fetched = ' / ' + pic.length;
-          });
-        };
         app.postlink = pic[k][2];
         if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][1]};
         app.created = pic[k][3] + ' at ' + pic[k][1];
@@ -1892,52 +1818,8 @@ var app = new Vue({
         // } else {
         //   app.imageSrc = pic[k][0];
         // };
-        if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
+        //if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {app.preload()}
 
-          var progressBar = document.getElementById("progress");
-          //app.loading = true;
-          //console.log('yeeeeaaaaaah ' + pic[k+1][0]);
-          app.hihi = 100;
-          app.err = 100;
-          app.loadImage(pic[k+2][0], (ratio) => {
-            if (ratio == -1) {
-              // Ratio not computable. Let's make this bar an undefined one.
-              // Remember that since ratio isn't computable, calling this function
-              // makes no further sense, so it won't be called again.
-              progressBar.removeAttribute("value");
-            } else if (app.checkedP) {
-              // We have progress ratio; update the bar
-              progressBar.value = ratio;
-              if (!wentBack) {app.hihi = 100-ratio; app.err = 100-ratio}
-            }
-          })
-          .then(imgSrc => {
-            // Loading successfuly complete; set the image and probably do other stuff.
-            //imgContainer.src = imgSrc;
-            //img.src = pic[k+1][0];
-            app.chicken4 = false;
-            //console.log('nextBlob: ' + nextBlob);
-            if (nextBlob != '') {
-              //console.log('nextBlob ist nicht leer, daher normal weiter');
-              nextBlob = imgSrc;
-              app.imageNext = imgSrc;
-              if (pic[k+2][0].indexOf('imgur.com/a/') === -1 && pic[k+2][0].indexOf('gfycat') === -1) {pic[k+2][0] = imgSrc};
-            } else {
-              console.log('nextBlob leer, daher kein preloading');
-              app.imageNext = pic[k+2][0];
-            };
-          }, xhr => {
-            // An error occured. We have the XHR object to see what happened.
-            console.log('xhr error, killed ' + pic[k+2]);
-            nextBlob = '';
-            app.hihi = 0;
-            app.err = 0;
-            app.chicken4 = false;
-            pic.splice(k+2,1);
-            //imgList.splice(k+1,1);
-            app.fetched = ' / ' + pic.length;
-          });
-        };
         app.postlink = pic[k][1];
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
@@ -1973,12 +1855,61 @@ var app = new Vue({
         if (imgNo != '') {app.mic = ''};
         app.loaded = k+1;
       };
+      if (k === 0) {app.preload()}
       //console.log('wentback: ' + wentBack);
       if (k <= ath && wentBack) {
         app.chicken4 = false
         app.hihi = 0;
         app.err = 0;
       };
+    },
+
+    preload: function () {
+      if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
+        //var progressBar = document.getElementById("progress");
+        //app.loading = true;
+        //console.log('yeeeeaaaaaah ' + pic[k+1][0]);
+        app.hihi = 100;
+        app.err = 100;
+        app.loadImage(pic[k+2][0], (ratio) => {
+          if (ratio == -1) {
+            // Ratio not computable. Let's make this bar an undefined one.
+            // Remember that since ratio isn't computable, calling this function
+            // makes no further sense, so it won't be called again.
+            //progressBar.removeAttribute("value");
+          } else if (app.checkedP) {
+            // We have progress ratio; update the bar
+            //progressBar.value = ratio;
+            if (!wentBack) {app.hihi = 100-ratio; app.err = 100-ratio}
+          }
+        })
+        .then(imgSrc => {
+          // Loading successfuly complete; set the image and probably do other stuff.
+          //imgContainer.src = imgSrc;
+          //img.src = pic[k+1][0];
+          app.chicken4 = false;
+          //console.log('nextBlob: ' + nextBlob);
+          if (nextBlob != '') {
+            //console.log('nextBlob ist nicht leer, daher normal weiter');
+            nextBlob = imgSrc;
+            app.imageNext = imgSrc;
+            if (pic[k+2][0].indexOf('imgur.com/a/') === -1 && pic[k+2][0].indexOf('gfycat') === -1) {pic[k+2][0] = imgSrc};
+          } else {
+            console.log('nextBlob leer, daher kein preloading');
+            app.imageNext = pic[k+2][0];
+          };
+        }, xhr => {
+          // An error occured. We have the XHR object to see what happened.
+          console.log('xhr error, killed ' + pic[k+2]);
+          nextBlob = '';
+          app.hihi = 0;
+          app.err = 0;
+          app.chicken4 = false;
+          pic.splice(k+2,1);
+          //imgList.splice(k+1,1);
+          app.fetched = ' / ' + pic.length;
+        });
+      }
     },
 
     gfycat: function () {
@@ -2024,7 +1955,7 @@ var app = new Vue({
         app.showComms = false;
         app.ilSrc = [];
         app.il = false;
-        app.next()
+        app.next();
       };
     },
 
@@ -2056,7 +1987,7 @@ var app = new Vue({
         } else {k=0; ath=0};
         app.gonext = true;
         app.currentImg = app.currentImg + 1;
-        //app.nextpic();
+        app.nextpic();
         // if (nextBlob != '' && k != 0) {
         //   app.imageSrc = nextBlob;
         // } else {

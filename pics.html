@@ -250,9 +250,6 @@
   <body>
     <b-container fluid>
     <div id="app">
-      <!-- <div id="slider" v-if="showconf">
-        <input name="slide" type="range" min="0" max="2" step=".1">
-      </div> -->
       <div id="headline" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
       <transition name="slipe-fadein" mode="out-in">
         <div id="ralbum" v-if="imgNo != ''">{{aaPos}}</div>
@@ -306,27 +303,28 @@
             </ul>
           </div>
         </transition>
-        <a :href="imageSrc" target="_blank"><div v-if="chicken2" id="container" v-on:click="toggleSize">
-          <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
-          <div v-for="number in [currentImg]" v-bind:key="number">
-            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
-          </div>
-          </transition-group>
-          <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
-          <div v-for="number in [currentImg]" v-bind:key="number" >
-            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
-          </div>
-          </transition-group>
-          <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
-          <div v-for="number in [currentImgA]" v-bind:key="number">
-            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
-          </div>
-          </transition-group>
-          <transition-group v-if="chicken === 3" tag="div" name="slide-fadeup">
-          <div v-for="number in [currentImgA]" v-bind:key="number" >
-            <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
-          </div>
-          </transition-group>
+        <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
+          <div v-if="chicken2" id="container" v-on:click="toggleSize">
+            <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
+            <div v-for="number in [currentImg]" v-bind:key="number">
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+            </div>
+            </transition-group>
+            <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
+            <div v-for="number in [currentImg]" v-bind:key="number" >
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+            </div>
+            </transition-group>
+            <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
+            <div v-for="number in [currentImgA]" v-bind:key="number">
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+            </div>
+            </transition-group>
+            <transition-group v-if="chicken === 3" tag="div" name="slide-fadeup">
+            <div v-for="number in [currentImgA]" v-bind:key="number" >
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+            </div>
+            </transition-group>
           <!-- <transition v-if="chicken === 0" name="slide-fade" v-bind:mode="transmode" @before-leave="beforeLeave">
             <video v-bind:class="{imageF: full}" key="no3" v-if="vid" v-bind:src="imageSrc" autoplay controls muted preload="metadata"></video>
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no1" v-else-if="show1" v-bind:src="imageSrc">
@@ -347,7 +345,8 @@
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no1" v-else-if="show1" v-bind:src="imageSrc">
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no2" v-else-if="!show1" v-bind:src="imageSrc">
           </transition> -->
-        </div></a>
+          </div>
+        </a>
         <!-- <div class="imgurlinks" v-show="il" v-on:click="fetchmic">
           <img id="imgurComms" v-bind:src="ilSrc">
         </div> -->
