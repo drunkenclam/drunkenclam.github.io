@@ -984,7 +984,7 @@ var app = new Vue({
 
     beforeLeave: function (el) {
       // console.log(el);
-      const {marginLeft, marginTop, width, height} = window.getComputedStyle(el)
+      //const {marginLeft, marginTop, width, height} = window.getComputedStyle(el)
       // el.style.left = '${el.offsetLeft - parseFloat(marginLeft, 10)}px'
       // console.log(el.offsetTop);
       // console.log(marginTop);
@@ -993,6 +993,11 @@ var app = new Vue({
       // console.log(el.style.top);
       // el.style.width = width
       //el.style.height = height
+    },
+
+    afterLeave: function (el) {
+      console.log('go!')
+      app.nextpic();
     },
 
     fetchNow: function (event) {
@@ -1160,24 +1165,24 @@ var app = new Vue({
           return response.json();
         }).then(function(json) {
           //var tp = json.response.items;
-          var tp = json.user.media.nodes;
-          //console.log(tp);
+          //console.log(json);
+          var tp = json.graphql.user.edge_owner_to_timeline_media.edges;
           //console.log('tp.lenght: ' + tp.length);
           if (tp.length >= 0) {
             for (var z = 0; z < tp.length; z++) {
-              if (tp[z].is_video === true && app.checked) {
-                var imgID = tp[z].display_src;
+              if (tp[z].node.is_video === true && app.checked) {
+                var imgID = tp[z].node.display_url;
                 uuu++;
                 //var pieces = imgID.split("/");
                 //if (pieces.length > 6) {imgID = pieces[0] + '//' + pieces[2] + '/' + pieces[3] + '/' + pieces[7]};
-                var blogname = json.user.username + ' (Video!)';
-                var posturl = 'https://www.instagram.com/p/' + tp[z].code;
-                var createdT = tp[z].date;
-                if (typeof tp[z].caption != 'undefined') {
-                  if (tp[z].caption.length > 50) {
-                    var tagline = tp[z].caption.substring(0, 50) + ' [...]';
+                var blogname = json.graphql.user.username + ' (Video!)';
+                var posturl = 'https://www.instagram.com/p/' + tp[z].node.shortcode;
+                var createdT = tp[z].node.taken_at_timestamp;
+                if (typeof tp[z].node.edge_media_to_caption.edges[0].node.text != 'undefined') {
+                  if (tp[z].node.edge_media_to_caption.edges[0].node.text.length > 50) {
+                    var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text.substring(0, 50) + ' [...]';
                   } else {
-                    var tagline = tp[z].caption;
+                    var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text;
                   }
                 } else {
                   var tagline = '';
@@ -1201,21 +1206,21 @@ var app = new Vue({
                 if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
                 pic.push([imgID, posturl, formattedTime, blogname, shit, tagline, picNo]);
                 app.fetched = ' / ' + pic.length;
-              } else if (tp[z].is_video === false) {
+              } else if (tp[z].node.is_video === false) {
                   picNo = 1;
                   //console.log(tp[z].photos.length);
-                  var imgID = tp[z].display_src;
+                  var imgID = tp[z].node.display_url;
                   //console.log(imgID);
                   //var pieces = imgID.split("/");
                   //if (pieces.length > 6) {imgID = pieces[0] + '//' + pieces[2] + '/' + pieces[3] + '/' + pieces[7]};
-                  var blogname = json.user.username;
-                  var posturl = 'https://www.instagram.com/p/' + tp[z].code;
-                  var createdT = tp[z].date;
-                  if (typeof tp[z].caption != 'undefined') {
-                    if (tp[z].caption.length > 50) {
-                      var tagline = tp[z].caption.substring(0, 50) + ' [...]';
+                  var blogname = json.graphql.user.username;
+                  var posturl = 'https://www.instagram.com/p/' + tp[z].node.shortcode;
+                  var createdT = tp[z].node.taken_at_timestamp;
+                  if (typeof tp[z].node.edge_media_to_caption.edges[0].node.text != 'undefined') {
+                    if (tp[z].node.edge_media_to_caption.edges[0].node.text.length > 50) {
+                      var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text.substring(0, 50) + ' [...]';
                     } else {
-                      var tagline = tp[z].caption;
+                      var tagline = tp[z].node.edge_media_to_caption.edges[0].node.text;
                     }
                   } else {
                     var tagline = '';
@@ -1253,8 +1258,6 @@ var app = new Vue({
           titleLink = 5;
           counter++;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
-          app.imgList.push(pic[0][0]);
-          app.imgList.push(pic[1][0]);
           if (counter === j-1) {
             console.log('Anzahl Videos: ' + uuu);
             app.imgList.push(pic[0][0]);
@@ -2054,7 +2057,7 @@ var app = new Vue({
         } else {k=0; ath=0};
         app.gonext = true;
         app.currentImg = app.currentImg + 1;
-        app.nextpic();
+        //app.nextpic();
         // if (nextBlob != '' && k != 0) {
         //   app.imageSrc = nextBlob;
         // } else {

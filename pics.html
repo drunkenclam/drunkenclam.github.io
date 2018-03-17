@@ -307,7 +307,7 @@
           </div>
         </transition>
         <a :href="imageSrc" target="_blank"><div v-if="chicken2" id="container" v-on:click="toggleSize">
-          <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave">
+          <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
           <div v-for="number in [currentImg]" v-bind:key="number">
             <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
           </div>
