@@ -307,12 +307,12 @@
           <div v-if="chicken2" id="container" v-on:click="toggleSize">
             <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
             <div v-for="number in [currentImg]" v-bind:key="number">
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
             </div>
             </transition-group>
             <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
             <div v-for="number in [currentImg]" v-bind:key="number" >
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
             </div>
             </transition-group>
             <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
@@ -353,12 +353,13 @@
         <div id="behind24" v-show="bh24"></div>
         <div class="fixed" v-show="imgCache">
           <video id="nextv" v-if="nextvid" v-bind:src="imageNext"></video>
-          <img id="nextimg" v-if="!nextvid" v-bind:src="imgList[Math.abs(currentImg+1) % imgList.length]"><br/>
+          <img id="nextimg" v-if="!nextvid" v-bind:src="imgList[currentImg+1]"><br/>
+          <!-- <img id="nextimg" v-if="!nextvid" v-bind:src="imgList[Math.abs(currentImg+1) % imgList.length]" @load="loadski = true"><br/> -->
           <img id="nextalbumimg" v-bind:src="albumImageNext">
         </div>
         <div class="sleep" v-if="checkedP">
           <label v-show="hihi > 0" id="progresslabel">LOADING...</label>
-          <b-progress id="progress" class="bg-transparent" variant="info" :max="max" :value="hihi"></b-progress>
+          <b-progress id="progress" class="bg-transparent" variant="dark" :max="max" :value="hihi"></b-progress>
         </div>
         </div>
       </v-touch>

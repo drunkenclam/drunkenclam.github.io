@@ -1,4 +1,6 @@
 "use strict";
+var gotoNext = false;
+var plop = false;
 var plep;
 var mobile = false;
 // pinterest token: ASd8Bnc1sPMQHlW0o-m7futk74WdFPIMPH6_WgBEbppySkAv2gAAAAA
@@ -51,6 +53,7 @@ var app = new Vue({
 
   data: function (){
     return {
+      loadski: true,
       message: 'Click for slide',
       show: true,
       imgList: [],
@@ -735,7 +738,7 @@ var app = new Vue({
             } else {
               var blobsize = Math.round(blob.size/1024/1024*10)/10 + ' MB';
             }
-            console.log('blob.size: ' + blobsize);
+            //console.log('blob.size: ' + blobsize);
             //console.log(m[1]);
             if ((m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') && blob.size < 20000) {
               console.log('Pic < 20kB raus');
@@ -765,15 +768,16 @@ var app = new Vue({
     },
 
     myMethod: function (key) {
-      //console.log(key.code);
-      if (key.code == 'ArrowRight' && !waitForNext) {app.showComms = false; app.next()}
+      //console.log('waitForNext: ' + waitForNext);
+      if (key.code == 'ArrowRight' && !waitForNext && !plop) {app.showComms = false; app.next()}
+      else if (key.code == 'ArrowRight') {console.log('else');gotoNext = true; waitForNext = false; app.preload()}
+      else if (key.code == 'ArrowLeft') {app.last()}
+      else if (key.code == 'ArrowUp' && !app.showComms) {app.down()}
+      else if (key.code == 'ArrowDown') {muuh = true; app.up()}
       else if (key.code == 'Numpad1') {app.zlast()}
       else if (key.code == 'Numpad2') {app.zdown()}
       else if (key.code == 'Numpad3') {app.znext()}
       else if (key.code == 'Numpad5') {app.zup()}
-      else if (key.code == 'ArrowLeft') {app.last()}
-      else if (key.code == 'ArrowUp' && !app.showComms) {app.down()}
-      else if (key.code == 'ArrowDown') {muuh = true; app.up()}
       else if (key.code == 'KeyG') {app.imgCache = !app.imgCache}
       else if (key.code == 'KeyF') {app.toggleFS()}
       else if (key.code == 'KeyS') {app.searchTab()}
@@ -988,14 +992,21 @@ var app = new Vue({
       // console.log(el.offsetTop);
       // console.log(marginTop);
       // el.style.top = '${el.offsetTop - parseFloat(marginTop, 10)}px'
+      if (k > ath) {
+        app.hihi = 100;
+        app.err = 100;
+      }
       el.style.top = el.offsetTop + 'px';
+      plop = true;
       // console.log(el.style.top);
       // el.style.width = width
       //el.style.height = height
     },
 
     afterLeave: function (el) {
-      app.preload();
+      //console.log('qqqqqqqqq')
+      plop = false;
+      if (k >= ath) {app.preload()}
     },
 
     fetchNow: function (event) {
@@ -1780,7 +1791,7 @@ var app = new Vue({
           app.imgListA = pic[k][11];
         }
         app.loaded = k+1;
-        if (pic[k][2].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][2].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
       } else if (app.picked === 'pint') {
         if (pic[k][0].indexOf('.mp4') != -1) {app.vid=true}
         else {app.vid=false};
@@ -1795,7 +1806,7 @@ var app = new Vue({
         app.created = pic[k][3] + ' at ' + pic[k][1];
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         app.loaded = k+1;
-        if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][3].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
       } else { // reddit, insta, 500px, flickr
         app.vid = false;
         if (typeof pic[k][9] != 'undefined') {app.vid=false; app.albums()}
@@ -1818,14 +1829,13 @@ var app = new Vue({
         // } else {
         //   app.imageSrc = pic[k][0];
         // };
-        //if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {app.preload()}
 
         app.postlink = pic[k][1];
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
           if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][3]};
           if (pic[k][8]) {pic[k][0] = pic[k][8]}
-          if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
+          if (pic[k][3].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
         } else { //reddit
           if (pic[k][3].indexOf('mic') > 0 ||
             pic[k][3].indexOf('aic') > 0 ||
@@ -1840,7 +1850,7 @@ var app = new Vue({
           if (pic[k][3].indexOf('&lt;') != -1) {pic[k][3] = pic[k][3].replace(/&lt;/g, "<")};
           if (pic[k][3].indexOf('&gt;') != -1) {pic[k][3] = pic[k][3].replace(/&gt;/g, ">")};
           if (pic[k][6] > 0) {app.title = pic[k][3] + ' (' + pic[k][6] + ')'} else {app.title = pic[k][3]};
-          if (pic[k][2].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
+          if (pic[k][2].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
         }
         //console.log(pic[k]);
         if (typeof pic[k][9] != 'undefined') {
@@ -1865,10 +1875,12 @@ var app = new Vue({
     },
 
     preload: function () {
-      if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
+      //console.log('waitForNext (preload): ' + waitForNext)
+      if (waitForNext) {var vgvg = true}
+      if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1 && (k < 2 || pic[k+1][0].indexOf('blob') != -1)) {
         //var progressBar = document.getElementById("progress");
         //app.loading = true;
-        //console.log('yeeeeaaaaaah ' + pic[k+1][0]);
+        //console.log('start ' + pic[k+2][0]);
         app.hihi = 100;
         app.err = 100;
         app.loadImage(pic[k+2][0], (ratio) => {
@@ -1887,7 +1899,19 @@ var app = new Vue({
           // Loading successfuly complete; set the image and probably do other stuff.
           //imgContainer.src = imgSrc;
           //img.src = pic[k+1][0];
+          //console.log('fertig ' + pic[k+2][0]);
           app.chicken4 = false;
+          if (gotoNext) {
+            gotoNext = false;
+            app.preload();
+          }
+          // else if (waitForNext) {
+          //   waitForNext = false;
+          //   vgvg = false;
+          //   console.log(app.imgList[k+1])
+          //   if (pic[k+2][0].indexOf('blob') != -1) {app.imgList[k+2] = pic[k+2][0]}
+          //   if (app.imgList[k+1].indexOf('blob') != -1) {app.next()}
+          // }
           //console.log('nextBlob: ' + nextBlob);
           if (nextBlob != '') {
             //console.log('nextBlob ist nicht leer, daher normal weiter');
@@ -1908,8 +1932,14 @@ var app = new Vue({
           pic.splice(k+2,1);
           //imgList.splice(k+1,1);
           app.fetched = ' / ' + pic.length;
+          app.preload();
         });
       }
+      // if (vgvg) {
+      //   vgvg = false;
+      //   console.log('vgvg')
+      //   app.next();
+      // }
     },
 
     gfycat: function () {
@@ -1950,18 +1980,20 @@ var app = new Vue({
     },
 
     touchnext: function (event) {
-      if (!waitForNext) {
+      // if (!waitForNext) {
         //document.getElementById('commsID').scrollTop = 0;
         app.showComms = false;
         app.ilSrc = [];
         app.il = false;
         app.next();
-      };
+      // };
     },
 
     next: function (event) {
-      if (app.chicken4 && k != pic.length-1 && pic[k+1][0].indexOf('blob') === -1) {
-        setTimeout(app.next, 400);
+      // console.log('k: ' + k)
+       //console.log('imgList: ' + app.imgList.length)
+      if ((app.chicken4 && k != pic.length-1) || (k > 1 && pic[k+1][0].indexOf('blob') === -1)) {
+        //setTimeout(app.next, 400);
         waitForNext = true;
         console.log("wait for next pic " + (k + 2));
       } else {
@@ -1972,20 +2004,26 @@ var app = new Vue({
         app.albumImageNext = '';
         app.currentImgA = 0;
         waitForNext = false;
+        app.loadski = false;
         qq = 0;
         aa = [];
         imgNo = '';
+        //console.log('k: ' + k)
+        //console.log('pic.length: ' + pic.length)
+        //console.log('ath: ' + ath)
         if (k < pic.length-1) {
           k++;
           if (k > ath) {
             ath = k;
-            app.imgList.push(pic[k+1][0]);
+            if (pic[k+1][0].indexOf('blob') != -1) {app.imgList[k+1] = pic[k+1][0]}
+            //if (pic[k+1][0].indexOf('blob') != -1) {app.imgList.push(pic[k+1][0])}
           } else {
             console.log('k: ' + k);
             console.log('ath: ' + ath);
           };
         } else {k=0; ath=0};
         app.gonext = true;
+        //console.log(app.imgList[app.currentImg] != app.imgList[app.currentImg+1])
         app.currentImg = app.currentImg + 1;
         app.nextpic();
         // if (nextBlob != '' && k != 0) {
@@ -1997,6 +2035,7 @@ var app = new Vue({
     },
 
     last: function (event) {
+      waitForNext = false;
       if (app.showComms && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
         app.comments = [];
         app.commentsL = [];
