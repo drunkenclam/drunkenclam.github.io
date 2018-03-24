@@ -556,6 +556,7 @@ var app = new Vue({
         'helga_model',
         'ashleyresch',
         'murbo.official',
+        'rachelc00k',
         //meh
       ],
       options5: [ 'All',
@@ -1004,7 +1005,12 @@ var app = new Vue({
     },
 
     afterLeave: function (el) {
-      //console.log('qqqqqqqqq')
+      // console.log('app.currentImg: ' + app.currentImg)
+      // if (app.currentImg > 0) {
+      //   var elementt = document.getElementById("imgDiv");
+      //   console.log(elementt)
+      //   elementt.classList.add("derp");
+      // }
       plop = false;
       if (k >= ath) {app.preload()}
     },
@@ -1724,6 +1730,7 @@ var app = new Vue({
             if (app.picked === 'redditSFW') {app.transmode = 'out-in'};
             app.imgList.push(pic[0][0]);
             app.imgList.push(pic[1][0]);
+            console.log(app.imgList)
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -1986,45 +1993,67 @@ var app = new Vue({
       lastOne.style.transition = '';
       currentOne.style.transition = '';
       nextOne.style.transition = '';
-      lastOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+      var percentage2 = (percentage-200)/1.01;
+      var percentage3 = (percentage-100)*1.016;
+      lastOne.style.transform = 'translateX(' + percentage2 + '%)'; // NEW: our CSS transform
       currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
-      nextOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+      if (app.currentImg === 0) {
+        nextOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+      } else {
+        nextOne.style.transform = 'translateX(' + percentage3 + '%)'; // NEW: our CSS transform
+      }
       console.log(percentage)
       if(e.isFinal) { // NEW: this only runs on event end
         console.log(app.imgList[app.currentImg-1]);
-        if(percentage < -25) {
+        console.log(e.velocityX)
+        if (e.velocityX < -1) {
           var qqq = (percentage+100)/100 * window.innerWidth;
           console.log('qqq: ' + qqq)
           document.documentElement.style.setProperty('--move-out', -qqq + 'px')
           document.documentElement.style.setProperty('--move-in', qqq + 'px')
-          // currentOne.style.transform = 'translateX(' + qqq + '%)';
-          // currentOne.style.transition = 'all .5s ease';
-          // nextOne.style.transform = 'translateX(' + qqq + '%)';
-          // nextOne.style.transition = 'all .5s ease';
           app.next()
-        }
-        else if(percentage > 25) {
+        } else if (e.velocityX > 1) {
           var qqq = (100-percentage)/100 * window.innerWidth;
           console.log('qqq: ' + qqq)
           document.documentElement.style.setProperty('--move-out', qqq + 'px')
           document.documentElement.style.setProperty('--move-in', -qqq + 'px')
-          // currentOne.style.transform = 'translateX(' + -qqq + '%)';
-          // currentOne.style.transition = 'all .5s ease';
-          // nextOne.style.transform = 'translateX(' + -qqq + '%)';
-          // nextOne.style.transition = 'all .5s ease';
-          // app.currentImg = app.currentImg - 1;
-          // k--;
           app.last()
-        }
-        else {
-          //document.documentElement.style.setProperty('--move-out', percentage + '%')
-          //document.documentElement.style.setProperty('--move-in', -percentage + '%')
-          lastOne.style.transform = 'translateX(0%)';
-          currentOne.style.transform = 'translateX(0%)';
-          nextOne.style.transform = 'translateX(0%)';
-          lastOne.style.transition = 'all .5s ease';
-          currentOne.style.transition = 'all .5s ease';
-          nextOne.style.transition = 'all .5s ease';
+        } else {
+          if(percentage < -25) {
+            var qqq = (percentage+100)/100 * window.innerWidth;
+            console.log('qqq: ' + qqq)
+            document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+            document.documentElement.style.setProperty('--move-in', qqq + 'px')
+            // currentOne.style.transform = 'translateX(' + qqq + '%)';
+            // currentOne.style.transition = 'all .5s ease';
+            // nextOne.style.transform = 'translateX(' + qqq + '%)';
+            // nextOne.style.transition = 'all .5s ease';
+            app.next()
+          }
+          else if(percentage > 25) {
+            //lastOne.style.transform = 'translateX(100%)';
+            var qqq = (100-percentage)/100 * window.innerWidth;
+            console.log('qqq: ' + qqq)
+            document.documentElement.style.setProperty('--move-out', qqq + 'px')
+            document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+            // currentOne.style.transform = 'translateX(' + -qqq + '%)';
+            // currentOne.style.transition = 'all .5s ease';
+            // nextOne.style.transform = 'translateX(' + -qqq + '%)';
+            // nextOne.style.transition = 'all .5s ease';
+            // app.currentImg = app.currentImg - 1;
+            // k--;
+            app.last()
+          }
+          else {
+            //document.documentElement.style.setProperty('--move-out', percentage + '%')
+            //document.documentElement.style.setProperty('--move-in', -percentage + '%')
+            lastOne.style.transform = 'translateX(-202%)';
+            currentOne.style.transform = 'translateX(0%)';
+            nextOne.style.transform = 'translateX(-102%)';
+            lastOne.style.transition = 'all .5s ease';
+            currentOne.style.transition = 'all .5s ease';
+            nextOne.style.transition = 'all .5s ease';
+          }
         }
       }
     },
