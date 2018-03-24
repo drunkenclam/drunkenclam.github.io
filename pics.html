@@ -137,6 +137,16 @@
           border-radius: 4px;
           background: #7292df;
       }
+      .derp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      :root {
+        /* :root is a clever way of saying "the outer-most element" */
+        --move-in: 100vw; /* the default */
+        --move-out: 100vw; /* the default */
+      }
       .slide-fade-enter-active {
         transition: all .5s ease;
       }
@@ -150,10 +160,11 @@
       }
       .slide-fade-enter {
         /* opacity: 0; */
-        transform: translateX(100vw);
+        transform: translateX(var(--move-in));
+        /* background-color: var(--footer-color) */
       }
       .slide-fade-leave-to {
-        transform: translateX(-100vw);
+        transform: translateX(var(--move-out));
         /* opacity: 0; */
       }
       .slide-fake-enter-active {
@@ -169,10 +180,10 @@
       }
       .slide-fake-enter {
         /* opacity: 0; */
-        transform: translateX(-100vw);
+        /* transform: translateX(-100vw); */
       }
       .slide-fake-leave-to {
-        transform: translateX(100vw);
+        /* transform: translateX(100vw); */
         /* opacity: 0; */
       }
       .slide-fadeup-enter-active {
@@ -257,7 +268,7 @@
       <div id="mic">{{mic}}</div>
       <div id="lol">{{hehe}} {{err}}</div>
       <div id="lel"><a :href="hoho" target="_blank">{{hoho}}</a></div>
-      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:swipeleft.passive="touchnext" v-on:swiperight.passive="last">
+      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:pan.passive="touchnextX">
       <div class="parent" align="center" id="entries">
         <div v-if="showconf" id="settings">
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="zero" value="redditSFW" v-model="picked" v-on:click="options = optionsRS; selected = 'All'">
@@ -305,16 +316,20 @@
         </transition>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div v-if="chicken2" id="container" v-on:click="toggleSize">
+            <span style="white-space:nowrap">
             <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
-            <div v-for="number in [currentImg]" v-bind:key="number">
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
+            <div id="imgDiv" v-bind:class="{derp: currentImg > 0}" v-for="number in [currentImg]" v-bind:key="number">
+              <img id="lastOne" v-show="currentImg > 0" :src="imgList[currentImg-1]"/>
+              <img id="currentOne" v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
+              <img id="nextOne" :src="imgList[currentImg+1]"/>
             </div>
             </transition-group>
-            <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
+            </span>
+            <!-- <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
             <div v-for="number in [currentImg]" v-bind:key="number" >
               <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
             </div>
-            </transition-group>
+            </transition-group> -->
             <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
             <div v-for="number in [currentImgA]" v-bind:key="number">
               <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>

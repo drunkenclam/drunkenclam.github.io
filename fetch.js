@@ -1979,6 +1979,62 @@ var app = new Vue({
       }
     },
 
+    touchnextX: function (e) {
+      //console.log(e.target);
+      //var nextOne = document.getElementById('nextOne')
+      var percentage = 100 / 1 * e.deltaX / window.innerWidth; // NEW: our % calc
+      lastOne.style.transition = '';
+      currentOne.style.transition = '';
+      nextOne.style.transition = '';
+      lastOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+      currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+      nextOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+      console.log(percentage)
+      if(e.isFinal) { // NEW: this only runs on event end
+        console.log(app.imgList[app.currentImg-1]);
+        if(percentage < -25) {
+          var qqq = (percentage+100)/100 * window.innerWidth;
+          console.log('qqq: ' + qqq)
+          document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+          document.documentElement.style.setProperty('--move-in', qqq + 'px')
+          // currentOne.style.transform = 'translateX(' + qqq + '%)';
+          // currentOne.style.transition = 'all .5s ease';
+          // nextOne.style.transform = 'translateX(' + qqq + '%)';
+          // nextOne.style.transition = 'all .5s ease';
+          app.next()
+        }
+        else if(percentage > 25) {
+          var qqq = (100-percentage)/100 * window.innerWidth;
+          console.log('qqq: ' + qqq)
+          document.documentElement.style.setProperty('--move-out', qqq + 'px')
+          document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+          // currentOne.style.transform = 'translateX(' + -qqq + '%)';
+          // currentOne.style.transition = 'all .5s ease';
+          // nextOne.style.transform = 'translateX(' + -qqq + '%)';
+          // nextOne.style.transition = 'all .5s ease';
+          // app.currentImg = app.currentImg - 1;
+          // k--;
+          app.last()
+        }
+        else {
+          //document.documentElement.style.setProperty('--move-out', percentage + '%')
+          //document.documentElement.style.setProperty('--move-in', -percentage + '%')
+          lastOne.style.transform = 'translateX(0%)';
+          currentOne.style.transform = 'translateX(0%)';
+          nextOne.style.transform = 'translateX(0%)';
+          lastOne.style.transition = 'all .5s ease';
+          currentOne.style.transition = 'all .5s ease';
+          nextOne.style.transition = 'all .5s ease';
+        }
+      }
+    },
+
+    touchlastX: function (e) {
+      console.log(e.target);
+      //var percentage = 100 / 1 * e.deltaX / window.innerWidth; // NEW: our % calc
+      //e.target.style.transform = 'translateX(' + -percentage + '%)'; // NEW: our CSS transform
+    },
+
     touchnext: function (event) {
       // if (!waitForNext) {
         //document.getElementById('commsID').scrollTop = 0;
@@ -2043,7 +2099,7 @@ var app = new Vue({
       } else {
         app.hihi = 0;
         app.err = 0;
-        app.chicken = 1;
+        app.chicken = 0;
         app.show1 = !app.show1;
         app.albumImageNext = '';
         app.currentImgA = 0;
