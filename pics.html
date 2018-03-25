@@ -137,18 +137,20 @@
           border-radius: 4px;
           background: #7292df;
       }
-      #currentOne {
-        z-index: 55;
-      }
-      .derp {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+      /* #imgDiv {
+        display: block;
+        margin: 0;
+        padding: 0;
+      } */
       :root {
         /* :root is a clever way of saying "the outer-most element" */
         --move-in: 100vw; /* the default */
         --move-out: 100vw; /* the default */
+        --mar-gin: auto;
+      }
+      .peep {
+        padding-left: var(--mar-gin);
+        padding-right: var(--mar-gin);
       }
       .slide-fade-enter-active {
         transition: all .5s;
@@ -163,7 +165,7 @@
       }
       .slide-fade-enter {
         /* opacity: 0; */
-        transform: translateX(var(--move-in));
+        /* transform: translateX(var(--move-in)); */
         /* background-color: var(--footer-color) */
       }
       .slide-fade-leave-to {
@@ -271,7 +273,7 @@
       <div id="mic">{{mic}}</div>
       <div id="lol">{{hehe}} {{err}}</div>
       <div id="lel"><a :href="hoho" target="_blank">{{hoho}}</a></div>
-      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:panleft.passive="touchnextX" v-on:panright.passive="touchnextX">
+      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:pan.passive="touchnextX" v-bind:pan-options="{ direction: 'horizontal', threshold: 0 }">
       <div class="parent" align="center" id="entries">
         <div v-if="showconf" id="settings">
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="zero" value="redditSFW" v-model="picked" v-on:click="options = optionsRS; selected = 'All'">
@@ -323,7 +325,7 @@
             <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
             <div id="imgDiv" v-for="number in [currentImg]" v-bind:key="number">
             <!-- <div id="imgDiv" v-bind:class="{derp: currentImg > 100}" v-for="number in [currentImg]" v-bind:key="number"> -->
-              <img id="currentOne" v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
+              <img id="currentOne" class="peep" v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
               <img id="lastOne" :src="imgList[currentImg-1]"/>
               <img id="nextOne" :src="imgList[currentImg+1]"/>
             </div>

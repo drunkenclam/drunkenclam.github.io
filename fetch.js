@@ -103,6 +103,7 @@ var app = new Vue({
         showComms: false,
         showCommsL: false,
         truesize: false,
+        nextSwitch: true,
         transmode: '',
         transStyle: '',
         nextvid: false,
@@ -1730,7 +1731,6 @@ var app = new Vue({
             if (app.picked === 'redditSFW') {app.transmode = 'out-in'};
             app.imgList.push(pic[0][0]);
             app.imgList.push(pic[1][0]);
-            console.log(app.imgList)
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -1872,7 +1872,9 @@ var app = new Vue({
         if (imgNo != '') {app.mic = ''};
         app.loaded = k+1;
       };
-      if (k === 0) {app.preload()}
+      if (k === 0) {
+        app.preload();
+      }
       //console.log('wentback: ' + wentBack);
       if (k <= ath && wentBack) {
         app.chicken4 = false
@@ -1907,6 +1909,12 @@ var app = new Vue({
           //imgContainer.src = imgSrc;
           //img.src = pic[k+1][0];
           //console.log('fertig ' + pic[k+2][0]);
+          if (k === 0) {
+            var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
+            // console.log(document.getElementById('currentOne').width)
+            currentOne.style.paddingLeft = eee + 'px';
+            currentOne.style.paddingRight = eee + 'px';
+          }
           app.chicken4 = false;
           if (gotoNext) {
             gotoNext = false;
@@ -1995,14 +2003,24 @@ var app = new Vue({
       nextOne.style.transition = '';
       // var percentage2 = (percentage-200)/1.01;
       // var percentage3 = (percentage-100)*1.016;
-      var percentage2 = (percentage-200);
-      var percentage3 = (percentage-100);
+      var percentage2 = (percentage-200.8);
+      var percentage3 = (percentage-101.8);
       lastOne.style.transform = 'translateX(' + percentage2 + '%)'; // NEW: our CSS transform
       currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
       if (app.currentImg === 0) {
-        nextOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+        var percentage4 = (percentage-1.7);
+        nextOne.style.transform = 'translateX(' + percentage4 + '%)'; // NEW: our CSS transform
       } else {
         nextOne.style.transform = 'translateX(' + percentage3 + '%)'; // NEW: our CSS transform
+        var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
+        currentOne.style.paddingLeft = eee + 'px';
+        currentOne.style.paddingRight = eee + 'px';
+        var eee2 = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+        lastOne.style.paddingLeft = eee2 + 'px';
+        lastOne.style.paddingRight = eee2 + 'px';
+        var eee3 = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+        nextOne.style.paddingLeft = eee3 + 'px';
+        nextOne.style.paddingRight = eee3 + 'px';
       }
       console.log(percentage)
       if(e.isFinal) { // NEW: this only runs on event end
@@ -2013,19 +2031,26 @@ var app = new Vue({
           console.log('qqq: ' + qqq)
           document.documentElement.style.setProperty('--move-out', -qqq + 'px')
           document.documentElement.style.setProperty('--move-in', qqq + 'px')
+          var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+          document.documentElement.style.setProperty('--mar-gin', eee + 'px')
           app.next()
         } else if (e.velocityX > 1) {
           var qqq = (100-percentage)/100 * window.innerWidth;
           console.log('qqq: ' + qqq)
           document.documentElement.style.setProperty('--move-out', qqq + 'px')
           document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+          var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+          document.documentElement.style.setProperty('--mar-gin', eee + 'px')
           app.last()
         } else {
           if(percentage < -25) {
+            app.nextSwitch = true;
             var qqq = (percentage+100)/100 * window.innerWidth;
             console.log('qqq: ' + qqq)
             document.documentElement.style.setProperty('--move-out', -qqq + 'px')
             document.documentElement.style.setProperty('--move-in', qqq + 'px')
+            var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+            document.documentElement.style.setProperty('--mar-gin', eee + 'px')
             // currentOne.style.transform = 'translateX(' + qqq + '%)';
             // currentOne.style.transition = 'all .5s ease';
             // nextOne.style.transform = 'translateX(' + qqq + '%)';
@@ -2033,11 +2058,16 @@ var app = new Vue({
             app.next()
           }
           else if(percentage > 25) {
+            app.nextSwitch = false;
             //lastOne.style.transform = 'translateX(100%)';
             var qqq = (100-percentage)/100 * window.innerWidth;
             console.log('qqq: ' + qqq)
+            console.log('lastOne: ' + document.getElementById('lastOne').src)
+            // document.getElementById('lastOne').invisible = true;
             document.documentElement.style.setProperty('--move-out', qqq + 'px')
             document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+            var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+            document.documentElement.style.setProperty('--mar-gin', eee + 'px')
             // currentOne.style.transform = 'translateX(' + -qqq + '%)';
             // currentOne.style.transition = 'all .5s ease';
             // nextOne.style.transform = 'translateX(' + -qqq + '%)';
@@ -2047,14 +2077,19 @@ var app = new Vue({
             app.last()
           }
           else {
-            //document.documentElement.style.setProperty('--move-out', percentage + '%')
-            //document.documentElement.style.setProperty('--move-in', -percentage + '%')
-            lastOne.style.transform = 'translateX(-200%)';
-            currentOne.style.transform = 'translateX(0%)';
-            nextOne.style.transform = 'translateX(-100%)';
-            lastOne.style.transition = 'all .5s ease';
-            currentOne.style.transition = 'all .5s ease';
-            nextOne.style.transition = 'all .5s ease';
+            if (app.currentImg > 0) {
+              lastOne.style.transform = 'translateX(-200.8%)';
+              nextOne.style.transform = 'translateX(-101.8%)';
+              currentOne.style.transform = 'translateX(0%)';
+              lastOne.style.transition = 'all .5s ease';
+              nextOne.style.transition = 'all .5s ease';
+              currentOne.style.transition = 'all .5s ease';
+            } else {
+              currentOne.style.transform = 'translateX(0%)';
+              currentOne.style.transition = 'all .5s ease';
+              nextOne.style.transform = 'translateX(-1.7%)';
+              nextOne.style.transition = 'all .5s ease';
+            }
           }
         }
       }
