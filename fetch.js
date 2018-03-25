@@ -1993,8 +1993,10 @@ var app = new Vue({
       lastOne.style.transition = '';
       currentOne.style.transition = '';
       nextOne.style.transition = '';
-      var percentage2 = (percentage-200)/1.01;
-      var percentage3 = (percentage-100)*1.016;
+      // var percentage2 = (percentage-200)/1.01;
+      // var percentage3 = (percentage-100)*1.016;
+      var percentage2 = (percentage-200);
+      var percentage3 = (percentage-100);
       lastOne.style.transform = 'translateX(' + percentage2 + '%)'; // NEW: our CSS transform
       currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
       if (app.currentImg === 0) {
@@ -2047,9 +2049,9 @@ var app = new Vue({
           else {
             //document.documentElement.style.setProperty('--move-out', percentage + '%')
             //document.documentElement.style.setProperty('--move-in', -percentage + '%')
-            lastOne.style.transform = 'translateX(-202%)';
+            lastOne.style.transform = 'translateX(-200%)';
             currentOne.style.transform = 'translateX(0%)';
-            nextOne.style.transform = 'translateX(-102%)';
+            nextOne.style.transform = 'translateX(-100%)';
             lastOne.style.transition = 'all .5s ease';
             currentOne.style.transition = 'all .5s ease';
             nextOne.style.transition = 'all .5s ease';
