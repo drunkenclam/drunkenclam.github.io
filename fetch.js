@@ -994,6 +994,7 @@ var app = new Vue({
       // console.log(el.offsetTop);
       // console.log(marginTop);
       // el.style.top = '${el.offsetTop - parseFloat(marginTop, 10)}px'
+      // document.getElementById('lastOne').visibility = 'hidden';
       if (k > ath) {
         app.hihi = 100;
         app.err = 100;
@@ -1012,6 +1013,21 @@ var app = new Vue({
       //   console.log(elementt)
       //   elementt.classList.add("derp");
       // }
+      console.log(app.imgList)
+      if (k > 2 && app.imgList[k-3] === '') {
+        app.imgList[k-3] = pic[k-3][0];
+      } else if (k > 1 && app.imgList[k-1] === '') {
+        app.imgList[k-1] = pic[k-1][0];
+        document.getElementById('lastOne').src = app.imgList[k-1];
+      } else if (k === 1 && app.imgList[0] === '') {
+        app.imgList[0] = pic[0][0];
+        document.getElementById('lastOne').src = app.imgList[0];
+      }
+      if (k > 1 && app.imgList[k-2] != '') {
+        app.imgList[k-2] = '';
+      }
+      console.log(app.imgList)
+      console.log('k: ' + k)
       plop = false;
       if (k >= ath) {app.preload()}
     },
@@ -2013,18 +2029,18 @@ var app = new Vue({
       } else {
         nextOne.style.transform = 'translateX(' + percentage3 + '%)'; // NEW: our CSS transform
         var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
-        currentOne.style.paddingLeft = eee + 'px';
-        currentOne.style.paddingRight = eee + 'px';
+        currentOne.style.marginLeft = eee + 'px';
+        currentOne.style.marginRight = eee + 'px';
         var eee2 = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-        lastOne.style.paddingLeft = eee2 + 'px';
-        lastOne.style.paddingRight = eee2 + 'px';
+        lastOne.style.marginLeft = eee2 + 'px';
+        lastOne.style.marginRight = eee2 + 'px';
         var eee3 = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-        nextOne.style.paddingLeft = eee3 + 'px';
-        nextOne.style.paddingRight = eee3 + 'px';
+        nextOne.style.marginLeft = eee3 + 'px';
+        nextOne.style.marginRight = eee3 + 'px';
       }
-      console.log(percentage)
+      // console.log(percentage)
       if(e.isFinal) { // NEW: this only runs on event end
-        console.log(app.imgList[app.currentImg-1]);
+        // console.log(app.imgList[app.currentImg-1]);
         console.log(e.velocityX)
         if (e.velocityX < -1) {
           var qqq = (percentage+100)/100 * window.innerWidth;
@@ -2043,7 +2059,7 @@ var app = new Vue({
           document.documentElement.style.setProperty('--mar-gin', eee + 'px')
           app.last()
         } else {
-          if(percentage < -25) {
+          if(percentage < -10) {
             app.nextSwitch = true;
             var qqq = (percentage+100)/100 * window.innerWidth;
             console.log('qqq: ' + qqq)
@@ -2057,12 +2073,12 @@ var app = new Vue({
             // nextOne.style.transition = 'all .5s ease';
             app.next()
           }
-          else if(percentage > 25) {
+          else if(percentage > 10) {
             app.nextSwitch = false;
             //lastOne.style.transform = 'translateX(100%)';
             var qqq = (100-percentage)/100 * window.innerWidth;
-            console.log('qqq: ' + qqq)
-            console.log('lastOne: ' + document.getElementById('lastOne').src)
+            console.log('qqq222: ' + qqq)
+            // console.log('lastOne: ' + document.getElementById('lastOne').src)
             // document.getElementById('lastOne').invisible = true;
             document.documentElement.style.setProperty('--move-out', qqq + 'px')
             document.documentElement.style.setProperty('--move-in', -qqq + 'px')
