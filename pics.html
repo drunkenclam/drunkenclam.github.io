@@ -149,8 +149,8 @@
         --mar-gin: auto;
       }
       .peep {
-        margin-left: var(--mar-gin);
-        margin-right: var(--mar-gin);
+        padding-left: var(--mar-gin);
+        padding-right: var(--mar-gin);
       }
       .slide-fade-enter-active {
         transition: all .5s;
@@ -273,7 +273,7 @@
       <div id="mic">{{mic}}</div>
       <div id="lol">{{hehe}} {{err}}</div>
       <div id="lel"><a :href="hoho" target="_blank">{{hoho}}</a></div>
-      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:pan.passive="touchnextX" v-bind:pan-options="{ direction: 'horizontal', threshold: 0 }">
+      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:pan.passive="touchnextX" v-bind:pan-options="{ direction: 'horizontal', threshold: 0, pointers: 0 }">
       <div class="parent" align="center" id="entries">
         <div v-if="showconf" id="settings">
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="zero" value="redditSFW" v-model="picked" v-on:click="options = optionsRS; selected = 'All'">
