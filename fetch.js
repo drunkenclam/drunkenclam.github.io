@@ -2009,9 +2009,9 @@ var app = new Vue({
     },
 
     touchnextX: function (e) {
-      // console.log(e.target.id);
-      if (!waitForNext && lastOne.src != undefined) {
-        if (e.target.id === "currentOne" || e.target.id === "container") {
+       // console.log(lastOne);
+      if (!waitForNext && lastOne) {
+        if (e.target.id === "currentOne" || e.target.id === "container" || e.target.id === "imgDiv") {
           app.showComms = false;
           app.ilSrc = [];
           app.il = false;
@@ -2062,7 +2062,7 @@ var app = new Vue({
               document.documentElement.style.setProperty('--mar-gin', eee + 'px')
               app.last()
             } else {
-              if(percentage < -20) {
+              if(percentage < -15) {
                 app.nextSwitch = true;
                 var qqq = (percentage+100)/100 * window.innerWidth;
                 console.log('qqq: ' + qqq)
@@ -2076,7 +2076,7 @@ var app = new Vue({
                 // nextOne.style.transition = 'all .5s ease';
                 app.next()
               }
-              else if(percentage > 20) {
+              else if(percentage > 15) {
                 app.nextSwitch = false;
                 //lastOne.style.transform = 'translateX(100%)';
                 var qqq = (100-percentage)/100 * window.innerWidth;
