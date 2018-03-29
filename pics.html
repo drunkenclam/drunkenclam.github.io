@@ -147,16 +147,19 @@
         --move-in: 100vw; /* the default */
         --move-out: 100vw; /* the default */
         --mar-gin: auto;
+        --move-ya: 400ms;
       }
       .peep {
         padding-left: var(--mar-gin);
         padding-right: var(--mar-gin);
       }
       .slide-fade-enter-active {
-        transition: all .5s;
+        transition: transform var(--move-ya) cubic-bezier(0.5, 1, 1, 1);
+        /* transition: all var(--move-ya) ease-out; */
       }
       .slide-fade-leave-active {
-        transition: all .5s;
+        transition: transform var(--move-ya) cubic-bezier(0.5, 1, 1, 1);
+        /* transition: all var(--move-ya) ease-out; */
         position: absolute;
         margin-left: auto;
         margin-right: auto;
@@ -300,8 +303,8 @@
         <span style="padding-left: 20px; white-space: nowrap"><input type="checkbox" id="checkboxP" v-model="checkedP">
         <label for="checkboxP">Progress bar</label></span>
         <b-button style="margin-bottom: 10px; margin-top: 10px; margin-left: 20px; width: 100px" v-on:click="fetchNow">Fetch!</b-button>
-        <label style="padding-left: 20px;">{{loaded}} {{fetched}}</label>
-        <div id="h4title"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
+        <label style="padding-left: 20px;" v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
+        <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
         <transition name="slike-fadedown" mode="out-in">
           <div id="commsID" class="comms" v-show="showComms" ref="commsRef" tabindex="10">
@@ -335,7 +338,7 @@
             </div>
             </transition-group> -->
             <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
-            <div v-for="number in [currentImgA]" v-bind:key="number">
+            <div id="albumDiv" v-for="number in [currentImgA]" v-bind:key="number">
               <img id="currentOne" v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
               <img id="lastOne" :src="imgList[currentImg-1]"/>
               <img id="nextOne" :src="imgList[currentImg+1]"/>

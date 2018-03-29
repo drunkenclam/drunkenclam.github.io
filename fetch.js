@@ -1812,7 +1812,7 @@ var app = new Vue({
           app.imgListA = pic[k][11];
         }
         app.loaded = k+1;
-        if (pic[k][2].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
       } else if (app.picked === 'pint') {
         if (pic[k][0].indexOf('.mp4') != -1) {app.vid=true}
         else {app.vid=false};
@@ -1827,7 +1827,7 @@ var app = new Vue({
         app.created = pic[k][3] + ' at ' + pic[k][1];
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         app.loaded = k+1;
-        if (pic[k][3].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
       } else { // reddit, insta, 500px, flickr
         app.vid = false;
         if (typeof pic[k][9] != 'undefined') {app.vid=false; app.albums()}
@@ -1856,7 +1856,7 @@ var app = new Vue({
           app.created = pic[k][2] + ' by ' + pic[k][3];
           if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][3]};
           if (pic[k][8]) {pic[k][0] = pic[k][8]}
-          if (pic[k][3].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
+          if (pic[k][2].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
         } else { //reddit
           if (pic[k][3].indexOf('mic') > 0 ||
             pic[k][3].indexOf('aic') > 0 ||
@@ -2011,7 +2011,7 @@ var app = new Vue({
     touchnextX: function (e) {
        // console.log(lastOne);
       if (!waitForNext && lastOne) {
-        if (e.target.id === "currentOne" || e.target.id === "container" || e.target.id === "imgDiv") {
+        if (e.target.id === "currentOne" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
           app.showComms = false;
           app.ilSrc = [];
           app.il = false;
@@ -2022,7 +2022,7 @@ var app = new Vue({
           nextOne.style.transition = '';
           // var percentage2 = (percentage-200)/1.01;
           // var percentage3 = (percentage-100)*1.016;
-          var percentage2 = (percentage-200.8);
+          var percentage2 = (percentage-201.2);
           var percentage3 = (percentage-101.8);
           lastOne.style.transform = 'translateX(' + percentage2 + '%)'; // NEW: our CSS transform
           currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
@@ -2045,24 +2045,26 @@ var app = new Vue({
           if(e.isFinal) { // NEW: this only runs on event end
             // console.log(app.imgList[app.currentImg-1]);
             console.log(e.velocityX)
-            if (e.velocityX < -1) {
+            if (e.velocityX < -0.5) {
               var qqq = (percentage+100)/100 * window.innerWidth;
               console.log('qqq: ' + qqq)
               document.documentElement.style.setProperty('--move-out', -qqq + 'px')
               document.documentElement.style.setProperty('--move-in', qqq + 'px')
               var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
               document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+              document.documentElement.style.setProperty('--move-ya', '400ms')
               app.next()
-            } else if (e.velocityX > 1) {
+            } else if (e.velocityX > 0.5 && k > 0) {
               var qqq = (100-percentage)/100 * window.innerWidth;
               console.log('qqq: ' + qqq)
               document.documentElement.style.setProperty('--move-out', qqq + 'px')
               document.documentElement.style.setProperty('--move-in', -qqq + 'px')
               var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
               document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+              document.documentElement.style.setProperty('--move-ya', '400ms')
               app.last()
             } else {
-              if(percentage < -15) {
+              if(percentage < -10) {
                 app.nextSwitch = true;
                 var qqq = (percentage+100)/100 * window.innerWidth;
                 console.log('qqq: ' + qqq)
@@ -2070,13 +2072,15 @@ var app = new Vue({
                 document.documentElement.style.setProperty('--move-in', qqq + 'px')
                 var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
                 document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+                eee = e.velocityX + 0.8;
+                document.documentElement.style.setProperty('--move-ya', eee + 's')
                 // currentOne.style.transform = 'translateX(' + qqq + '%)';
                 // currentOne.style.transition = 'all .5s ease';
                 // nextOne.style.transform = 'translateX(' + qqq + '%)';
                 // nextOne.style.transition = 'all .5s ease';
                 app.next()
               }
-              else if(percentage > 15) {
+              else if(percentage > 10 && k > 0) {
                 app.nextSwitch = false;
                 //lastOne.style.transform = 'translateX(100%)';
                 var qqq = (100-percentage)/100 * window.innerWidth;
@@ -2087,6 +2091,8 @@ var app = new Vue({
                 document.documentElement.style.setProperty('--move-in', -qqq + 'px')
                 var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
                 document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+                eee = 0.8 - e.velocityX;
+                document.documentElement.style.setProperty('--move-ya', eee + 's')
                 // currentOne.style.transform = 'translateX(' + -qqq + '%)';
                 // currentOne.style.transition = 'all .5s ease';
                 // nextOne.style.transform = 'translateX(' + -qqq + '%)';
@@ -2098,7 +2104,7 @@ var app = new Vue({
               else {
                 console.log('ccccccc')
                 if (app.currentImg > 0) {
-                  lastOne.style.transform = 'translateX(-200.8%)';
+                  lastOne.style.transform = 'translateX(-201.2%)';
                   nextOne.style.transform = 'translateX(-101.8%)';
                   currentOne.style.transform = 'translateX(0%)';
                   lastOne.style.transition = 'all .5s ease';
@@ -2118,11 +2124,13 @@ var app = new Vue({
     },
 
     next: function (event) {
-      // console.log('k: ' + k)
+       console.log('k: ' + k)
+       console.log('app.imgList[app.currentImg+1]: ' + app.imgList[app.currentImg+1])
        //console.log('imgList: ' + app.imgList.length)
       // if ((app.chicken4 && k != pic.length-1) || (k > 1 && pic[k+1][0].indexOf('blob') === -1)) {
-      if ((app.chicken4 && k != pic.length-1) || (k > 1 && app.imgList[k+1].indexOf('blob') === -1)) {
+      if ((app.chicken4 && k != pic.length-1) || (k > 1 && app.imgList[app.currentImg+1] === undefined)) {
         setTimeout(app.next, 400);
+        if (app.imgList[app.currentImg+1] === undefined) {app.imgList[app.currentImg+1] = pic[k+1][0]}
         waitForNext = true;
         // console.log(app.imgList[k+1][0])
         console.log("wait for next pic " + (k + 2));
@@ -2215,10 +2223,11 @@ var app = new Vue({
 
     up: function () {
       if (mobile && !document.webkitIsFullScreen) {
-        app.toggleFS();
+        //app.toggleFS();
       } else if (imgNo === '' && pic[k][6] < 1 || (!document.webkitIsFullScreen && !muuh)) {
-        app.toggleFS();
-      } else if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
+        //app.toggleFS();
+      } else
+      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
         if (!app.showComms) {
           app.comments = [];
           app.commentsL = [];
