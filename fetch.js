@@ -2432,8 +2432,8 @@ var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://ap
       //console.log(url);
       if (url.indexOf('www.imgur') > 0) {url = url.replace("www.imgur", "imgur")}
       else if (url.indexOf('m.imgur') > 0) {url = url.replace("m.imgur", "imgur")};
-      if (url.charAt(9) === ".") {album = 'album/' + url.substr(22,5)}
-      else {album = 'album/' + url.substr(20,5)};
+      if (url.charAt(9) === ".") {album = 'album/' + url.substr(22,7)}
+      else {album = 'album/' + url.substr(20,7)};
       //console.log('album: ' + album);
       //console.log("url: " + url + " album: " + album);
       var request = new Request('https://api.imgur.com/3/' + album, {
