@@ -35,7 +35,7 @@
         #container { max-height: 100vh; display: table-cell; vertical-align: middle}
         #progresslabel { position: fixed; top:-3px; left: 26%; font-size: x-small; font-weight: bold; color:black; z-index: 18;}
         #progress { position: fixed; top:1px; left: 25%; height: 8px; width: 50%; z-index: 13;}
-        img { max-height: 80vh; max-width: 100%}
+        img { max-height: 85vh; max-width: 100%}
         video { max-height: 85vh; max-width: 100%}
         .imageF { height: 85vh}
         #lol { font-size: small; position: fixed; top:1px; left:1px;}
@@ -120,42 +120,6 @@
       .fixed {
         position: fixed; top:200px; right:10px
       }
-      .omniTest {
-        /* display: block;
-        position: absolute;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0; */
-        /* position:fixed;
-        left: 50%;
-        transform: translateX(50%); */
-        /* left: 500px; */
-        /* margin-right: auto; */
-      }
-      .fixedTest {
-        overflow: auto;
-        /* position: fixed; top:200px; left:10px; height:80% */
-        /* position: absolute;
-        overflow: auto;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        margin-top: auto;
-        margin-bottom: auto;
-        top: 10;
-        bottom: 0; */
-      }
-      .fixedTest::-webkit-scrollbar {
-          width: 6px;  /* scrollbar width */
-          background: transparent;  /* optional: just make scrollbar invisible */
-      }
-      /* optional: show position indicator */
-      .fixedTest::-webkit-scrollbar-thumb {
-          border-radius: 4px;
-          background: white;
-      }
       .imgurlinks {
         position: fixed; top:100px; z-index: 51;
         border-color: #7292df;
@@ -173,11 +137,29 @@
           border-radius: 4px;
           background: #7292df;
       }
+      /* #imgDiv {
+        display: block;
+        margin: 0;
+        padding: 0;
+      } */
+      :root {
+        /* :root is a clever way of saying "the outer-most element" */
+        --move-in: 100vw; /* the default */
+        --move-out: 100vw; /* the default */
+        --mar-gin: auto;
+        --move-ya: 400ms;
+      }
+      .peep {
+        padding-left: var(--mar-gin);
+        padding-right: var(--mar-gin);
+      }
       .slide-fade-enter-active {
-        transition: all .5s ease;
+        transition: transform var(--move-ya) cubic-bezier(0.5, 1, 1, 1);
+        /* transition: all var(--move-ya) ease-out; */
       }
       .slide-fade-leave-active {
-        transition: all .5s ease;
+        transition: transform var(--move-ya) cubic-bezier(0.5, 1, 1, 1);
+        /* transition: all var(--move-ya) ease-out; */
         position: absolute;
         margin-left: auto;
         margin-right: auto;
@@ -186,10 +168,11 @@
       }
       .slide-fade-enter {
         /* opacity: 0; */
-        transform: translateX(100vw);
+        transform: translateX(var(--move-in));
+        /* background-color: var(--footer-color) */
       }
       .slide-fade-leave-to {
-        transform: translateX(-100vw);
+        transform: translateX(var(--move-out));
         /* opacity: 0; */
       }
       .slide-fake-enter-active {
@@ -205,10 +188,10 @@
       }
       .slide-fake-enter {
         /* opacity: 0; */
-        transform: translateX(-100vw);
+        /* transform: translateX(-100vw); */
       }
       .slide-fake-leave-to {
-        transform: translateX(100vw);
+        /* transform: translateX(100vw); */
         /* opacity: 0; */
       }
       .slide-fadeup-enter-active {
@@ -293,7 +276,7 @@
       <div id="mic">{{mic}}</div>
       <div id="lol">{{hehe}} {{err}}</div>
       <div id="lel"><a :href="hoho" target="_blank">{{hoho}}</a></div>
-      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:swipeleft.passive="touchnext" v-on:swiperight.passive="last">
+      <v-touch v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:pan.passive="touchnextX" v-bind:pan-options="{ direction: 'horizontal', threshold: 0, pointers: 0 }">
       <div class="parent" align="center" id="entries">
         <div v-if="showconf" id="settings">
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="zero" value="redditSFW" v-model="picked" v-on:click="options = optionsRS; selected = 'All'">
@@ -320,8 +303,8 @@
         <span style="padding-left: 20px; white-space: nowrap"><input type="checkbox" id="checkboxP" v-model="checkedP">
         <label for="checkboxP">Progress bar</label></span>
         <b-button style="margin-bottom: 10px; margin-top: 10px; margin-left: 20px; width: 100px" v-on:click="fetchNow">Fetch!</b-button>
-        <label style="padding-left: 20px;">{{loaded}} {{fetched}}</label>
-        <div id="h4title"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
+        <label style="padding-left: 20px;" v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
+        <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
         <transition name="slike-fadedown" mode="out-in">
           <div id="commsID" class="comms" v-show="showComms" ref="commsRef" tabindex="10">
@@ -341,26 +324,34 @@
         </transition>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div v-if="chicken2" id="container" v-on:click="toggleSize">
+          <span style="white-space:nowrap">
             <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave">
-            <div v-for="number in [currentImg]" v-bind:key="number">
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+            <div id="imgDiv" v-for="number in [currentImg]" v-bind:key="number">
+              <img id="currentOne" class="peep" v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
+              <img id="lastOne" :src="imgList[currentImg-1]"/>
+              <img id="nextOne" :src="imgList[currentImg+1]"/>
             </div>
             </transition-group>
-            <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
+            <!-- <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
             <div v-for="number in [currentImg]" v-bind:key="number" >
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[Math.abs(currentImg) % imgList.length]"/>
+              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/>
             </div>
-            </transition-group>
+            </transition-group> -->
             <transition-group v-if="chicken === 2" tag="div" name="slide-fadedown">
-            <div v-for="number in [currentImgA]" v-bind:key="number">
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+            <div id="albumDiv" v-for="number in [currentImgA]" v-bind:key="number">
+              <img id="currentOne" v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+              <img id="lastOne" :src="imgList[currentImg-1]"/>
+              <img id="nextOne" :src="imgList[currentImg+1]"/>
             </div>
             </transition-group>
             <transition-group v-if="chicken === 3" tag="div" name="slide-fadeup">
             <div v-for="number in [currentImgA]" v-bind:key="number" >
-              <img v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+              <img id="currentOne" v-bind:class="{origSize: truesize, imageF: full}" :src="imgListA[Math.abs(currentImgA) % imgListA.length]"/>
+              <img id="lastOne" :src="imgList[currentImg-1]"/>
+              <img id="nextOne" :src="imgList[currentImg+1]"/>
             </div>
             </transition-group>
+          </span>
           <!-- <transition v-if="chicken === 0" name="slide-fade" v-bind:mode="transmode" @before-leave="beforeLeave">
             <video v-bind:class="{imageF: full}" key="no3" v-if="vid" v-bind:src="imageSrc" autoplay controls muted preload="metadata"></video>
             <img v-bind:class="{origSize: truesize, imageF: full}" key="no1" v-else-if="show1" v-bind:src="imageSrc">
@@ -386,28 +377,15 @@
         <!-- <div class="imgurlinks" v-show="il" v-on:click="fetchmic">
           <img id="imgurComms" v-bind:src="ilSrc">
         </div> -->
-        <span style="white-space:nowrap">
-        <div id="nope" class="fixedTest">
-          <img id="abc1" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest) % imgListTest.length]" @load="onLoadHandler()">
-          <img id="abc2" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+1) % imgListTest.length]">
-          <img id="abc3" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+2) % imgListTest.length]">
-          <img id="abc4" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+3) % imgListTest.length]">
-          <img id="abc5" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+4) % imgListTest.length]">
-          <img id="abc6" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+5) % imgListTest.length]">
-          <img id="abc7" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+6) % imgListTest.length]">
-          <img id="abc8" class="omniTest" v-bind:src="imgListTest[Math.abs(currentImgTest+7) % imgListTest.length]">
-        </div>
-      </span>
-
         <div id="behind24" v-show="bh24"></div>
-        <div class="fixed" v-show="imgCache">
+        <!-- <div class="fixed" v-show="imgCache">
           <video id="nextv" v-if="nextvid" v-bind:src="imageNext"></video>
-          <img id="nextimg" v-if="!nextvid" v-bind:src="imgList[Math.abs(currentImg+1) % imgList.length]"><br/>
+          <img id="nextimg" v-if="!nextvid" v-bind:src="imgList[currentImg+1]"><br/>
           <img id="nextalbumimg" v-bind:src="albumImageNext">
-        </div>
+        </div> -->
         <div class="sleep" v-if="checkedP">
           <label v-show="hihi > 0" id="progresslabel">LOADING...</label>
-          <b-progress id="progress" class="bg-transparent" variant="info" :max="max" :value="hihi"></b-progress>
+          <b-progress id="progress" class="bg-transparent" variant="dark" :max="max" :value="hihi"></b-progress>
         </div>
         </div>
       </v-touch>
