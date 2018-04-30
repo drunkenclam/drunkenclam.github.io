@@ -1,6 +1,5 @@
 "use strict";
-var gotoNext = false;
-var plop = false;
+var jk = 0;
 var plep;
 var mobile = false;
 // pinterest token: ASd8Bnc1sPMQHlW0o-m7futk74WdFPIMPH6_WgBEbppySkAv2gAAAAA
@@ -53,13 +52,84 @@ var app = new Vue({
 
   data: function (){
     return {
-      loadski: true,
+      leftMargin: 0,
       message: 'Click for slide',
       show: true,
       imgList: [],
       currentImg: 0,
       imgListA: [],
       currentImgA: 0,
+      imgListTest: ["https://i.imgur.com/8DQXe6j.jpg",
+      "https://i.imgur.com/hUoRb7K.jpg", "https://i.redd.it/k88v3cbasim01.jpg",
+      "https://i.redd.it/qfj8kmjmi4m01.jpg",
+      "https://i.redd.it/zkz4e2gc9bm01.jpg", "https://i.imgur.com/5GebPkI.jpg",
+      "https://i.redd.it/q26wvw46aim01.jpg",
+      "https://i.redd.it/q8zhrrx06im01.jpg",
+      "https://i.redd.it/dyj58fpu7im01.jpg",
+      "https://i.redd.it/zwnvsnvw7im01.jpg",
+      "https://i.redd.it/sylqo6508im01.jpg",
+      "https://i.redd.it/st24cn828im01.jpg",
+      "https://i.redd.it/ng7f0xt58im01.jpg",
+      "https://i.redd.it/6f6roam55im01.jpg", "https://i.imgur.com/1mZ3Tlx.jpg",
+      "https://i.imgur.com/h4XBHxs.jpg", "https://i.imgur.com/FaGQwf9.jpg",
+      "https://i.redd.it/gsymj4vcxhm01.jpg",
+      "https://i.redd.it/9lq5m9teuhm01.jpg",
+      "https://i.redd.it/igyhw13lshm01.jpg", "https://i.imgur.com/kp8cbji.jpg",
+      "https://i.imgur.com/fvUgONN.jpg", "https://i.imgur.com/PbGMjAP.jpg",
+      "https://i.redd.it/ws9qzv68ihm01.jpg",
+      "https://i.redd.it/hzm7ubjeghm01.jpg",
+      "https://i.redd.it/6h661zjj4hm01.jpg",
+      "https://i.redd.it/hb1c32lh1hm01.jpg",
+      "https://i.redd.it/0yyddr0izgm01.jpg", "https://i.imgur.com/hT25Xe9.png",
+      "https://i.imgur.com/RETdb0l.jpg", "https://i.redd.it/f9c7av7lmgm01.jpg",
+      "https://i.redd.it/21bl7g9kegm01.jpg", "https://i.imgur.com/NtyqjSH.jpg",
+      "https://i.redd.it/olu1v8ehbgm01.jpg",
+      "https://i.redd.it/j04h33sm3gm01.jpg", "https://i.imgur.com/b5hPlvn.jpg",
+      "https://i.redd.it/svuaqhadnfm01.jpg", "https://i.imgur.com/IHTaa8v.jpg",
+      "https://i.imgur.com/sa2yJYK.jpg", "https://i.redd.it/9qwda9zkmdm01.jpg",
+      "https://i.redd.it/jxcr4w5o5fm01.jpg", "https://i.imgur.com/bhmeicM.jpg",
+      "https://i.redd.it/berbavgywem01.jpg",
+      "https://i.redd.it/1ut8e4y7vem01.jpg",
+      "https://i.redd.it/8x29hgrrsem01.jpg",
+      "https://i.redd.it/kzujzwozqem01.jpg",
+      "https://i.redd.it/vdfd6b4mpem01.jpg", "https://i.imgur.com/TlUARoR.jpg",
+      "https://i.redd.it/ptlqxtc9abm01.jpg",
+      "https://i.redd.it/eycpvxobeem01.jpg",
+      "https://i.redd.it/24ohwxl1cem01.jpg",
+      "https://i.redd.it/kb5b3v8daem01.jpg", "https://i.imgur.com/IF1xjPu.jpg",
+      "https://i.imgur.com/MN4z1mP.jpg", "https://i.imgur.com/GBXVx0m.jpg",
+      "https://i.imgur.com/43gUdvO.jpg", "https://i.imgur.com/LJmJzg8.jpg",
+      "https://i.imgur.com/kBknw1q.jpg", "https://i.redd.it/ps8kveztudm01.jpg",
+      "https://i.redd.it/0btamz8tsdm01.jpg", "https://i.imgur.com/F06iFLz.jpg",
+      "https://i.imgur.com/URV4UYq.jpg", "https://i.imgur.com/qXvIfAQ.jpg",
+      "https://i.redd.it/ssbsmm97jdm01.jpg", "https://i.imgur.com/uKWyljK.png",
+      "https://i.imgur.com/zIQODUE.jpg", "https://i.imgur.com/bIkfhIf.jpg",
+      "https://i.redd.it/6agryk209dm01.jpg", "https://i.imgur.com/KiS5Wzu.jpg",
+      "https://i.redd.it/i8xng09i3dm01.jpg",
+      "https://i.redd.it/mup8oc20ycm01.jpg",
+      "https://i.imgur.com/3E5XRAK.jpg.jpg", "https://i.imgur.com/gdzLpBp.jpg",
+      "https://i.imgur.com/inzXOV2.jpg", "https://i.imgur.com/W5vqFyV.jpg",
+      "https://i.redd.it/gmnvg07l8cm01.jpg", "https://i.imgur.com/3kiBRwp.jpg",
+      "https://i.imgur.com/LOsj0uU.jpg", "https://i.imgur.com/2gIk0Au.jpg.jpg",
+      "https://i.redd.it/7vav7lh3sbm01.jpg",
+      "https://i.redd.it/it1owz1zqbm01.jpg",
+      "https://i.redd.it/b49r5g7nrbm01.jpg", "https://i.imgur.com/HNSbctf.jpg",
+      "https://i.redd.it/2svnf1p1rbm01.jpg",
+      "https://i.redd.it/8gr22luzqbm01.jpg", "https://i.imgur.com/0KbFwVc.jpg",
+      "https://i.imgur.com/7ziVHAh.jpg", "https://i.imgur.com/8UbAG.jpg",
+      "https://i.redd.it/v361qrewlbm01.jpg",
+      "https://i.redd.it/nuoan7zjlbm01.jpg",
+      "https://i.redd.it/wugllpzglbm01.jpg",
+      "https://i.redd.it/6tps6cdblbm01.jpg",
+      "https://i.redd.it/vbvf8a1lkbm01.jpg",
+      "https://i.redd.it/lqemcntvjbm01.jpg",
+      "https://i.redd.it/3gzdd4h2bbm01.jpg",
+      "https://i.redd.it/wiy1f7r28bm01.jpg",
+      "https://i.redd.it/llmzup0y7bm01.jpg",
+      "https://i.redd.it/c5h7q6118bm01.jpg",
+      "https://i.redd.it/3529cjxc3bm01.jpg",
+      "https://i.redd.it/0h7urv4c3bm01.jpg"],
+      currentImgTest: 0,
         entries : links,
         imageSrc: '',
         imageSrcA: '',
@@ -103,7 +173,6 @@ var app = new Vue({
         showComms: false,
         showCommsL: false,
         truesize: false,
-        nextSwitch: true,
         transmode: '',
         transStyle: '',
         nextvid: false,
@@ -557,7 +626,6 @@ var app = new Vue({
         'helga_model',
         'ashleyresch',
         'murbo.official',
-        'rachelc00k',
         //meh
       ],
       options5: [ 'All',
@@ -636,6 +704,8 @@ var app = new Vue({
         //'gmbeauties/ィ-ฬ๓eղ',
         'rajx3loveyou/sмσкιιη-eүε-cαηү-tm',
         'lovejoyv3712/shape-of-her-iii',
+        'hungaryattila/sexy-lingerie-color',
+        'izzie3142/sexy-as-fuck',
         'barbiex3doll/bαявιє-hσттιє-oƒ-tнє-mσмєηт',
         'vivalanipple/%2B-bikini-beach-life-%2B',
         'mrsblacknwhite/the-beautyalmost-unclothed-bwtm',
@@ -664,6 +734,19 @@ var app = new Vue({
   },
 
   methods: {
+
+    onLoadHandler: function () {
+      console.log('app.currentImgTest: ' + app.currentImgTest)
+      if (app.currentImgTest === 0) {
+        var element = document.getElementById("nope").children[0];
+        var leftMargin = Math.round(window.innerWidth/2 - element.clientWidth/2);
+        console.log(leftMargin)
+        console.log(window.innerWidth)
+        console.log(element.clientWidth)
+        element.style.marginLeft = leftMargin + 'px';
+        element.style.marginRight = leftMargin + 'px';
+      }
+    },
 
     loadImage: function (imageUrl, onprogress) {
       if (pic[k+1][0].indexOf('mp4') != -1) {app.nextvid = true}
@@ -738,7 +821,7 @@ var app = new Vue({
             } else {
               var blobsize = Math.round(blob.size/1024/1024*10)/10 + ' MB';
             }
-            //console.log('blob.size: ' + blobsize);
+            console.log('blob.size: ' + blobsize);
             //console.log(m[1]);
             if ((m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') && blob.size < 20000) {
               console.log('Pic < 20kB raus');
@@ -768,16 +851,15 @@ var app = new Vue({
     },
 
     myMethod: function (key) {
-      //console.log('waitForNext: ' + waitForNext);
-      if (key.code == 'ArrowRight' && !waitForNext && !plop) {app.showComms = false; app.next()}
-      else if (key.code == 'ArrowRight') {console.log('else');gotoNext = true; waitForNext = false; app.preload()}
-      else if (key.code == 'ArrowLeft') {app.last()}
-      else if (key.code == 'ArrowUp' && !app.showComms) {app.down()}
-      else if (key.code == 'ArrowDown') {muuh = true; app.up()}
+      //console.log(key.code);
+      if (key.code == 'ArrowRightq' && !waitForNext) {app.showComms = false; app.next()}
       else if (key.code == 'Numpad1') {app.zlast()}
       else if (key.code == 'Numpad2') {app.zdown()}
       else if (key.code == 'Numpad3') {app.znext()}
       else if (key.code == 'Numpad5') {app.zup()}
+      else if (key.code == 'ArrowLeftq') {app.last()}
+      else if (key.code == 'ArrowUp' && !app.showComms) {app.down()}
+      else if (key.code == 'ArrowDown') {muuh = true; app.up()}
       else if (key.code == 'KeyG') {app.imgCache = !app.imgCache}
       else if (key.code == 'KeyF') {app.toggleFS()}
       else if (key.code == 'KeyS') {app.searchTab()}
@@ -802,14 +884,77 @@ var app = new Vue({
     },
 
     znext: function () {
-      app.gonext = true;
-      app.currentImg = app.currentImg + 1;
-      app.nextpic();
+      //document.getElementById('nope').scrollLeft += 10;
+      // var i = 10;
+      // var int = setInterval(function() {
+      //   document.getElementById('nope').scrollTo(i,0);
+      //   i += 10;
+      //   console.log(i);
+      //   if (i >= 200) clearInterval(int);
+      // }, 20);
+      var element = document.getElementById("nope").children[jk];
+      var elementnext = document.getElementById("nope").children[jk+1];
+      console.log(element)
+      console.log(element.style.marginLeft)
+      elementnext.style.marginLeft = (window.innerWidth - elementnext.clientWidth)/2 + "px";
+      elementnext.style.marginRight = (window.innerWidth - elementnext.clientWidth)/2 + "px";
+      //app.leftMargin = (window.innerWidth/2 - element.clientWidth/2);
+      console.log(app.leftMargin)
+      var nextScroll = element.clientWidth/2 + elementnext.clientWidth/2 + (window.innerWidth - element.clientWidth);
+      console.log(nextScroll)
+      document.getElementById('nope').scrollBy({
+        top: 0, // could be negative value
+        left: window.innerWidth,
+        behavior: 'smooth'
+      });
+      jk++;
+      // app.currentImgTest++;
+      // app.currentImgTest++;
+      // console.log(app.currentImgTest);
+      // var element = document.getElementById("nope").children[app.currentImgTest];
+      // element.scrollIntoView({behaviour: 'smooth'});
+      // app.gonext = true;
+      // app.currentImgTest = app.currentImgTest + 1;
+      // app.nextpic();
     },
     zlast: function () {
-      app.gonext = false;
-      app.currentImg = app.currentImg - 1;
-      app.nextpic();
+      // var i = 10;
+      // var int = setInterval(function() {
+      //   document.getElementById('nope').scrollTo(-i,0);
+      //   i += 10;
+      //   console.log(i);
+      //   if (i >= 200) clearInterval(int);
+      // }, 20);
+      // var element = document.getElementById("nope").children[app.currentImgTest];
+      // var leftMargin = (window.innerWidth - element.clientWidth);
+      // console.log(leftMargin)
+      // document.getElementById('nope').scrollBy({
+      //   top: 0, // could be negative value
+      //   left: -leftMargin,
+      //   behavior: 'smooth'
+      // });
+      var element = document.getElementById("nope").children[jk];
+      var elementnext = document.getElementById("nope").children[jk-1];
+      console.log(element)
+      console.log(element.style.marginLeft)
+      elementnext.style.marginLeft = (window.innerWidth - elementnext.clientWidth)/2 + "px";
+      elementnext.style.marginRight = (window.innerWidth - elementnext.clientWidth)/2 + "px";
+      //app.leftMargin = (window.innerWidth/2 - element.clientWidth/2);
+      console.log(app.leftMargin)
+      document.getElementById('nope').scrollBy({
+        top: 0, // could be negative value
+        left: -window.innerWidth,
+        behavior: 'smooth'
+      });
+      jk--;
+      // app.currentImgTest--;
+      // app.currentImgTest--;
+      // console.log(app.currentImgTest);
+      // var element = document.getElementById("nope");
+      // element.children[app.currentImgTest].scrollIntoView({behaviour: 'smooth'});
+      // app.gonext = false;
+      //app.currentImgTest = app.currentImgTest - 1;
+      // app.nextpic();
     },
 
     getCommentsFromArray: function(arr) {
@@ -992,42 +1137,14 @@ var app = new Vue({
       // console.log(el.offsetTop);
       // console.log(marginTop);
       // el.style.top = '${el.offsetTop - parseFloat(marginTop, 10)}px'
-      // document.getElementById('lastOne').visibility = 'hidden';
-      if (k > ath) {
-        app.hihi = 100;
-        app.err = 100;
-      }
       el.style.top = el.offsetTop + 'px';
-      plop = true;
       // console.log(el.style.top);
       // el.style.width = width
       //el.style.height = height
     },
 
     afterLeave: function (el) {
-      // console.log('app.currentImg: ' + app.currentImg)
-      // if (app.currentImg > 0) {
-      //   var elementt = document.getElementById("imgDiv");
-      //   console.log(elementt)
-      //   elementt.classList.add("derp");
-      // }
-      // console.log(app.imgList)
-      if (k > 2 && app.imgList[k-3] === '') {
-        app.imgList[k-3] = pic[k-3][0];
-      } else if (k > 1 && app.imgList[k-1] === '') {
-        app.imgList[k-1] = pic[k-1][0];
-        document.getElementById('lastOne').src = app.imgList[k-1];
-      } else if (k === 1 && app.imgList[0] === '') {
-        app.imgList[0] = pic[0][0];
-        document.getElementById('lastOne').src = app.imgList[0];
-      }
-      if (k > 1 && app.imgList[k-2] != '') {
-        app.imgList[k-2] = '';
-      }
-      //console.log(app.imgList)
-      //console.log('k: ' + k)
-      plop = false;
-      if (k >= ath) {app.preload()}
+      app.preload();
     },
 
     fetchNow: function (event) {
@@ -1449,8 +1566,8 @@ var app = new Vue({
               if (tp[z].description != null) {
                 tagline = tp[z].name + ' - ' + tp[z].description;
               }
-              if (tagline.length > 50) {
-                tagline = tagline.substring(0, 50) + ' [...]';
+              if (tagline.length > 190) {
+                tagline = tagline.substring(0, 190) + ' [...]';
               }
               var shit = createdT/1000;
               var ts = Math.round((new Date()).getTime() / 1000);
@@ -1519,8 +1636,8 @@ var app = new Vue({
               if (tp[z].description != null && tp[z].description != '') {
                 tagline = tp[z].name + ' - ' + tp[z].description;
               }
-              if (tagline.length > 50) {
-                tagline = tagline.substring(0, 50) + ' [...]';
+              if (tagline.length > 190) {
+                tagline = tagline.substring(0, 190) + ' [...]';
               }
               var shit = createdT/1000;
               var ts = Math.round((new Date()).getTime() / 1000);
@@ -1664,23 +1781,6 @@ var app = new Vue({
                 var jupp = json.data.children[i].data.url.split("#");
                 json.data.children[i].data.url = jupp[0];
               };
-              // if (app.checked) {
-              //   if (json.data.children[i].data.url.indexOf('/gfycat') > 0)
-              //   {
-              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("/gfycat", "/giant.gfycat");
-              //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
-              //   }
-              //   else if (json.data.children[i].data.url.indexOf('www.gfycat') > 0)
-              //   {
-              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("www.gfycat", "giant.gfycat");
-              //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
-              //   };
-              //   if (json.data.children[i].data.url.indexOf('-size_restricted.gif') > 0)
-              //   {
-              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("-size_restricted.gif", ".webm");
-              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
-              //   };
-              // }
               var shit = json.data.children[i].data.created-8*60*60;
               var ts = Math.round((new Date()).getTime() / 1000);
               var minutes = Math.round((ts-shit)/60);
@@ -1705,7 +1805,7 @@ var app = new Vue({
                 json.data.children[i].data.num_comments,
                 json.data.children[i].data.author,
               ]);
-              // app.imgList.push(json.data.children[i].data.url);
+              //app.imgListTest.push(json.data.children[i].data.url);
               app.fetched = ' / ' + pic.length;
             } else {
               ciao.push([json.data.children[i].data.url, json.data.children[i].data.title]);
@@ -1812,7 +1912,7 @@ var app = new Vue({
           app.imgListA = pic[k][11];
         }
         app.loaded = k+1;
-        if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][2].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
       } else if (app.picked === 'pint') {
         if (pic[k][0].indexOf('.mp4') != -1) {app.vid=true}
         else {app.vid=false};
@@ -1827,7 +1927,7 @@ var app = new Vue({
         app.created = pic[k][3] + ' at ' + pic[k][1];
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         app.loaded = k+1;
-        if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
+        if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
       } else { // reddit, insta, 500px, flickr
         app.vid = false;
         if (typeof pic[k][9] != 'undefined') {app.vid=false; app.albums()}
@@ -1850,13 +1950,14 @@ var app = new Vue({
         // } else {
         //   app.imageSrc = pic[k][0];
         // };
+        //if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {app.preload()}
 
         app.postlink = pic[k][1];
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
           if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][3]};
           if (pic[k][8]) {pic[k][0] = pic[k][8]}
-          if (pic[k][2].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
+          if (pic[k][3].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
         } else { //reddit
           if (pic[k][3].indexOf('mic') > 0 ||
             pic[k][3].indexOf('aic') > 0 ||
@@ -1871,7 +1972,7 @@ var app = new Vue({
           if (pic[k][3].indexOf('&lt;') != -1) {pic[k][3] = pic[k][3].replace(/&lt;/g, "<")};
           if (pic[k][3].indexOf('&gt;') != -1) {pic[k][3] = pic[k][3].replace(/&gt;/g, ">")};
           if (pic[k][6] > 0) {app.title = pic[k][3] + ' (' + pic[k][6] + ')'} else {app.title = pic[k][3]};
-          if (pic[k][2].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
+          if (pic[k][2].indexOf('day') > 0) {app.bh24 = true} else {app.bh24 = false}
         }
         //console.log(pic[k]);
         if (typeof pic[k][9] != 'undefined') {
@@ -1886,9 +1987,7 @@ var app = new Vue({
         if (imgNo != '') {app.mic = ''};
         app.loaded = k+1;
       };
-      if (k === 0) {
-        app.preload();
-      }
+      if (k === 0) {app.preload()}
       //console.log('wentback: ' + wentBack);
       if (k <= ath && wentBack) {
         app.chicken4 = false
@@ -1898,12 +1997,10 @@ var app = new Vue({
     },
 
     preload: function () {
-      //console.log('waitForNext (preload): ' + waitForNext)
-      if (waitForNext) {var vgvg = true}
-      if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1 && (k < 2 || pic[k+1][0].indexOf('blob') != -1)) {
+      if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1) {
         //var progressBar = document.getElementById("progress");
         //app.loading = true;
-        //console.log('start ' + pic[k+2][0]);
+        //console.log('yeeeeaaaaaah ' + pic[k+1][0]);
         app.hihi = 100;
         app.err = 100;
         app.loadImage(pic[k+2][0], (ratio) => {
@@ -1922,25 +2019,7 @@ var app = new Vue({
           // Loading successfuly complete; set the image and probably do other stuff.
           //imgContainer.src = imgSrc;
           //img.src = pic[k+1][0];
-          //console.log('fertig ' + pic[k+2][0]);
-          if (k === 0) {
-            var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
-            // console.log(document.getElementById('currentOne').width)
-            // currentOne.style.paddingLeft = eee + 'px';
-            // currentOne.style.paddingRight = eee + 'px';
-          }
           app.chicken4 = false;
-          if (gotoNext) {
-            gotoNext = false;
-            app.preload();
-          }
-          // else if (waitForNext) {
-          //   waitForNext = false;
-          //   vgvg = false;
-          //   console.log(app.imgList[k+1])
-          //   if (pic[k+2][0].indexOf('blob') != -1) {app.imgList[k+2] = pic[k+2][0]}
-          //   if (app.imgList[k+1].indexOf('blob') != -1) {app.next()}
-          // }
           //console.log('nextBlob: ' + nextBlob);
           if (nextBlob != '') {
             //console.log('nextBlob ist nicht leer, daher normal weiter');
@@ -1961,14 +2040,8 @@ var app = new Vue({
           pic.splice(k+2,1);
           //imgList.splice(k+1,1);
           app.fetched = ' / ' + pic.length;
-          app.preload();
         });
       }
-      // if (vgvg) {
-      //   vgvg = false;
-      //   console.log('vgvg')
-      //   app.next();
-      // }
     },
 
     gfycat: function () {
@@ -2008,131 +2081,20 @@ var app = new Vue({
       }
     },
 
-    touchnextX: function (e) {
-       // console.log(lastOne);
-      if (!waitForNext && lastOne) {
-        if (e.target.id === "currentOne" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
-          app.showComms = false;
-          app.ilSrc = [];
-          app.il = false;
-          //var nextOne = document.getElementById('nextOne')
-          var percentage = 100 / 1 * e.deltaX / window.innerWidth; // NEW: our % calc
-          lastOne.style.transition = '';
-          currentOne.style.transition = '';
-          nextOne.style.transition = '';
-          // var percentage2 = (percentage-200)/1.01;
-          // var percentage3 = (percentage-100)*1.016;
-          var percentage2 = (percentage-201.2);
-          var percentage3 = (percentage-101.8);
-          lastOne.style.transform = 'translateX(' + percentage2 + '%)'; // NEW: our CSS transform
-          currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
-          if (app.currentImg === 0) {
-            var percentage4 = (percentage-1.7);
-            nextOne.style.transform = 'translateX(' + percentage4 + '%)'; // NEW: our CSS transform
-          } else {
-            nextOne.style.transform = 'translateX(' + percentage3 + '%)'; // NEW: our CSS transform
-            var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
-            currentOne.style.paddingLeft = eee + 'px';
-            currentOne.style.paddingRight = eee + 'px';
-            var eee2 = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-            lastOne.style.paddingLeft = eee2 + 'px';
-            lastOne.style.paddingRight = eee2 + 'px';
-            var eee3 = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-            nextOne.style.paddingLeft = eee3 + 'px';
-            nextOne.style.paddingRight = eee3 + 'px';
-          }
-          // console.log(percentage)
-          if(e.isFinal) { // NEW: this only runs on event end
-            // console.log(app.imgList[app.currentImg-1]);
-            console.log(e.velocityX)
-            if (e.velocityX < -0.5) {
-              var qqq = (percentage+100)/100 * window.innerWidth;
-              console.log('qqq: ' + qqq)
-              document.documentElement.style.setProperty('--move-out', -qqq + 'px')
-              document.documentElement.style.setProperty('--move-in', qqq + 'px')
-              var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-              document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-              document.documentElement.style.setProperty('--move-ya', '400ms')
-              app.next()
-            } else if (e.velocityX > 0.5 && k > 0) {
-              var qqq = (100-percentage)/100 * window.innerWidth;
-              console.log('qqq: ' + qqq)
-              document.documentElement.style.setProperty('--move-out', qqq + 'px')
-              document.documentElement.style.setProperty('--move-in', -qqq + 'px')
-              var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-              document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-              document.documentElement.style.setProperty('--move-ya', '400ms')
-              app.last()
-            } else {
-              if(percentage < -10) {
-                app.nextSwitch = true;
-                var qqq = (percentage+100)/100 * window.innerWidth;
-                console.log('qqq: ' + qqq)
-                document.documentElement.style.setProperty('--move-out', -qqq + 'px')
-                document.documentElement.style.setProperty('--move-in', qqq + 'px')
-                var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-                document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-                eee = e.velocityX + 0.8;
-                document.documentElement.style.setProperty('--move-ya', eee + 's')
-                // currentOne.style.transform = 'translateX(' + qqq + '%)';
-                // currentOne.style.transition = 'all .5s ease';
-                // nextOne.style.transform = 'translateX(' + qqq + '%)';
-                // nextOne.style.transition = 'all .5s ease';
-                app.next()
-              }
-              else if(percentage > 10 && k > 0) {
-                app.nextSwitch = false;
-                //lastOne.style.transform = 'translateX(100%)';
-                var qqq = (100-percentage)/100 * window.innerWidth;
-                console.log('qqq222: ' + qqq)
-                // console.log('lastOne: ' + document.getElementById('lastOne').src)
-                // document.getElementById('lastOne').invisible = true;
-                document.documentElement.style.setProperty('--move-out', qqq + 'px')
-                document.documentElement.style.setProperty('--move-in', -qqq + 'px')
-                var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-                document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-                eee = 0.8 - e.velocityX;
-                document.documentElement.style.setProperty('--move-ya', eee + 's')
-                // currentOne.style.transform = 'translateX(' + -qqq + '%)';
-                // currentOne.style.transition = 'all .5s ease';
-                // nextOne.style.transform = 'translateX(' + -qqq + '%)';
-                // nextOne.style.transition = 'all .5s ease';
-                // app.currentImg = app.currentImg - 1;
-                // k--;
-                app.last()
-              }
-              else {
-                console.log('ccccccc')
-                if (app.currentImg > 0) {
-                  lastOne.style.transform = 'translateX(-201.2%)';
-                  nextOne.style.transform = 'translateX(-101.8%)';
-                  currentOne.style.transform = 'translateX(0%)';
-                  lastOne.style.transition = 'all .5s ease';
-                  nextOne.style.transition = 'all .5s ease';
-                  currentOne.style.transition = 'all .5s ease';
-                } else {
-                  currentOne.style.transform = 'translateX(0%)';
-                  currentOne.style.transition = 'all .5s ease';
-                  nextOne.style.transform = 'translateX(-1.7%)';
-                  nextOne.style.transition = 'all .5s ease';
-                }
-              }
-            }
-          }
-        }
-      }
+    touchnext: function (event) {
+      if (!waitForNext) {
+        //document.getElementById('commsID').scrollTop = 0;
+        app.showComms = false;
+        app.ilSrc = [];
+        app.il = false;
+        app.next();
+      };
     },
 
     next: function (event) {
-       console.log('k: ' + k)
-       console.log('app.imgList[app.currentImg+1]: ' + app.imgList[app.currentImg+1])
-       //console.log('imgList: ' + app.imgList.length)
-      // if ((app.chicken4 && k != pic.length-1) || (k > 1 && pic[k+1][0].indexOf('blob') === -1)) {
-      if ((app.chicken4 && k != pic.length-1) || (k > 1 && app.imgList[app.currentImg+1] === undefined)) {
+      if (app.chicken4 && k != pic.length-1 && pic[k+1][0].indexOf('blob') === -1) {
         setTimeout(app.next, 400);
-        if (app.imgList[app.currentImg+1] === undefined) {app.imgList[app.currentImg+1] = pic[k+1][0]}
         waitForNext = true;
-        // console.log(app.imgList[k+1][0])
         console.log("wait for next pic " + (k + 2));
       } else {
         if (!wentBack) {app.hihi = 100; app.err = 100};
@@ -2142,26 +2104,20 @@ var app = new Vue({
         app.albumImageNext = '';
         app.currentImgA = 0;
         waitForNext = false;
-        app.loadski = false;
         qq = 0;
         aa = [];
         imgNo = '';
-        //console.log('k: ' + k)
-        //console.log('pic.length: ' + pic.length)
-        //console.log('ath: ' + ath)
         if (k < pic.length-1) {
           k++;
           if (k > ath) {
             ath = k;
-            if (pic[k+1][0].indexOf('blob') != -1) {app.imgList[k+1] = pic[k+1][0]}
-            //if (pic[k+1][0].indexOf('blob') != -1) {app.imgList.push(pic[k+1][0])}
+            app.imgList.push(pic[k+1][0]);
           } else {
             console.log('k: ' + k);
             console.log('ath: ' + ath);
           };
         } else {k=0; ath=0};
         app.gonext = true;
-        //console.log(app.imgList[app.currentImg] != app.imgList[app.currentImg+1])
         app.currentImg = app.currentImg + 1;
         app.nextpic();
         // if (nextBlob != '' && k != 0) {
@@ -2173,7 +2129,6 @@ var app = new Vue({
     },
 
     last: function (event) {
-      waitForNext = false;
       if (app.showComms && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
         app.comments = [];
         app.commentsL = [];
@@ -2181,7 +2136,7 @@ var app = new Vue({
       } else {
         app.hihi = 0;
         app.err = 0;
-        app.chicken = 0;
+        app.chicken = 1;
         app.show1 = !app.show1;
         app.albumImageNext = '';
         app.currentImgA = 0;
@@ -2223,11 +2178,10 @@ var app = new Vue({
 
     up: function () {
       if (mobile && !document.webkitIsFullScreen) {
-        //app.toggleFS();
+        app.toggleFS();
       } else if (imgNo === '' && pic[k][6] < 1 || (!document.webkitIsFullScreen && !muuh)) {
-        //app.toggleFS();
-      } else
-      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
+        app.toggleFS();
+      } else if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
         if (!app.showComms) {
           app.comments = [];
           app.commentsL = [];
@@ -2387,8 +2341,8 @@ var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://ap
             var createdT = tp[z].dateupload;
             var tagline = tp[z].title;
             var url_o = tp[z].url_o;
-            if (tagline.length > 50) {
-              tagline = tagline.substring(0, 50) + ' [...]';
+            if (tagline.length > 190) {
+              tagline = tagline.substring(0, 190) + ' [...]';
             }
             var shit = createdT;
             var ts = Math.round((new Date()).getTime() / 1000);
@@ -2432,8 +2386,8 @@ var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://ap
       //console.log(url);
       if (url.indexOf('www.imgur') > 0) {url = url.replace("www.imgur", "imgur")}
       else if (url.indexOf('m.imgur') > 0) {url = url.replace("m.imgur", "imgur")};
-      if (url.charAt(9) === ".") {album = 'album/' + url.substr(22,5)}
-      else {album = 'album/' + url.substr(20,5)};
+      if (url.charAt(9) === ".") {album = 'album/' + url.substr(22,7)}
+      else {album = 'album/' + url.substr(20,7)};
       //console.log('album: ' + album);
       //console.log("url: " + url + " album: " + album);
       var request = new Request('https://api.imgur.com/3/' + album, {
