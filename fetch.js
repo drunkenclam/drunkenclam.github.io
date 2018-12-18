@@ -3,8 +3,10 @@ var gotoNext = false;
 var plop = false;
 var plep;
 var mobile = false;
-// pinterest token: ASd8Bnc1sPMQHlW0o-m7futk74WdFPIMPH6_WgBEbppySkAv2gAAAAA
+//pinterest token: ASd8Bnc1sPMQHlW0o-m7futk74WdFPIMPH6_WgBEbppySkAv2gAAAAA
 var links = '';
+var abortnext = false;
+var showtitle = true;
 var pic = [];
 var dd = [];
 var aa = [];
@@ -49,14 +51,24 @@ var app = new Vue({
   },
 */
   data: {
+    // headBot: 51,
   },
 
   data: function (){
     return {
+      headTop: 26,
+      headBot: '',
       loadski: true,
       message: 'Click for slide',
       show: true,
       imgList: [],
+      // imglol: [
+      //   'https://i.redd.it/q2yxwydd8ep01.jpg',
+      //   'https://i.redd.it/6rz79toqoep01.jpg',
+      //   'https://i.imgur.com/Vo4HJAw.jpg',
+      //   'https://i.redd.it/9tzs3dazpdp01.jpg',
+      //   'https://i.redd.it/nwy2so4gfdp01.jpg'
+      // ],
       currentImg: 0,
       imgListA: [],
       currentImgA: 0,
@@ -81,6 +93,7 @@ var app = new Vue({
         max: 100,
         hihi: 0,
         err: '',
+        derp: false,
         aaPos: '',
         mic: '',
         nextBlob: '',
@@ -106,6 +119,7 @@ var app = new Vue({
         nextSwitch: true,
         transmode: '',
         transStyle: '',
+        ref_info: '',
         nextvid: false,
         picked: 'reddit',
         checked: false,
@@ -196,27 +210,35 @@ var app = new Vue({
         'NewsPorn',
         ],
         optionsR: [ 'All',
-        //'InstagramHotties',
+        'BestOf',
         'gonewild',
         'nsfw',
         'gentlemanboners',
         'RealGirls',
+        'Boobies',
+        'BustyPetite',
+        'LegalTeens',
+        'fortyfivefiftyfive',
+        'theratio',
+        'ass',
+        'Celebswithbigtits',
+        'helgalovekaty',
+        'RachelCook',
+        'breedingmaterial',
         'NSFW_GIF',
         'nsfw_gifs',
         'Amateur',
-        'Boobies',
-        'ass',
-        'BustyPetite',
-        'LegalTeens',
         'cumsluts',
         'OnOff',
         'milf',
         'girlsinyogapants',
+        'polinasitnova',
         'nsfwhardcore',
         'GirlsFinishingTheJob',
         'ginger',
         'holdthemoan',
         'dirtysmall',
+        'AnnaTsaralunga',
         'celebnsfw',
         'redheads',
         'GirlswithGlasses',
@@ -276,8 +298,6 @@ var app = new Vue({
         'nsfw_videos',
         'IndianBabes',
         'CollegeAmateurs',
-        'SnapNSFW',
-        //'SnapNSFWx',
         'lingerie',
         'iWantToFuckHer',
         'DirtyGaming',
@@ -299,7 +319,6 @@ var app = new Vue({
         'treatemright',
         'WomenOfColor',
         'OnHerKnees',
-        'NSFW_nospam',
         'bikinis',
         'metart',
         'TwinGirls',
@@ -344,8 +363,6 @@ var app = new Vue({
         'UnderwearGW',
         'NSFW_Snapchat',
         'Blonde',
-        //'doppelbangher',
-        'Sexy_Ed',
         'girlsdoingnerdythings',
         'BreastEnvy',
         'before_after_cumsluts',
@@ -367,22 +384,202 @@ var app = new Vue({
         'Ohlympics',
         'Hugeboobshardcore',
         'gangbang',
-        //'nipslip',
         'vagina',
         'leggingsgonewild',
-        'outercourse',
         'hugenaturals',
         'MouthWideOpen',
         'SpreadEm',
         'Goddesses',
         '2busty2hide'
       ],
+      optionsRbo: [ 'All',
+      'nsfw',
+      // 'gentlemanboners',
+      'RealGirls',
+      'Boobies',
+      'BustyPetite',
+      'LegalTeens',
+      'fortyfivefiftyfive',
+      'theratio',
+      'ass',
+      'helgalovekaty',
+      'Goddesses',
+      '2busty2hide',
+      'Celebswithbigtits',
+      'polinasitnova',
+      'RachelCook',
+      'AnnaTsaralunga',
+      // 'NSFW_GIF',
+      // 'nsfw_gifs',
+      // 'Amateur',
+      // 'cumsluts',
+      'OnOff',
+      // 'milf',
+      // 'girlsinyogapants',
+      // 'nsfwhardcore',
+      // 'GirlsFinishingTheJob',
+      'ginger',
+      'holdthemoan',
+      // 'dirtysmall',
+      'celebnsfw',
+      'redheads',
+      // 'GirlswithGlasses',
+      'Hotchickswithtattoos',
+      // 'curvy',
+      // 'AsianHotties',
+      // 'Blowjobs',
+      // 'NSFWFunny',
+      '60fpsporn',
+      'randomsexiness',
+      // 'asstastic',
+      // 'AsiansGoneWild',
+      'HappyEmbarrassedGirls',
+      // 'TinyTits',
+      // 'datgap',
+      // 'TittyDrop',
+      // 'PetiteGoneWild',
+      // 'palegirls',
+      // 'tightdresses',
+      // 'collegesluts',
+      // 'pussy',
+      // 'LipsThatGrip',
+      // 'suicidegirls',
+      // 'O_Faces',
+      // 'nsfw2',
+      // 'nsfwcosplay',
+      // 'GoneWildTube',
+      'burstingout',
+      'breedingmaterial',
+      // 'facedownassup',
+      // 'nsfwoutfits',
+      // 'HighResNSFW',
+      // 'Unashamed',
+      'hugeboobs',
+      // 'lesbians',
+      // 'anal',
+      // 'NSFW_HTML5',
+      'Stacked',
+      // 'workgonewild',
+      // 'camwhores',
+      // 'GWNerdy',
+      // 'boltedontits',
+      'BonerMaterial',
+      // 'passionx',
+      // 'voluptuous',
+      // 'cumfetish',
+      // 'BigBoobsGW',
+      // 'GoneMild',
+      // 'porn_gifs',
+      // 'rearpussy',
+      // 'creampies',
+      // 'gettingherselfoff',
+      // 'stockings',
+      // 'StraightGirlsPlaying',
+      // 'FestivalSluts',
+      // 'boobbounce',
+      // 'AlbumBabes',
+      // 'nsfw_videos',
+      // 'IndianBabes',
+      // 'CollegeAmateurs',
+      // 'lingerie',
+      // 'iWantToFuckHer',
+      // 'DirtyGaming',
+      // 'assinthong',
+      // 'downblouse',
+      // 'gifsgonewild',
+      'SexyFrex',
+      // 'Bottomless_Vixens',
+      // 'gonewildcolor',
+      'SexyButNotPorn',
+      // 'ChristianGirls',
+      'fitgirls',
+      // 'YogaPants',
+      // 'GirlswithNeonHair',
+      // 'BeautifulTitsAndAss',
+      // 'gwcumsluts',
+      // 'buttplug',
+      // 'asshole',
+      // 'treatemright',
+      // 'WomenOfColor',
+      // 'OnHerKnees',
+      // 'bikinis',
+      // 'metart',
+      'TwinGirls',
+      // 'latinas',
+      'boobs',
+      // 'PublicFlashing',
+      // 'AnalGW',
+      // 'ChangingRooms',
+      // 'FacialFun',
+      'thinspo',
+      'GroupOfNudeGirls',
+      // 'FlashingGirls',
+      // 'Sexy',
+      // 'facesitting',
+      // 'SheLikesItRough',
+      // 'CelebrityPussy',
+      // 'cumcoveredfucking',
+      // 'Exxxtras',
+      // 'squirting',
+      'NotSafeForNature',
+      // 'femalepov',
+      // 'KateeOwen',
+      // 'amateurcumsluts',
+      // 'DarkAngels',
+      'cleavage',
+      // 'GirlsinSchoolUniforms',
+      // 'deepthroat',
+      // 'AthleticGirls',
+      // 'xsmallgirls',
+      // 'Nipples',
+      // 'tight_shorts',
+      // 'girlskissing',
+      // 'Just18',
+      // 'NSFW_Wallpapers',
+      // 'wet',
+      // 'brunette',
+      // 'bigasses',
+      'TheUnderboob',
+      // 'Pantyfetish',
+      // 'celebsnaked',
+      // 'TightShorts',
+      // 'UnderwearGW',
+      // 'NSFW_Snapchat',
+      // 'Blonde',
+      // 'girlsdoingnerdythings',
+      'BreastEnvy',
+      // 'before_after_cumsluts',
+      // 'WomenOfColour',
+      'skinnytail',
+      'Page3Glamour',
+      // 'booty',
+      // 'randomsexygifs',
+      // 'BigBoobsGonewild',
+      // 'bustybabes',
+      // 'OldSchoolCoolNSFW',
+      // 'NSFWCostumes',
+      // 'thighhighs',
+      // 'boobgifs',
+      // 'titfuck',
+      // 'collegensfw',
+      // 'VintageBabes',
+      // 'bikinibridge',
+      // 'Ohlympics',
+      // 'Hugeboobshardcore',
+      // 'gangbang',
+      // 'vagina',
+      // 'leggingsgonewild',
+      // 'hugenaturals',
+      // 'MouthWideOpen',
+      // 'SpreadEm',
+
+    ],
       optionsT: [ 'All',
         "murbo",
         "cleavagetweet",
         "mavrin",
         "suicidegirls",
-        "showmethereal",
+        //"showmethereal",
         "nsfwio",
         "sexypositions",
         "succubusdesires",
@@ -394,8 +591,8 @@ var app = new Vue({
         'nonameuserstuff',
         'justbigger',
         'whatbustygirlsdo',
+        'superboobsandbutts',
         'bustyattention',
-        'mostlybigbreastedamateurs2',
         'nitropro',
         'nakednightmare',
         'leolauspt',
@@ -405,7 +602,6 @@ var app = new Vue({
         'my-taste-in-boobs',
         'xxx-sexbomb',
         'terrabeauty',
-        'femnude',
         'estopmain',
         'justafanofbeauty',
         'partybuttnaked',
@@ -417,7 +613,6 @@ var app = new Vue({
         'sensualsideofme',
         'xraymike123',
         'pleasure-treasures',
-        '69times',
         'lesfantastiques',
         'naughtilydelicious',
         'morphing-only',
@@ -430,12 +625,13 @@ var app = new Vue({
         'sexygirlsandporn',
         'wolfshond',
         'almostperfectboobs',
-        'jdbetter',
+        //'jdbetter',
         'capitol-j',
         'squritabh',
         'myperfectpicturesisstolen',
-        'herandis',
+        //'herandis',
         'slender-and-young',
+        'extremeangles',
         'flatgurls',
         'sheissopretty',
         'omgchoppedgoateedinosaurfan',
@@ -448,10 +644,21 @@ var app = new Vue({
         'leaddawg',
         'pinups-plus',
         'no-bra-day',
-        'stunningnakedwomen',
+        'stunningnakedladies',
         'myinterestingposts',
         'bellezanatural11',
+        'robertweissner',
+        'moistpubes2',
+        'helga-lovekaty-hott',
+        'vonschreck',
+        'theeroticexhibition',
+        'socialdeviant-paulhd',
+        'nsfwrandomness',
+        'bestnudepicsofmodels',
+        //'mirimarnrw',
+        'my-personal-matrix',
 
+        //meh
       ],
       optionsI: [ 'All',
         'sa_calobra',
@@ -558,7 +765,6 @@ var app = new Vue({
         'ashleyresch',
         'murbo.official',
         'rachelc00k',
-        //meh
       ],
       options5: [ 'All',
         'samrambo1',
@@ -652,8 +858,11 @@ var app = new Vue({
   },
 
   mounted: function () {
+    console.log('referrer: ' + referrer);
+    this.ref_info = referrer;
     this.options = this.optionsR;
     window.addEventListener('keyup', this.myMethod, { passive: true });
+    this.hammer();
     //document.getElementsByName("slide")[0].addEventListener('change', this.doThing, { passive: true });
     // document.getElementsByName("slide")[0].addEventListener('input', function (evt) {
     //   var elem = document.getElementById("asdf");
@@ -705,6 +914,7 @@ var app = new Vue({
         xhr.responseType = 'arraybuffer';
 
         xhr.onprogress = function(ev) {
+          if (abortnext) {console.log('abortnext'); abortnext = false; xhr.abort()}
           if (ev.lengthComputable) {
             onprogress(parseInt((ev.loaded / ev.total) * 100));
           } else {
@@ -739,14 +949,14 @@ var app = new Vue({
               var blobsize = Math.round(blob.size/1024/1024*10)/10 + ' MB';
             }
             //console.log('blob.size: ' + blobsize);
-            //console.log(m[1]);
+            // console.log(m[1]);
             if ((m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') && blob.size < 20000) {
-              console.log('Pic < 20kB raus');
+              console.log('Pic < 20kB raus ');
               //pic.splice(k+1,1);
               //app.fetched = ' / ' + pic.length;
               nextBlob = '';
             } else {
-              if ((app.picked === 'reddit' || app.picked === 'redditSFW') && app.selected === 'All' && pic[k+2][0].indexOf('com/a/') === -1) {
+              if ((app.picked === 'reddit' || app.picked === 'redditSFW') && (app.selected === 'All' || app.selected === 'BestOf') && pic[k+2][0].indexOf('com/a/') === -1) {
                 var ppp = dd.findIndex(function (obj) { return obj === blob.size; });
                 if (ppp != -1) {
                   console.log(pic[k+2][1] + ' doppelt: https://www.reddit.com/user/' + pic[k+2][7] + ' bei Index ' + ppp + ' in Subreddit ' + pic[k+2][5]);
@@ -769,9 +979,10 @@ var app = new Vue({
 
     myMethod: function (key) {
       //console.log('waitForNext: ' + waitForNext);
-      if (key.code == 'ArrowRight' && !waitForNext && !plop) {app.showComms = false; app.next()}
-      else if (key.code == 'ArrowRight') {console.log('else');gotoNext = true; waitForNext = false; app.preload()}
-      else if (key.code == 'ArrowLeft') {app.last()}
+      if (key.code == 'ArrowRight') {if (app.hihi === 0 && !plop) {plop = true; app.jump(-1)}}
+      // if (key.code == 'ArrowRight' && !waitForNext && !plop) {app.showComms = false; app.next()}
+      // else if (key.code == 'ArrowRight') {console.log('else');gotoNext = true; waitForNext = false; app.preload()}
+      else if (key.code == 'ArrowLeft') {app.jump(1)}
       else if (key.code == 'ArrowUp' && !app.showComms) {app.down()}
       else if (key.code == 'ArrowDown') {muuh = true; app.up()}
       else if (key.code == 'Numpad1') {app.zlast()}
@@ -821,23 +1032,54 @@ var app = new Vue({
           //var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
           text += item.data.body + '\n\n';
           linkify = item.data.body;
-          //console.log(linkify);
+          // console.log(linkify);
           if (linkify.indexOf('#**') === -1 && linkify.indexOf('phonebatterylevelbot') === -1 &&
               linkify.indexOf('a bot for linking direct images') === -1 && linkify.indexOf('**Remember OP is a real person') === -1 &&
-              linkify.indexOf('AlphaBetaGammaTheta') === -1) {
+              linkify.indexOf('AlphaBetaGammaTheta') === -1 && linkify.indexOf('compose/?to') === -1 && linkify.indexOf('#Repost') === -1) {
             var peep = linkify.match(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
+            // console.log(peep);
+            // if (peep === null && (linkify.indexOf('r/') === 0 || linkify.indexOf('r/') === 1)) {var peep = []; peep.push(linkify)};
+            if (peep === null && (linkify.indexOf('r/') > -1)) {var peep = []; peep.push(linkify)};
             app.comments.push('');
             app.comments.push(linkify);
             if (peep !== null) {
-              //console.log(peep);
+              // console.log(peep);
               //console.log(peep.length);
               app.commentsL.push('');
               for (var d=0; d < peep.length; d++) {
+                // linkify.replace(/\n/ig, ' ');
                 var poop = peep[d];
+                // console.log('letztes poop: ' + poop.slice(-1))
                 if (poop.indexOf('ttp://') > 0) {poop = poop.replace("ttp://", "ttps://")}
                 if (poop.indexOf('www.imgur') > 0) {poop = poop.replace("www.imgur", "imgur")}
-                else if (poop.indexOf('m.imgur') > 0) {poop = poop.replace("m.imgur", "imgur")};
-                app.commentsL.push(poop);
+                if (poop.indexOf('m.imgur') > 0) {poop = poop.replace("m.imgur", "imgur")}
+                if (poop.indexOf('imgur.com/gallery') > 0) {poop = poop.replace("imgur.com/gallery", "imgur.com/a")}
+                if (poop.slice(-1) === '.') {poop = poop.slice(0, -1)}
+                else if (poop.slice(-2) === '. ') {poop = poop.slice(0, -2)}
+                // console.log(poop);
+                if (poop.indexOf('/r/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("/r/", "https://www.reddit.com/r/")}
+                else if (poop.indexOf('r/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("r/", "https://www.reddit.com/r/")}
+                if (poop.indexOf('http') !== 0) {
+                  var uha = poop.indexOf('http');
+                  poop = poop.substring(uha);
+                }
+                console.log(poop);
+                // if (poop.indexOf(' ') > -1 || poop.indexOf('\n') > -1) {
+                if (poop.indexOf(' ') > -1 || poop.indexOf('\n') > -1) {
+                  var urla1 = poop.replace('\n',' ').split(' ');
+                  console.log('urla[0]: ' + urla1[0]);
+                  for (var dw=0; dw < urla1.length; dw++) {
+                    console.log('urla1[dw]: ' + urla1[dw]);
+                    if (urla1[dw].indexOf('r/') > -1) {
+                      if (urla1[dw].indexOf('/r/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("/r/", "https://www.reddit.com/r/")}
+                      else if (urla1[dw].indexOf('r/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("r/", "https://www.reddit.com/r/")}
+                      app.commentsL.push(urla1[dw])
+                    }
+                  }
+                  // console.log('url: ' + url);
+                } else {
+                  app.commentsL.push(poop);
+                }
               }
             }
           }
@@ -864,7 +1106,8 @@ var app = new Vue({
             {
               miclink += '.jpg';
             };
-            if (miclink.indexOf('imgur') != -1 && (miclink.indexOf('.jpg') != -1 || miclink.indexOf('.png') != -1 || miclink.indexOf('.gif') != -1)) {
+            if (miclink.indexOf('.jpg') != -1 || miclink.indexOf('.png') != -1 || miclink.indexOf('.gif') != -1) {
+              // if (miclink.indexOf('imgur') != -1 && (miclink.indexOf('.jpg') != -1 || miclink.indexOf('.png') != -1 || miclink.indexOf('.gif') != -1)) {
               //console.log(jj + ' ' + miclink);
               if (miclink.indexOf('.gifv') != -1) {miclink = miclink.replace("gifv", "gif")}
               if (app.ilSrc.indexOf(miclink) === -1) {app.ilSrc.push(miclink)};
@@ -872,7 +1115,7 @@ var app = new Vue({
           }
           app.il = true;
         }
-        if (!mobile) {app.$nextTick(() => app.$refs.commsRef.focus())}
+        // if (!mobile) {app.$nextTick(() => app.$refs.commsRef.focus())}
         document.getElementById('commsID').scrollTop = 0;
       }
       return text;
@@ -887,10 +1130,16 @@ var app = new Vue({
           //console.log(response);
           plep = response.data[1].data.children;
           var text = app.getCommentsFromArray(plep);
-          //console.log(app.commentsL.length);
+          // console.log(app.commentsL);
+          // doppelte links raus
+          app.commentsL = [...new Set(app.commentsL)];
+          // console.log(app.commentsL);
           for (var jj = 0; jj < app.commentsL.length; jj++) {
+            if (app.commentsL[jj].charAt(app.commentsL[jj].length-1) === '/') {app.commentsL[jj] = app.commentsL[jj].slice(0, -1)}
             if (app.commentsL[jj].indexOf('/a/') > 0) {
               app.albumsincomms(app.commentsL[jj]);
+            } else if (app.commentsL[jj].indexOf('reddit.com/r/') > 0 && app.commentsL[jj].indexOf('comments') < 0) {
+              app.subincomms(app.commentsL[jj]);
             }
           }
           document.getElementById('commsID').scrollTop = 0;
@@ -904,6 +1153,181 @@ var app = new Vue({
         });
     },
 
+    subincomms: function (q) {
+      // if (q.indexOf('%20') > -1) {}
+      console.log('q: ' + q);
+      var urla = q.split(' ');
+      console.log('urla[0]: ' + urla[0]);
+      var url = urla[0];
+      // console.log(url.charAt(url.length-1))
+      if (url.charAt(url.length-1) === '/') {url = url.slice(0, -1)}
+      console.log('url: ' + url);
+      aicA = [];
+      fetch(url + '/new.json?limit=25').then(function(response) {
+        return response.json();
+      }).then(function(json) {
+        for (i = 0; i < json.data.children.length; i++) {
+          if ((json.data.children[i].data.url.indexOf('imgur') > 0 ||
+            // json.data.children[i].data.url.indexOf('gfycat') > 0 ||
+            json.data.children[i].data.url.indexOf('tumblr') > 0 ||
+            json.data.children[i].data.url.indexOf('500px') > 0 ||
+            json.data.children[i].data.url.indexOf('redditmedia') > 0 ||
+            json.data.children[i].data.url.indexOf('reddituploads') > 0 ||
+            json.data.children[i].data.url.indexOf('artstation') > 0 ||
+            //json.data.children[i].data.url.indexOf('deviantart') > 0 ||
+            json.data.children[i].data.url.indexOf('flickr.com') > 0 ||
+            json.data.children[i].data.url.indexOf('flic.kr') > 0 ||
+            json.data.children[i].data.url.indexOf('.', json.data.children[i].data.url.length-7) > 0) &&
+            (
+            json.data.children[i].data.title.indexOf(' m ') < 0 &&
+            json.data.children[i].data.title.indexOf(' M ') < 0 &&
+            json.data.children[i].data.title.indexOf('(m)') < 0 &&
+            json.data.children[i].data.title.indexOf('(m1') < 0 &&
+            json.data.children[i].data.title.indexOf('(m2') < 0 &&
+            json.data.children[i].data.title.indexOf('(m3') < 0 &&
+            json.data.children[i].data.title.indexOf('(M)') < 0 &&
+            json.data.children[i].data.title.indexOf('(M1') < 0 &&
+            json.data.children[i].data.title.indexOf('(M2') < 0 &&
+            json.data.children[i].data.title.indexOf('(M3') < 0 &&
+            json.data.children[i].data.title.indexOf('[m') < 0 &&
+            json.data.children[i].data.title.indexOf('[M') < 0 &&
+            json.data.children[i].data.title.indexOf('{m') < 0 &&
+            json.data.children[i].data.title.indexOf('{M') < 0 &&
+            json.data.children[i].data.url.indexOf('.htm') < 0 &&
+            json.data.children[i].data.url.indexOf('imgur.com/a/') < 0 &&
+            json.data.children[i].data.url.indexOf('gifv') < 0 &&
+            json.data.children[i].data.url.substr(json.data.children[i].data.url.length - 4) != '.com'
+          )) {
+//              if (json.data.children[i].data.url.indexOf('imgur') > 0 &&
+            if (json.data.children[i].data.url.indexOf('ttp://') > 0)
+            {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("http", "https")
+            };
+            if (json.data.children[i].data.url.indexOf('jpeg99') > 0)
+            {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("jpeg", "jpg")
+            };
+            if (json.data.children[i].data.url.indexOf('_d.jpg') > 0)
+            {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("_d.jpg", ".jpg")
+            };
+            if (json.data.children[i].data.url.indexOf('//imgur.com/gallery') > 0)
+            {
+                //json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//imgur.com/a")
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//i.imgur.com")
+            };
+            if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('?', 22) > 0)
+            {
+              var jupp = json.data.children[i].data.url.split("?");
+              json.data.children[i].data.url = jupp[0];
+            };
+            if (json.data.children[i].data.url.indexOf('imgur.com/r/') != -1)
+            {
+              console.log(json.data.children[i].data.url + ' an Pos. ' + i + ' umschreiben in ');
+              var jupp = json.data.children[i].data.url.split("/");
+              json.data.children[i].data.url = jupp[0] + '//' + jupp[2] + '/' + jupp[5] + '.jpg';
+              console.log(json.data.children[i].data.url);
+            };
+            if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('imgur.com/a/') === -1 && json.data.children[i].data.url.indexOf('.', 22) < 0)
+            {
+              json.data.children[i].data.url += '.jpg';
+            };
+            if (json.data.children[i].data.url.indexOf('//imgur') != -1 && json.data.children[i].data.url.indexOf('.jpg') != -1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur", "//i.imgur")
+            };
+            if (json.data.children[i].data.url.indexOf('//m.imgur.com/a/') != -1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//imgur")
+            } else if (json.data.children[i].data.url.indexOf('//m.imgur.com/') != -1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//i.imgur")
+              json.data.children[i].data.url += '.jpg';
+            }
+            if (json.data.children[i].data.url.indexOf('imgur.com/a/') != -1 && json.data.children[i].data.url.indexOf('#') != -1)
+            {
+              var jupp = json.data.children[i].data.url.split("#");
+              json.data.children[i].data.url = jupp[0];
+            };
+            if (json.data.children[i].data.url.indexOf('/') === json.data.children[i].data.url.length-1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.slice(0, -1)
+            };
+            // if (app.checked) {
+            //   if (json.data.children[i].data.url.indexOf('/gfycat') > 0)
+            //   {
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("/gfycat", "/giant.gfycat");
+            //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
+            //   }
+            //   else if (json.data.children[i].data.url.indexOf('www.gfycat') > 0)
+            //   {
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("www.gfycat", "giant.gfycat");
+            //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
+            //   };
+            //   if (json.data.children[i].data.url.indexOf('-size_restricted.gif') > 0)
+            //   {
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("-size_restricted.gif", ".webm");
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
+            //   };
+            // }
+            var shit = json.data.children[i].data.created-8*60*60;
+            var ts = Math.round((new Date()).getTime() / 1000);
+            var minutes = Math.round((ts-shit)/60);
+            var date = Math.round(minutes/60);
+            var days = Math.round(date/24);
+            var formattedTime = "";
+            //console.log((ts-shit)/60 + ": " + desc + " " + url);
+            if (date >= 36) {formattedTime = days + ' days ago';}
+            if (date < 36) {formattedTime = days + ' day ago';}
+            if (date < 24) {formattedTime = date + ' hours ago';}
+            if (minutes < 90) {formattedTime = date + ' hour ago';}
+            if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+
+//          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
+            // console.log(url);
+            // console.log(json.data.children[i].data.url);
+            aicA.push([url, json.data.children[i].data.url]);
+            // pic.push([
+            //   json.data.children[i].data.url,
+            //   'https://www.reddit.com' + json.data.children[i].data.permalink,
+            //   formattedTime,
+            //   json.data.children[i].data.title,
+            //   shit,
+            //   json.data.children[i].data.subreddit,
+            //   json.data.children[i].data.num_comments,
+            //   json.data.children[i].data.author,
+            // ]);
+            // app.imgList.push(json.data.children[i].data.url);
+            // app.fetched = ' / ' + pic.length;
+          } else {
+            // ciao.push([json.data.children[i].data.url, json.data.children[i].data.title]);
+            console.log('wegwerfen: ' + json.data.children[i].data.url + ' ' + json.data.children[i].data.title)
+          }
+        }
+        //videos raus wenn abgewählt
+        if (!app.checked) {
+          aicA = aicA.filter( element => !~element[0].indexOf('gif') && !~element[0].indexOf('gfycat') && !~element[0].indexOf('mp4') );
+        };
+        // app.fetched = ' / ' + pic.length;
+        // app.sort();
+        // titleLink = 3;
+        console.log('lol url: ' + url);
+        var pppp = app.commentsL.findIndex(function (obj) { return obj === url; });
+        console.log(pppp);
+        var count = 0;
+        for(var i = 0; i < aicA.length; i++){
+          if(aicA[i][0] === url)
+          count++;
+        }
+        var eee = app.commentsL[pppp] + ' (' + count + ')';
+        Vue.set(app.commentsL, pppp, eee);
+        console.log('count: ' + eee);
+      }).catch(function(err) {
+        console.log(err);
+        app.err = 'error: ' + err.message;
+      });
+    },
+
     albumsincomms: function (q) {
     var url = q;
     qq = 0;
@@ -913,8 +1337,8 @@ var app = new Vue({
     if (url.indexOf('ttp://') > 0) {url = url.replace("ttp://", "ttps://")}
     if (url.indexOf('www.imgur') > 0) {url = url.replace("www.imgur", "imgur")}
     else if (url.indexOf('m.imgur') > 0) {url = url.replace("m.imgur", "imgur")};
-    if (url.charAt(9) === ".") {album = 'album/' + url.substr(22,5)}
-    else {album = 'album/' + url.substr(20,5)};
+    if (url.charAt(9) === ".") {album = 'album/' + url.substr(22,7)}
+    else {album = 'album/' + url.substr(20,7)};
     console.log(url);
     //console.log('album: ' + album);
     //console.log("url: " + url + " album: " + album);
@@ -961,7 +1385,8 @@ var app = new Vue({
     },
 
     fetchmic: function (t) {
-      if (t.indexOf('/a/') > 0) {
+      // console.log(t)
+      if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
         for (var z = 0; z < aicA.length; z++) {
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
           if (t.indexOf(aicA[z][0]) !== -1) {
@@ -998,14 +1423,15 @@ var app = new Vue({
         app.err = 100;
       }
       el.style.top = el.offsetTop + 'px';
-      plop = true;
+      // plop = true;
+      console.log('before')
       // console.log(el.style.top);
       // el.style.width = width
       //el.style.height = height
     },
 
     afterLeave: function (el) {
-      // console.log('app.currentImg: ' + app.currentImg)
+      console.log('after app.currentImg: ' + app.currentImg)
       // if (app.currentImg > 0) {
       //   var elementt = document.getElementById("imgDiv");
       //   console.log(elementt)
@@ -1026,7 +1452,11 @@ var app = new Vue({
       }
       //console.log(app.imgList)
       //console.log('k: ' + k)
-      plop = false;
+      if (typeof pic[k][9] != 'undefined') {
+        app.chicken = 2;
+        console.log('k: ' + k)
+      }
+      // plop = false;
       if (k >= ath) {app.preload()}
     },
 
@@ -1307,17 +1737,19 @@ var app = new Vue({
       console.log(app.selected);
       var sr = [];
       var limit = 25;
-      if (app.selected != 'All') {sr.push('bla', app.selected); limit = 100} else {sr = this.optionsT; limit = 25};
+      if (app.selected != 'All') {sr.push('bla', app.selected, app.selected, app.selected, app.selected, app.selected); limit = 100} else {sr = this.optionsT; limit = 25};
       var counter = 0;
       //console.log('sr: ' + sr);
       pic = [];
       var shitload = [];
       k = 0;
+      var tpages = '';
       for (j = 1; j < sr.length; j++) {
 
         var tname = sr[j];
+        if (sr.length === 6) {tpages = '&offset=' + (j-1)*20; console.log('tpages: ' + tpages)}
 
-        var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://api.tumblr.com/v2/blog/' + tname + '/posts?' + 'api_key=nu2qwwClRdfuk3Z3AL31jIhkrpN84So1W7JG9YnETupVIyvVNo', {
+        var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://api.tumblr.com/v2/blog/' + tname + '/posts?' + 'api_key=nu2qwwClRdfuk3Z3AL31jIhkrpN84So1W7JG9YnETupVIyvVNo' + tpages, {
           method: 'GET',
         });
         fetch(request).then(function(response) {
@@ -1341,6 +1773,12 @@ var app = new Vue({
                   var posturl = tp[z].post_url;
                   var createdT = tp[z].timestamp;
                   var tagline = tp[z].summary;
+                  var comments = [];
+                  // for (var kk = 0; kk < tp[z].notes.length; kk++) {
+                  //   if (tp[z].notes[kk].type === 'reply') {
+                  //     comments.push(tp[z].notes[kk].reply_text);
+                  //   }
+                  // }
                   //var picNo = q+1;
                   //imgNo = json.data.images.length;
                   //imgID += 't';
@@ -1358,7 +1796,7 @@ var app = new Vue({
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
                   if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
-                  pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload]);
+                  pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload, comments]);
                   app.fetched = ' / ' + pic.length;
                 //}
               } else if (tp[z].type === 'video' && app.checked) {
@@ -1561,7 +1999,10 @@ var app = new Vue({
       console.log(app.selected);
       var sr = [];
       var limit = 25;
-      if (app.selected != 'All') {
+      if (app.selected === 'BestOf') {
+        sr = this.optionsRbo;
+        limit = 100;
+      } else if (app.selected != 'All') {
         sr.push('bla', app.selected);
         limit = 100;
       } else if (app.picked === 'reddit') {
@@ -1576,9 +2017,9 @@ var app = new Vue({
       pic = [];
       k = 0;
       for (j = 1; j < sr.length; j++) {
-//        console.log('j: ' + j);
-//        console.log('url j: ' + this.options[j]);
-//        console.log('url length: ' + this.options.length);
+        // console.log('j: ' + j);
+        // console.log('url j: ' + this.options[j]);
+        // console.log('url length: ' + this.options.length);
         if (sr[j] === 'itookapicture' || sr[j] === 'earthporn' || app.selected != 'All') {limit = 100} else {limit = 25}
         fetch('https://www.reddit.com/r/' + sr[j] + '/new.json?limit=' + limit).then(function(response) {
           return response.json();
@@ -1742,9 +2183,17 @@ var app = new Vue({
               console.log('kick ' + pic[0][0])
               pic.splice(0,1);
             }
+            if (pic[0][0].indexOf('.gifv') != -1) {pic[0][8] = 'video';pic[0][0] = pic[0][0].replace("gifv", "mp4")}
+            else if (pic[0][0].indexOf('.mp4') != -1) {pic[0][8] = 'video'}
+            if (pic[1][0].indexOf('.gifv') != -1) {pic[1][8] = 'video';pic[1][0] = pic[1][0].replace("gifv", "mp4")}
+            else if (pic[1][0].indexOf('.mp4') != -1) {pic[1][8] = 'video'}
+
             if (app.picked === 'redditSFW') {app.transmode = 'out-in'};
-            app.imgList.push(pic[0][0]);
-            app.imgList.push(pic[1][0]);
+            for (var ee = 0; ee < pic.length; ee++) {
+              app.imgList[ee] = pic[ee][0];
+            }
+            // app.imgList.push(pic[0][0]);
+            // app.imgList.push(pic[1][0]);
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -1769,11 +2218,14 @@ var app = new Vue({
         document.webkitExitFullscreen();
       } else {
         app.showconf = false;
-        if (app.picked === 'reddit' || app.picked === 'redditSFW') {
+        if (app.picked === 'reddit' || app.picked === 'redditSFW' || app.picked === 'tumblr') {
           chicken3 = true;
           app.chicken3 = true;
         }
         document.documentElement.webkitRequestFullscreen();
+        if (typeof video != 'undefined') {console.log('ig');app.headBot = video.offsetTop + video.offsetHeight;}
+        else {app.headBot = currentOne.offsetTop + currentOne.offsetHeight;}
+        app.headTop = '';
       }
     },
 
@@ -1785,13 +2237,24 @@ var app = new Vue({
       app.imageSrcA = '';
       app.mic = '';
       //ratio = 0;
+      app.showComms = false;
       app.ilSrc = [];
       app.il = false;
       app.hihi = 0;
       app.err = 0;
       if (app.picked === 'tumblr') {
-        if (pic[k][0].indexOf('.mp4') != -1) {app.vid=true}
-        else {app.vid=false};
+        if (pic[k+2].length === 7) {pic[k+2][7] = 'video'; console.log('k+2 ist video!')}
+        if (pic[k][7] === 'video') {app.vid=true; console.log('tumblr video!')}
+        else {
+          app.vid=false;
+          if (pic[k][8].length > 0) {
+            console.log(pic[k][8]);
+            app.title = app.title + ' (' + pic[k][8].length + ')';
+            for (var ee = 0; ee < pic[k][8].length; ee++) {
+              app.title = app.title + ' ' + pic[k][8][ee];
+            }
+          }
+        }
         if (nextBlob != '' && k != 0) {
           app.imageSrc = nextBlob;
         } else {
@@ -1799,7 +2262,7 @@ var app = new Vue({
         };
 
         app.postlink = pic[k][2];
-        if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][1]};
+        if (pic[k][5] != '') {app.title = pic[k][5]} else {if (!chicken3) {app.title = pic[k][1]} else {app.title = ''}};
         app.created = pic[k][3] + ' at';
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         aa = [];
@@ -1841,8 +2304,9 @@ var app = new Vue({
         else if (k < pic.length-3 && pic[k+3][0].indexOf('flic.kr') > 0) {app.flickrnext()}
         else if (k < pic.length-3 && pic[k+3][0].indexOf('500px') > 0) {app.s500pxnext()}
         if (k < pic.length-2 && pic[k+2][0].indexOf('imgur.com/a/') > 0) {jump = 2; app.albumsnext()}
-        if (k < pic.length-2 && (pic[k+2][0].indexOf('www.gfycat') > 0 || pic[k+2][0].indexOf('/gfycat') > 0)) {app.gfycat()}
-        if (k < pic.length-1 && (pic[k+1][0].indexOf('www.gfycat') > 0 || pic[k+1][0].indexOf('/gfycat') > 0)) {app.gfycat()}
+        if (app.checked && k < pic.length && (pic[k][0].indexOf('www.gfycat') > 0 || pic[k][0].indexOf('/gfycat') > 0)) {app.gfycat()}
+        else if (app.checked && k < pic.length-1 && (pic[k+1][0].indexOf('www.gfycat') > 0 || pic[k+1][0].indexOf('/gfycat') > 0)) {app.gfycat()}
+        else if (app.checked && k < pic.length-2 && (pic[k+2][0].indexOf('www.gfycat') > 0 || pic[k+2][0].indexOf('/gfycat') > 0)) {app.gfycat()}
         if (pic[k][8] === 'video') {app.vid = true; console.log('video!')};
         //console.log('app.vid: ' + app.vid);
         // if (nextBlob != '' && k != 0) {
@@ -1858,20 +2322,14 @@ var app = new Vue({
           if (pic[k][8]) {pic[k][0] = pic[k][8]}
           if (pic[k][2].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
         } else { //reddit
-          if (pic[k][3].indexOf('mic') > 0 ||
-            pic[k][3].indexOf('aic') > 0 ||
-            pic[k][3].indexOf('AIC') > 0 ||
-            pic[k][3].indexOf('MIC') > 0 ||
-            pic[k][3].indexOf('in comments') > 0 ||
-            pic[k][3].indexOf('lbum') > 0) {
-              app.mic = 'mic';
-          };
           app.created = pic[k][2] + ' in /r/' + pic[k][5];
           if (pic[k][3].indexOf('&amp;') != -1) {pic[k][3] = pic[k][3].replace(/&amp;/g, "&")};
           if (pic[k][3].indexOf('&lt;') != -1) {pic[k][3] = pic[k][3].replace(/&lt;/g, "<")};
           if (pic[k][3].indexOf('&gt;') != -1) {pic[k][3] = pic[k][3].replace(/&gt;/g, ">")};
           if (pic[k][6] > 0) {app.title = pic[k][3] + ' (' + pic[k][6] + ')'} else {app.title = pic[k][3]};
-          if (pic[k][2].indexOf('1 day') != -1) {app.bh24 = true} else {app.bh24 = false}
+          // console.log('muuuuh')
+          // console.log(pic[k][2].indexOf('day'))
+          if (pic[k][2].indexOf('day') === 2) {app.bh24 = true} else {app.bh24 = false}
         }
         //console.log(pic[k]);
         if (typeof pic[k][9] != 'undefined') {
@@ -1886,8 +2344,120 @@ var app = new Vue({
         if (imgNo != '') {app.mic = ''};
         app.loaded = k+1;
       };
+      if (app.vid) {
+        console.log('video: ' + app.vid)
+        document.documentElement.style.setProperty('--min-w', '100vw')
+        app.headBot = '';
+        app.headTop = 26;
+        // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
+      } else {
+        // console.log('zoompic[k][15]: ' + pic[k][15])
+        if (pic[k][15] === 'zoompw' || pic[k][15] === 'zoomvw') {
+          console.log('zoom w');
+          document.documentElement.style.setProperty('--min-w', '100vw')
+          document.documentElement.style.setProperty('--min-h', '0vh')
+        } else if (pic[k][15] === 'zoomph' || pic[k][15] === 'zoomvh') {
+          console.log('zoom h');
+          document.documentElement.style.setProperty('--min-w', '0vw')
+          document.documentElement.style.setProperty('--min-h', '100vh')
+        } else {
+          document.documentElement.style.setProperty('--min-w', '0vw')
+          document.documentElement.style.setProperty('--min-h', '0vh')
+        }
+      }
+      // console.log(typeof nextOne);
+      if (typeof nextOne !== 'undefined' && !app.vid && document.webkitIsFullScreen && mobile) {
+        // console.log('offsetTop: ' + nextOne.offsetTop)
+        // console.log('offsetLeft: ' + nextOne.offsetLeft)
+        document.documentElement.style.setProperty('--max-w', '100vw')
+        document.documentElement.style.setProperty('--max-h', '100vh')
+        if (nextOne.offsetTop < 30 && nextOne.offsetTop > 0) {
+          document.documentElement.style.setProperty('--max-w', '200vw')
+        } else if (nextOne.offsetLeft < 20) {
+          document.documentElement.style.setProperty('--max-h', '200vh')
+        } else {
+          document.documentElement.style.setProperty('--max-w', '100vw')
+          document.documentElement.style.setProperty('--max-h', '100vh')
+        }
+        var headpos = nextOne.offsetTop + nextOne.offsetHeight;
+        // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
+        if ((imgDiv.offsetHeight - headpos) > 78) {
+          app.headBot = headpos;
+          app.headTop = '';
+          // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
+        } else {
+          app.headBot = '';
+          app.headTop = 26;
+          // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
+        }
+      }
+      if (k === pic.length-2) {
+        app.derp = true;
+      } else {app.derp = false}
       if (k === 0) {
+        window.addEventListener("orientationchange", function() {
+          console.log('orientation change! ' + window.screen.orientation.type)
+          document.documentElement.style.setProperty('--max-w', '100vw')
+          document.documentElement.style.setProperty('--max-h', '100vh')
+          document.documentElement.style.setProperty('--min-w', '0vw')
+          document.documentElement.style.setProperty('--min-h', '0vh')
+          var afterOrientationChange = function() {
+            // if (window.screen.orientation.type === 'landscape-primary') {
+            console.log('pic[k][8]: ' + pic[k][8])
+            if (window.screen.orientation.type === 'landscape-primary') {
+              chicken3 = false;
+              app.chicken3 = false;
+            } else if (showtitle) {
+              chicken3 = true;
+              app.chicken3 = true;
+            }
+              if (pic[k][8] === 'video' || pic[k][7] === 'video') {
+                // if (video.offsetWidth < imgDiv.clientWidth && video.offsetHeight < imgDiv.clientHeight) {
+                  console.log('zoom video');
+                  // if (video.offsetWidth / imgDiv.clientWidth > video.offsetHeight / imgDiv.clientHeight) {
+                  //   console.log('zoom vw')
+                    document.documentElement.style.setProperty('--min-w', '100vw')
+                    app.headBot = '';
+                    app.headTop = 26;
+                    // document.documentElement.style.setProperty('--head-pos', (video.offsetTop + video.offsetHeight - 27) + 'px')
+                //     document.documentElement.style.setProperty('--min-h', '0vh')
+                //   } else {
+                //     console.log('zoom vh')
+                //     document.documentElement.style.setProperty('--min-w', '0vw')
+                //     document.documentElement.style.setProperty('--min-h', '100vh')
+                //   }
+                // } else {
+                //   console.log('zoom nix')
+                //   document.documentElement.style.setProperty('--min-w', '0vw')
+                //   document.documentElement.style.setProperty('--min-h', '0vh')
+                // }
+              } else {
+                if (currentOne.naturalWidth < imgDiv.clientWidth && currentOne.naturalHeight < imgDiv.clientHeight) {
+                  console.log('zoom pic');
+                  if (currentOne.naturalWidth / imgDiv.clientWidth > currentOne.naturalHeight / imgDiv.clientHeight) {
+                    document.documentElement.style.setProperty('--min-w', '100vw')
+                    document.documentElement.style.setProperty('--min-h', '0vh')
+                  } else {
+                    document.documentElement.style.setProperty('--min-w', '0vw')
+                    document.documentElement.style.setProperty('--min-h', '100vh')
+                  }
+                } else {
+                  document.documentElement.style.setProperty('--min-w', '0vw')
+                  document.documentElement.style.setProperty('--min-h', '0vh')
+                }
+                // document.documentElement.style.setProperty('--head-pos', (currentOne.offsetTop + currentOne.offsetHeight) + 'px')
+              }
+            // } else {
+            //   document.documentElement.style.setProperty('--min-w', '0vw')
+            //   document.documentElement.style.setProperty('--min-h', '0vh')
+            // }
+            window.removeEventListener('resize', afterOrientationChange);
+          };
+          window.addEventListener('resize', afterOrientationChange);
+        }, false);
         app.preload();
+      } else {
+        document.getElementById('nextOne').style.visibility='visible'
       }
       //console.log('wentback: ' + wentBack);
       if (k <= ath && wentBack) {
@@ -1900,10 +2470,28 @@ var app = new Vue({
     preload: function () {
       //console.log('waitForNext (preload): ' + waitForNext)
       if (waitForNext) {var vgvg = true}
-      if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1 && (k < 2 || pic[k+1][0].indexOf('blob') != -1)) {
+      if (!app.checked && k < pic.length-2 && (pic[k+2][0].indexOf('mp4') > 0 || pic[k+2][0].indexOf('gif') > 0 || pic[k+2][0].indexOf('gfycat') > 0)) {
+        console.log('kill video ' + pic[k+2]);
+        nextBlob = '';
+        app.hihi = 0;
+        app.err = 0;
+        app.chicken4 = false;
+        pic.splice(k+2,1);
+        app.fetched = ' / ' + pic.length;
+        app.preload();
+      }
+      //if (k < pic.length-2 && k >= ath && pic[k+2][0].indexOf('blob') === -1 && (k < 2 || pic[k+1][0].indexOf('blob') != -1)) {
+      else if (k < pic.length-2 && pic[k+2][0].indexOf('blob') === -1 && pic[k+2][0].indexOf('www.gfycat') === -1 && pic[k+2][0].indexOf('/gfycat') === -1) {
+
         //var progressBar = document.getElementById("progress");
         //app.loading = true;
-        //console.log('start ' + pic[k+2][0]);
+
+        if (pic[k+1][8] === 'video' && (pic[k+2][0].indexOf('webm') > 0 || pic[k+2][0].indexOf('mp4') > 0 || pic[k+2][0].indexOf('gif') > 0)) {
+          console.log('show video!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+          document.getElementById('nextOne').style.visibility='hidden';
+          // app.currentImg = app.currentImg + 1;
+        }
+        console.log('preloading no ' + (k+2) + ': ' + pic[k+2][0]);
         app.hihi = 100;
         app.err = 100;
         app.loadImage(pic[k+2][0], (ratio) => {
@@ -1923,8 +2511,13 @@ var app = new Vue({
           //imgContainer.src = imgSrc;
           //img.src = pic[k+1][0];
           //console.log('fertig ' + pic[k+2][0]);
+          document.getElementById('nextOne').style.visibility='visible';
           if (k === 0) {
-            var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
+            if (pic[0][8] === 'video') {
+              var eee = (window.innerWidth - document.getElementById('video').width) / 2;
+            } else {
+              var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
+            }
             // console.log(document.getElementById('currentOne').width)
             // currentOne.style.paddingLeft = eee + 'px';
             // currentOne.style.paddingRight = eee + 'px';
@@ -1946,12 +2539,16 @@ var app = new Vue({
             //console.log('nextBlob ist nicht leer, daher normal weiter');
             nextBlob = imgSrc;
             app.imageNext = imgSrc;
-            if (pic[k+2][0].indexOf('imgur.com/a/') === -1 && pic[k+2][0].indexOf('gfycat') === -1) {pic[k+2][0] = imgSrc};
+            // if (pic[k+2][0].indexOf('imgur.com/a/') === -1 && pic[k+2][0].indexOf('gfycat') === -1) {pic[k+2][0] = imgSrc};
+            if (pic[k+2][0].indexOf('imgur.com/a/') === -1) {pic[k+2][0] = imgSrc};
           } else {
             console.log('nextBlob leer, daher kein preloading');
             app.imageNext = pic[k+2][0];
           };
+          if (k > 0 || (k === 0 && pic[1][8] === 'video')) {app.next()}
+          // app.next();
         }, xhr => {
+          // console.log(xhr);
           // An error occured. We have the XHR object to see what happened.
           console.log('xhr error, killed ' + pic[k+2]);
           nextBlob = '';
@@ -1971,9 +2568,16 @@ var app = new Vue({
       // }
     },
 
+    jumpto: function (i) {
+      k = i;
+      app.currentImg = k;
+      app.preload();
+      app.next();
+    },
+
     gfycat: function () {
-      if (pic[k+2][0].indexOf('gfycat') != -1) {
-        var pieces = pic[k+2][0].split("/");
+      if (pic[k][0].indexOf('gfycat') != -1) {
+        var pieces = pic[k][0].split("/");
         var pieces2 = pieces[pieces.length-1].split("-");
         //console.log('pieces2: ' + pieces2);
         var apiURL = "https://gfycat.com/cajax/get/" + pieces2[0];
@@ -1983,8 +2587,9 @@ var app = new Vue({
         }).then(function(json) {
           console.log(json.gfyItem.webmUrl);
           //app.video=true;
-          pic[k+2][0] = json.gfyItem.webmUrl;
-          pic[k+2][8] = 'video';
+          app.vid = true;
+          pic[k][0] = app.imgList[k] = json.gfyItem.webmUrl;
+          pic[k][8] = 'video';
           //app.imageSrc = json.gfyItem.webmUrl;
         });
         //console.log("gfyurl: " + pic[k][0]);
@@ -2000,8 +2605,25 @@ var app = new Vue({
         }).then(function(json) {
           console.log(json.gfyItem.webmUrl);
           //app.video=true;
-          pic[k+1][0] = json.gfyItem.webmUrl;
+          pic[k+1][0] = app.imgList[k+1] = json.gfyItem.webmUrl;
           pic[k+1][8] = 'video';
+          //app.imageSrc = json.gfyItem.webmUrl;
+        });
+        //console.log("gfyurl: " + pic[k][0]);
+      }
+      if (pic[k+2][0].indexOf('gfycat') != -1) {
+        var pieces = pic[k+2][0].split("/");
+        var pieces2 = pieces[pieces.length-1].split("-");
+        //console.log('pieces2: ' + pieces2);
+        var apiURL = "https://gfycat.com/cajax/get/" + pieces2[0];
+        //console.log(pic[k][0] + " apiurl: " + apiURL);
+        fetch(apiURL).then(function(response) {
+          return response.json();
+        }).then(function(json) {
+          console.log(json.gfyItem.webmUrl);
+          //app.video=true;
+          pic[k+2][0] = app.imgList[k+2] = json.gfyItem.webmUrl;
+          pic[k+2][8] = 'video';
           //app.imageSrc = json.gfyItem.webmUrl;
         });
         //console.log("gfyurl: " + pic[k][0]);
@@ -2009,132 +2631,323 @@ var app = new Vue({
     },
 
     touchnextX: function (e) {
-       // console.log(lastOne);
-      if (!waitForNext && lastOne) {
-        if (e.target.id === "currentOne" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
-          app.showComms = false;
-          app.ilSrc = [];
-          app.il = false;
+      console.log(e.target.id);
+      if (app.hihi > 0) {waitForNext = true} else {waitForNext = false}
+      if (e.target.id === "nextOne") {app.last()}
+      else if (!waitForNext && !plop && e.maxPointers === 1) {
+        // || e.target.id === "commsID" || e.target.id === "example-1"
+        if (e.target.id === "currentOne" || e.target.id === "video" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
+          // app.showComms = false;
+          // app.ilSrc = [];
+          // app.il = false;
           //var nextOne = document.getElementById('nextOne')
           var percentage = 100 / 1 * e.deltaX / window.innerWidth; // NEW: our % calc
-          lastOne.style.transition = '';
-          currentOne.style.transition = '';
-          nextOne.style.transition = '';
+          // lastOne.style.transition = '';
+          imgDiv.style.transition = '';
+          // nextOne.style.transition = '';
           // var percentage2 = (percentage-200)/1.01;
           // var percentage3 = (percentage-100)*1.016;
           var percentage2 = (percentage-201.2);
           var percentage3 = (percentage-101.8);
-          lastOne.style.transform = 'translateX(' + percentage2 + '%)'; // NEW: our CSS transform
-          currentOne.style.transform = 'translateX(' + percentage + '%)'; // NEW: our CSS transform
+          // currentOne.classList.remove("t1");
+          // imgDiv.classList.remove("t1");
+          // imgDiv.classList.remove("t2");
+          // lastOne.style.transform = 'translateX(' + percentage2 + '%)';
+          // lastOne.style.transform = 'rotate3d(0, 1, 0, ' + percentage + 'deg)';
+          // currentOne.style.transform = 'translateX(' + percentage + '%)';
+          var degree = percentage*3;
+          // console.log(degree)
+          imgDiv.style.transform = 'rotateY(' + degree + 'deg)';
+          if (pic[k+1][8] === 'video') {
+            // console.log('show video!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            document.getElementById('nextOne').style.visibility='hidden';
+            // app.currentImg = app.currentImg + 1;
+          } else {
+            if (percentage < -30) {nextOne.src = app.imgList[app.currentImg+1]}
+            else if (percentage > 30) {nextOne.src = app.imgList[app.currentImg-1]}
+            else {nextOne.src = app.imgList[app.currentImg]}
+          }
           if (app.currentImg === 0) {
             var percentage4 = (percentage-1.7);
-            nextOne.style.transform = 'translateX(' + percentage4 + '%)'; // NEW: our CSS transform
+            // nextOne.style.transform = 'translateX(' + percentage4 + '%)';
+            // nextOne.style.transform = 'rotate3d(0, 1, 0, ' + percentage + 'deg)';
           } else {
-            nextOne.style.transform = 'translateX(' + percentage3 + '%)'; // NEW: our CSS transform
-            var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
-            currentOne.style.paddingLeft = eee + 'px';
-            currentOne.style.paddingRight = eee + 'px';
-            var eee2 = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-            lastOne.style.paddingLeft = eee2 + 'px';
-            lastOne.style.paddingRight = eee2 + 'px';
-            var eee3 = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-            nextOne.style.paddingLeft = eee3 + 'px';
-            nextOne.style.paddingRight = eee3 + 'px';
+            // nextOne.style.transform = 'translateX(' + percentage3 + '%)';
+            // nextOne.style.transform = 'rotate3d(0, 1, 0, ' + percentage + 'deg)';
+            // var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
+            // currentOne.style.paddingLeft = eee + 'px';
+            // currentOne.style.paddingRight = eee + 'px';
+            // var eee2 = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+            // lastOne.style.paddingLeft = eee2 + 'px';
+            // lastOne.style.paddingRight = eee2 + 'px';
+            // var eee3 = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+            // nextOne.style.paddingLeft = eee3 + 'px';
+            // nextOne.style.paddingRight = eee3 + 'px';
           }
           // console.log(percentage)
           if(e.isFinal) { // NEW: this only runs on event end
             // console.log(app.imgList[app.currentImg-1]);
-            console.log(e.velocityX)
-            if (e.velocityX < -0.5) {
-              var qqq = (percentage+100)/100 * window.innerWidth;
-              console.log('qqq: ' + qqq)
-              document.documentElement.style.setProperty('--move-out', -qqq + 'px')
-              document.documentElement.style.setProperty('--move-in', qqq + 'px')
-              var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-              document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-              document.documentElement.style.setProperty('--move-ya', '400ms')
-              app.next()
-            } else if (e.velocityX > 0.5 && k > 0) {
-              var qqq = (100-percentage)/100 * window.innerWidth;
-              console.log('qqq: ' + qqq)
-              document.documentElement.style.setProperty('--move-out', qqq + 'px')
-              document.documentElement.style.setProperty('--move-in', -qqq + 'px')
-              var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-              document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-              document.documentElement.style.setProperty('--move-ya', '400ms')
-              app.last()
+            // document.documentElement.style.setProperty('--max-w', '100vw')
+            // document.documentElement.style.setProperty('--max-h', '100vh')
+            // console.log(e.velocityX)
+            app.jump(percentage);
+            // let elementx = document.getElementById("imgDiv");
+          }
+        }
+      }
+    },
+
+    jump: function (percentage) {
+      // console.log('hehe ' + percentage);
+      // console.log(currentOne.src + ' currentOne ' + currentOne.naturalWidth)
+      // console.log(nextOne.src + ' nextOne ' + nextOne.naturalWidth)
+      plop = true;
+      imgDiv.addEventListener("transitionend", function(event) {
+        // console.log('transitionend');
+        plop = false;
+        // console.log('k: ' + k)
+        // console.log(app.title);
+        // console.log(pic[k+1][3]);
+        // app.title = pic[k+1][3];
+        if (pic[k+1][8] === 'video') {
+          console.log(nextOne.offsetHeight)
+          if (nextOne.offsetWidth < imgDiv.clientWidth && nextOne.offsetHeight < imgDiv.clientHeight) {
+            console.log('zoom video');
+            if (nextOne.offsetWidth / imgDiv.clientWidth > nextOne.offsetHeight / imgDiv.clientHeight) {
+              pic[k+1][15] = 'zoomvw';
             } else {
+              pic[k+1][15] = 'zoomvh';
+            }
+          } else {
+            pic[k+1][15] = '';
+          }
+        } else {
+          if (nextOne.naturalWidth < imgDiv.clientWidth && nextOne.naturalHeight < imgDiv.clientHeight) {
+            console.log('zoom pic');
+            if (nextOne.naturalWidth / imgDiv.clientWidth > nextOne.naturalHeight / imgDiv.clientHeight) {
+              pic[k+1][15] = 'zoompw';
+            } else {
+              pic[k+1][15] = 'zoomph';
+            }
+          } else {
+            pic[k+1][15] = '';
+          }
+        }
+        // console.log('percentage ' + percentage)
+        if(percentage <= -1) {
+          if (k < pic.length-1) {
+            if (pic[k+2][0].indexOf('blob') === -1) {
+              // console.log('preload!');
+              app.preload();
+              // app.next();
+            }
+            else {app.next()}
+          }
+          else {app.next()}
+        } else if(percentage >= 1 && k > 0) {
+          app.last();
+        }
+      }, false);
+      // if (e.velocityX < -10.5) {
+      //   var qqq = (percentage+100)/100 * window.innerWidth;
+      //   console.log('qqq: ' + qqq)
+      //   document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+      //   document.documentElement.style.setProperty('--move-in', qqq + 'px')
+      //   var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+      //   document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+      //   document.documentElement.style.setProperty('--move-ya', '400ms')
+      //   app.next()
+      // } else if (e.velocityX > 10.5 && k > 0) {
+      //   var qqq = (100-percentage)/100 * window.innerWidth;
+      //   console.log('qqq: ' + qqq)
+      //   document.documentElement.style.setProperty('--move-out', qqq + 'px')
+      //   document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+      //   var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+      //   document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+      //   document.documentElement.style.setProperty('--move-ya', '400ms')
+      //   app.last()
+      // } else {
+        if(percentage <= -1) {
+          // app.nextSwitch = true;
+          var qqq = -180;
+          // console.log('degree: ' + degree)
+          // console.log('qqq: ' + qqq)
+          nextOne.src = app.imgList[app.currentImg+1]
+          imgDiv.style.transform = '';
+          // currentOne.classList.toggle('t1');
+          imgDiv.classList.toggle('t1');
+          // if (currentOne.width < imgDiv.clientWidth) {currentOne.width = imgDiv.clientWidth; console.log('iiiiiihh ' + currentOne.width)}
+          // if (nextOne.width < imgDiv.clientWidth) {nextOne.width = imgDiv.clientWidth; console.log('iiiiiihh ' + nextOne.width)}
+          // document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+          // document.documentElement.style.setProperty('--move-in', qqq + 'deg')
+          // document.getElementById('currentOne').style.perspectiveOrigin="50% 50%"
+          // var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+          // document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+          // eee = e.velocityX + 0.8;
+          // document.documentElement.style.setProperty('--move-ya', eee + 's')
+          // currentOne.style.transform = 'translateX(' + qqq + '%)';
+          // currentOne.style.transition = 'all .5s ease';
+          // nextOne.style.transform = 'translateX(' + qqq + '%)';
+          // nextOne.style.transition = 'all .5s ease';
+          // app.next()
+        }
+        else if(percentage >= 1 && k > 0) {
+          // app.nextSwitch = false;
+          //lastOne.style.transform = 'translateX(100%)';
+          // var qqq = (100-percentage)/100 * window.innerWidth;
+          // console.log('qqq222: ' + qqq)
+          nextOne.src = app.imgList[app.currentImg-1]
+          imgDiv.style.transform = '';
+          // currentOne.classList.toggle('t1');
+          imgDiv.classList.toggle('t2');
+          // console.log('lastOne: ' + document.getElementById('lastOne').src)
+          // document.getElementById('lastOne').invisible = true;
+          // document.documentElement.style.setProperty('--move-out', qqq + 'px')
+          // document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+          // var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+          // document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+          // eee = 0.8 - e.velocityX;
+          // document.documentElement.style.setProperty('--move-ya', eee + 's')
+          // currentOne.style.transform = 'translateX(' + -qqq + '%)';
+          // currentOne.style.transition = 'all .5s ease';
+          // nextOne.style.transform = 'translateX(' + -qqq + '%)';
+          // nextOne.style.transition = 'all .5s ease';
+          // app.currentImg = app.currentImg - 1;
+          // k--;
+          // app.last()
+        }
+        else {
+          console.log('ccccccc')
+          imgDiv.style.transform = 'rotateY(0deg)';
+          imgDiv.style.transition = 'all 0.2s linear';
+          // if (app.currentImg > 0) {
+          //   lastOne.style.transform = 'translateX(-201.2%)';
+          //   nextOne.style.transform = 'translateX(-101.8%)';
+          //   currentOne.style.transform = 'translateX(0%)';
+          //   lastOne.style.transition = 'all .5s ease';
+          //   nextOne.style.transition = 'all .5s ease';
+          //   currentOne.style.transition = 'all .5s ease';
+          // } else {
+          //   currentOne.style.transform = 'translateX(0%)';
+          //   currentOne.style.transition = 'all .5s ease';
+          //   nextOne.style.transform = 'translateX(-1.7%)';
+          //   nextOne.style.transition = 'all .5s ease';
+          // }
+        }
+      // }
+    },
+
+    touchAlbum: function (e) {
+       // console.log(lastOne);
+      if (!waitForNext && lastOne && typeof pic[k][9] != 'undefined') {
+        if (e.target.id === "currentOne" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
+          app.chicken = 2;
+          app.showComms = false;
+          app.ilSrc = [];
+          app.il = false;
+          var percentage = 100 / 1 * e.deltaY / window.innerHeight; // NEW: our % calc
+          lastOneA.style.transition = '';
+          currentOne.style.transition = '';
+          nextOneA.style.transition = '';
+          var percentage2 = (percentage-201.2);
+          // var percentage3 = (percentage+101.8);
+          lastOneA.style.transform = 'translateY(' + percentage2 + '%)'; // NEW: our CSS transform
+          currentOne.style.transform = 'translateY(' + percentage + '%)'; // NEW: our CSS transform
+          nextOneA.style.transform = 'translateY(' + percentage + '%)'; // NEW: our CSS transform
+          // var eee = (window.innerWidth - document.getElementById('currentOne').width) / 2;
+          // currentOne.style.paddingLeft = eee + 'px';
+          // currentOne.style.paddingRight = eee + 'px';
+          // var eee2 = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+          // lastOne.style.paddingLeft = eee2 + 'px';
+          // lastOne.style.paddingRight = eee2 + 'px';
+          // var eee3 = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+          // nextOne.style.paddingLeft = eee3 + 'px';
+          // nextOne.style.paddingRight = eee3 + 'px';
+
+          // console.log(percentage)
+          if(e.isFinal) {
+            console.log(e.velocityX)
+          //   if (e.velocityX < -0.5) {
+          //     var qqq = (percentage+100)/100 * window.innerWidth;
+          //     console.log('qqq: ' + qqq)
+          //     document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+          //     document.documentElement.style.setProperty('--move-in', qqq + 'px')
+          //     var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+          //     document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+          //     document.documentElement.style.setProperty('--move-ya', '400ms')
+          //     app.next()
+          //   } else if (e.velocityX > 0.5 && k > 0) {
+          //     var qqq = (100-percentage)/100 * window.innerWidth;
+          //     console.log('qqq: ' + qqq)
+          //     document.documentElement.style.setProperty('--move-out', qqq + 'px')
+          //     document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+          //     var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+          //     document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+          //     document.documentElement.style.setProperty('--move-ya', '400ms')
+          //     app.last()
+          //   } else {
               if(percentage < -10) {
-                app.nextSwitch = true;
-                var qqq = (percentage+100)/100 * window.innerWidth;
-                console.log('qqq: ' + qqq)
+                var qqq = (percentage+100)/100 * window.innerHeight;
+                console.log('qqqyep: ' + qqq)
                 document.documentElement.style.setProperty('--move-out', -qqq + 'px')
                 document.documentElement.style.setProperty('--move-in', qqq + 'px')
-                var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
-                document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-                eee = e.velocityX + 0.8;
-                document.documentElement.style.setProperty('--move-ya', eee + 's')
-                // currentOne.style.transform = 'translateX(' + qqq + '%)';
-                // currentOne.style.transition = 'all .5s ease';
-                // nextOne.style.transform = 'translateX(' + qqq + '%)';
-                // nextOne.style.transition = 'all .5s ease';
-                app.next()
+                // var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+                // document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+                // eee = e.velocityX + 0.8;
+                // document.documentElement.style.setProperty('--move-ya', eee + 's')
+                // app.down()
               }
               else if(percentage > 10 && k > 0) {
-                app.nextSwitch = false;
-                //lastOne.style.transform = 'translateX(100%)';
-                var qqq = (100-percentage)/100 * window.innerWidth;
+                var qqq = (100-percentage)/100 * window.innerHeight;
                 console.log('qqq222: ' + qqq)
-                // console.log('lastOne: ' + document.getElementById('lastOne').src)
-                // document.getElementById('lastOne').invisible = true;
                 document.documentElement.style.setProperty('--move-out', qqq + 'px')
                 document.documentElement.style.setProperty('--move-in', -qqq + 'px')
-                var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
-                document.documentElement.style.setProperty('--mar-gin', eee + 'px')
-                eee = 0.8 - e.velocityX;
-                document.documentElement.style.setProperty('--move-ya', eee + 's')
-                // currentOne.style.transform = 'translateX(' + -qqq + '%)';
-                // currentOne.style.transition = 'all .5s ease';
-                // nextOne.style.transform = 'translateX(' + -qqq + '%)';
-                // nextOne.style.transition = 'all .5s ease';
-                // app.currentImg = app.currentImg - 1;
-                // k--;
-                app.last()
+                // var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+                // document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+                // eee = 0.8 - e.velocityX;
+                // document.documentElement.style.setProperty('--move-ya', eee + 's')
+                app.up()
               }
               else {
                 console.log('ccccccc')
                 if (app.currentImg > 0) {
-                  lastOne.style.transform = 'translateX(-201.2%)';
-                  nextOne.style.transform = 'translateX(-101.8%)';
-                  currentOne.style.transform = 'translateX(0%)';
+                  lastOne.style.transform = 'translateY(-101.2%)';
+                  nextOne.style.transform = 'translateY(-1.8%)';
+                  currentOne.style.transform = 'translateY(0%)';
                   lastOne.style.transition = 'all .5s ease';
                   nextOne.style.transition = 'all .5s ease';
                   currentOne.style.transition = 'all .5s ease';
                 } else {
-                  currentOne.style.transform = 'translateX(0%)';
+                  currentOne.style.transform = 'translateY(0%)';
                   currentOne.style.transition = 'all .5s ease';
-                  nextOne.style.transform = 'translateX(-1.7%)';
+                  nextOne.style.transform = 'translateY(-1.7%)';
                   nextOne.style.transition = 'all .5s ease';
                 }
               }
-            }
+          //   }
           }
         }
       }
     },
 
     next: function (event) {
-       console.log('k: ' + k)
-       console.log('app.imgList[app.currentImg+1]: ' + app.imgList[app.currentImg+1])
+       // console.log('k: ' + k)
+       // console.log(pic[k+1][0] + ' is video? ' + pic[k+1][8])
+       // if (!waitForNext && pic[k+1][8] === 'video' && pic[k+1][0].indexOf('http://gfy') === -1 && pic[k+1][0].indexOf('www.gfy') === -1) {
+       //   console.log('baaam! ' + k);
+       //   app.vid = true;
+       // }
+       // console.log('app.imgList[app.currentImg+1]: ' + app.imgList[app.currentImg+1])
        //console.log('imgList: ' + app.imgList.length)
       // if ((app.chicken4 && k != pic.length-1) || (k > 1 && pic[k+1][0].indexOf('blob') === -1)) {
       if ((app.chicken4 && k != pic.length-1) || (k > 1 && app.imgList[app.currentImg+1] === undefined)) {
         setTimeout(app.next, 400);
-        if (app.imgList[app.currentImg+1] === undefined) {app.imgList[app.currentImg+1] = pic[k+1][0]}
+        //if (app.imgList[app.currentImg+1] === undefined) {app.imgList[app.currentImg+1] = pic[k+1][0]}
         waitForNext = true;
-        // console.log(app.imgList[k+1][0])
-        console.log("wait for next pic " + (k + 2));
+        console.log('app.chicken4: ' + app.chicken4)
+        console.log("wait for next pic " + (k + 2) + ': ' + pic[k+2][0]);
       } else {
+        console.log("finished loading next pic " + (k + 2) + ': ' + pic[k+2][0]);
         if (!wentBack) {app.hihi = 100; app.err = 100};
         app.chicken = 0;
         app.show1 = !app.show1;
@@ -2215,9 +3028,22 @@ var app = new Vue({
         app.chicken = 2;
         app.show1 = !app.show1;
         if (qq > 0) {qq--} else {qq = pic[k][10]-1};
+        console.log('qq: ' + qq);
         app.imageSrc = pic[k][11][qq];
+        currentOne.src = pic[k][11][qq];
         app.aaPos = qq+1 + ' / ' + pic[k][10];
         app.currentImgA = app.currentImgA - 1;
+        var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+        // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
+        if ((imgDiv.offsetHeight - headpos) > 78) {
+          app.headBot = headpos;
+          app.headTop = '';
+          // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
+        } else {
+          app.headBot = '';
+          app.headTop = 26;
+          // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
+        }
       }
     },
 
@@ -2233,10 +3059,10 @@ var app = new Vue({
           app.commentsL = [];
           app.ilSrc = [];
           if (mobile) {
-            commsID.style.top = document.getElementById('headline').clientHeight + "px";
-            commsID.style.maxHeight = document.getElementById('entries').clientHeight - document.getElementById('headline').clientHeight + "px";
+            commsID.style.top = "27px";
+            commsID.style.maxHeight = document.getElementById('entries').clientHeight - 27 + "px";
           } else {
-            commsID.style.top = document.getElementById('container').offsetTop + "px";
+            // commsID.style.top = document.getElementById('container').offsetTop + "px";
 
           }
           app.commentsToggle()
@@ -2245,7 +3071,7 @@ var app = new Vue({
           app.ilSrc = [];
           app.il = false;
         }
-      } else {
+      } else if (imgNo != '') {
         muuh = false;
         if (app.chicken5) {
           setTimeout(app.up, 400);
@@ -2259,24 +3085,475 @@ var app = new Vue({
             qq++;
             console.log('qq: ' + qq);
             app.imageSrc = pic[k][11][qq];
-            if (qq < pic[k][10]-1) {app.chicken5 = true};
-            app.albumImageNext = pic[k][11][qq+1];
-            var imgA = new Image;
-            imgA.addEventListener('error', function () {
-              app.chicken5 = false;
-            });
-            imgA.addEventListener("load", function () {
-              app.chicken5 = false;
-            });
-            if (qq < pic[k][10]-1) {imgA.src = pic[k][11][qq+1]};
+            currentOne.src = pic[k][11][qq];
+            var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+            // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
+            if ((imgDiv.offsetHeight - headpos) > 78) {
+              app.headBot = headpos;
+              app.headTop = '';
+              // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
+            } else {
+              app.headBot = '';
+              app.headTop = 26;
+              // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
+            }
+            if (qq < pic[k][10]-1) {
+              app.chicken5 = true
+              app.albumImageNext = pic[k][11][qq+1];
+              console.log('start')
+              app.hihi = 100;
+              app.err = 100;
+              var imgA = new Image;
+              imgA.addEventListener('error', function () {
+                app.chicken5 = false;
+                app.hihi = 0;
+                app.err = 0;
+              });
+              imgA.addEventListener("load", function () {
+                app.chicken5 = false;
+                app.hihi = 0;
+                app.err = 0;
+                console.log('ende')
+                var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+                // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
+                if ((imgDiv.offsetHeight - headpos) > 78) {
+                  app.headBot = headpos;
+                  app.headTop = '';
+                  // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
+                } else {
+                  app.headBot = '';
+                  app.headTop = 26;
+                  // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
+                }
+              });
+              imgA.src = pic[k][11][qq+1]
+            }
             app.aaPos = qq+1 + ' / ' + pic[k][10];
           } else {
             app.chicken5 = false;
             qq=0;
             app.imageSrc = pic[k][11][qq];
+            currentOne.src = pic[k][11][qq];
             app.aaPos = qq+1 + ' / ' + pic[k][10];
+            var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+            // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
+            if ((imgDiv.offsetHeight - headpos) > 78) {
+              app.headBot = headpos;
+              app.headTop = '';
+              // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
+            } else {
+              app.headBot = '';
+              app.headTop = 26;
+              // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
+            }
           };
         };
+      }
+    },
+
+    hammer: function (e) {
+      // if (e.additionalEvent == 'tap') {console.log('tap'); app.tap(e)}
+      // else if (e.additionalEvent == 'tap') {console.log('tap'); app.tap(e)}
+      var element = document.getElementById('container')
+      // var element = e.target.id;
+      // console.log(element)
+      var hammertime = new Hammer(element, {});
+
+      hammertime.get('tap').set({ threshold: 5, taps: 1 });
+      hammertime.get('pinch').set({ enable: true });
+      hammertime.get('pan').set({ threshold: 6 });
+      hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+
+      var fixHammerjsDeltaIssue = undefined;
+      var pinchStart = { x: undefined, y: undefined }
+      var lastEvent = undefined;
+
+      var originalSize = {
+          width: currentOne.clientWidth,
+          height: currentOne.clientHeight
+      }
+
+      var current = {
+          x: 0,
+          y: 0,
+          z: 1,
+          zooming: false,
+          width: originalSize.width * 1,
+          height: originalSize.height * 1,
+      }
+
+      var last = {
+          x: current.x,
+          y: current.y,
+          z: current.z
+      }
+
+      function getRelativePosition(element, point, originalSize, scale) {
+          var domCoords = getCoords(element);
+
+          var elementX = point.x - domCoords.x;
+          var elementY = point.y - domCoords.y;
+
+          var relativeX = elementX / (originalSize.width * scale / 2) - 1;
+          var relativeY = elementY / (originalSize.height * scale / 2) - 1;
+          return { x: relativeX, y: relativeY }
+      }
+
+      function getCoords(elem) { // crossbrowser version
+        var box = elem.getBoundingClientRect();
+
+        var body = document.body;
+        var docEl = document.documentElement;
+
+        var scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+        var scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+
+        var clientTop = docEl.clientTop || body.clientTop || 0;
+        var clientLeft = docEl.clientLeft || body.clientLeft || 0;
+
+        var top  = box.top +  scrollTop - clientTop;
+        var left = box.left + scrollLeft - clientLeft;
+
+        return { x: Math.round(left), y: Math.round(top) };
+      }
+
+      function scaleFrom(zoomOrigin, currentScale, newScale) {
+          var currentShift = getCoordinateShiftDueToScale(originalSize, currentScale);
+          var newShift = getCoordinateShiftDueToScale(originalSize, newScale)
+
+          var zoomDistance = newScale - currentScale
+
+          var shift = {
+            x: currentShift.x - newShift.x,
+            y: currentShift.y - newShift.y,
+          }
+
+          var output = {
+              x: zoomOrigin.x * shift.x,
+              y: zoomOrigin.y * shift.y,
+              z: zoomDistance
+          }
+          return output
+      }
+
+      function getCoordinateShiftDueToScale(size, scale){
+        var newWidth = scale * size.width;
+          var newHeight = scale * size.height;
+        var dx = (newWidth - size.width) / 2
+        var dy = (newHeight - size.height) / 2
+        return {
+          x: dx,
+          y: dy
+        }
+      }
+
+      // hammertime.on('doubletap', function(e) {
+      //     var scaleFactor = 1;
+      //     if (current.zooming === false) {
+      //         current.zooming = true;
+      //     } else {
+      //         current.zooming = false;
+      //         scaleFactor = -scaleFactor;
+      //     }
+      //
+      //     element.style.transition = "0.3s";
+      //     setTimeout(function() {
+      //         element.style.transition = "none";
+      //     }, 300)
+      //
+      //     var zoomOrigin = getRelativePosition(element, { x: e.center.x, y: e.center.y }, originalSize, current.z);
+      //     var d = scaleFrom(zoomOrigin, current.z, current.z + scaleFactor)
+      //     current.x += d.x;
+      //     current.y += d.y;
+      //     current.z += d.z;
+      //
+      //     last.x = current.x;
+      //     last.y = current.y;
+      //     last.z = current.z;
+      //
+      //     update();
+      // })
+
+      hammertime.on('tap', function(e) {
+        console.log('tap');
+        // console.log(e);
+        if (current.z != 1) {
+          current.x = 0; current.y = 0; current.z = 1;
+          if (showtitle) {
+            chicken3 = true;
+            app.chicken3 = true;
+          }
+          update();
+        } else if (app.showComms && e.target.id != 'example-2') {
+          app.showComms = false;
+          app.ilSrc = [];
+          app.il = false;
+        } else {app.tap(e)}
+      })
+
+      hammertime.on('swipedown', function(e) {
+        console.log('swipe down');
+        imgDiv.style.transform = '';
+        app.down();
+      })
+
+      hammertime.on('swipeup', function(e) {
+        console.log('swipe up');
+        imgDiv.style.transform = '';
+        app.up();
+      })
+
+      hammertime.on('pan', function(e) {
+        // console.log(e);
+        console.log(e.additionalEvent);
+        if (current.z <= 1) {
+          if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
+            last, current = {
+                x: 0,
+                y: 0,
+                z: 1
+            }
+            update();
+            if (showtitle && document.webkitIsFullScreen) {
+              chicken3 = true;
+              app.chicken3 = true;
+            }
+            app.touchnextX(e);
+          }
+        } else {
+          if (lastEvent !== 'pan') {
+              fixHammerjsDeltaIssue = {
+                  x: e.deltaX,
+                  y: e.deltaY
+              }
+          }
+          // console.log(e.deltaX)
+          // console.log(fixHammerjsDeltaIssue.x)
+
+          current.x = last.x + e.deltaX - fixHammerjsDeltaIssue.x;
+          current.y = last.y + e.deltaY - fixHammerjsDeltaIssue.y;
+          lastEvent = 'pan';
+          update();
+        }
+      })
+
+      hammertime.on('pinch', function(e) {
+        // console.log('last.z ' + last.z);
+        // console.log('current.z ' + current.z);
+        if (current.z === 1) {last.z = 1}
+        var d = scaleFrom(pinchZoomOrigin, last.z, last.z * e.scale)
+        // console.log(d)
+        current.x = d.x + last.x + e.deltaX;
+        current.y = d.y + last.y + e.deltaY;
+        current.z = d.z + last.z;
+        lastEvent = 'pinch';
+        update();
+      })
+
+      var pinchZoomOrigin = undefined;
+      hammertime.on('pinchstart', function(e) {
+        if (current.z === 1) {
+          originalSize = {
+              width: currentOne.clientWidth,
+              height: currentOne.clientHeight
+          }
+          last, current = {
+              x: 0,
+              y: 0,
+              z: 1
+          }
+          chicken3 = false;
+          app.chicken3 = false;
+          update();
+        }
+        pinchStart.x = e.center.x;
+        pinchStart.y = e.center.y;
+        pinchZoomOrigin = getRelativePosition(element, { x: pinchStart.x, y: pinchStart.y }, originalSize, current.z);
+        // console.log(pinchZoomOrigin)
+        lastEvent = 'pinchstart';
+      })
+
+      hammertime.on('panend', function(e) {
+        // console.log(e.additionalEvent);
+          last.x = current.x;
+          last.y = current.y;
+          lastEvent = 'panend';
+      })
+
+      hammertime.on('pinchend', function(e) {
+        // console.log(e.additionalEvent);
+          last.x = current.x;
+          last.y = current.y;
+          last.z = current.z;
+          lastEvent = 'pinchend';
+      })
+
+      function update() {
+        // console.log('current.x ' + current.x)
+        // console.log('current.y ' + current.y)
+        // console.log('current.z ' + current.z)
+        if (typeof currentOne != 'undefined') {
+          var picelement = document.getElementById('currentOne')
+          // console.log(e)
+          // var ele = e.target;
+          current.height = originalSize.height * current.z;
+          current.width = originalSize.width * current.z;
+          picelement.style.transform = "translate3d(" + current.x + "px, " + current.y + "px, 0) scale(" + current.z + ")";
+          // picelement.style.transform = "scale(" + current.z + ")";
+        }
+      }
+    },
+
+    tap: function (e) {
+      if (app.hihi > 0) {abortnext = true}
+      else {
+        plop = false;
+        // console.log(e.center.y/imgDiv.clientHeight);
+        // console.log(e);
+        if (!document.webkitIsFullScreen && e.target.id === 'currentOne') {
+          if (mobile) {
+            // if (k === 0) {console.log('huihui'); app.pinch(e)}
+            app.toggleFS()}
+        }
+        // if (document.webkitIsFullScreen && e.target.id === "imgDiv" && app.vid) {
+        //   document.documentElement.style.setProperty('--min-w', '100vw')
+        // } else
+        if (e.target.tagName === 'A') {
+          // window.open(e.target.href, '_blank');
+        } else if (document.webkitIsFullScreen && e.target.id != "video") {
+          var meep = e.center.y/imgDiv.clientHeight;
+          if (imgNo === '' && app.picked === 'tumblr' && !app.showComms) {
+            chicken3 = !chicken3;
+            app.chicken3 = !app.chicken3;
+            showtitle = !showtitle;
+          }
+          else if (imgNo === '' && meep < 0.5 && !app.showComms) {
+            chicken3 = !chicken3;
+            app.chicken3 = !app.chicken3;
+            showtitle = !showtitle;
+          }
+          if (imgNo != '' && meep > 0.5) {console.log('upAlbum!'); app.flipAlbum()}
+          else if (meep > 0.5) {console.log('up!'); app.up()}
+          else if (imgNo != '' && meep < 0.5) {console.log('down!'); app.down()};
+        }
+      }
+    },
+
+    flipAlbum: function () {
+      // console.log(e);
+      if (!waitForNext) {
+          app.showComms = false;
+          app.ilSrc = [];
+          app.il = false;
+          var percentage = 60; // NEW: our % calc
+          imgDiv.style.transition = '';
+          var degree = percentage*3;
+          // console.log(degree)
+          // imgDiv.style.transform = 'rotateX(' + degree + 'deg)';
+          // console.log(percentage)
+            // imgDiv.addEventListener("transitionend", function(event) {
+            //   console.log('percentage ' + percentage)
+            //   if(percentage < -1) {
+            //     if (pic[k+2][0].indexOf('blob') === -1) {console.log('preload!');app.preload()}
+            //     else {app.next()}
+            //   } else if(percentage > 1 && k > 0) {
+            //     app.last();
+            //   }
+            // }, false);
+            // if (e.velocityX < -10.5) {
+            //   var qqq = (percentage+100)/100 * window.innerWidth;
+            //   console.log('qqq: ' + qqq)
+            //   document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+            //   document.documentElement.style.setProperty('--move-in', qqq + 'px')
+            //   var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+            //   document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+            //   document.documentElement.style.setProperty('--move-ya', '400ms')
+            //   app.next()
+            // } else if (e.velocityX > 10.5 && k > 0) {
+            //   var qqq = (100-percentage)/100 * window.innerWidth;
+            //   console.log('qqq: ' + qqq)
+            //   document.documentElement.style.setProperty('--move-out', qqq + 'px')
+            //   document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+            //   var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+            //   document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+            //   document.documentElement.style.setProperty('--move-ya', '400ms')
+            //   app.last()
+            // } else {
+              // if(percentage < -1) {
+                // app.nextSwitch = true;
+                var qqq = -180;
+                // console.log('degree: ' + degree)
+                // console.log('qqq: ' + qqq)
+                if (qq < pic[k][10]-1) {
+                  nextOne.src = pic[k][11][qq+1]
+                } else {
+                  nextOne.src = pic[k][11][0]
+                }
+                // imgDiv.style.transform = '';
+                // currentOne.classList.toggle('t1');
+                // if (qq%2 === 0) {
+                //   imgDiv.classList.remove('f1');
+                //   imgDiv.classList.add('f2');
+                // } else {
+                //   imgDiv.classList.remove('f2');
+                //   imgDiv.classList.add('f1');
+                // }
+                // imgDiv.classList.toggle('f1');
+                // nextOne.classList.add('album');
+                app.up();
+                // document.documentElement.style.setProperty('--move-out', -qqq + 'px')
+                // document.documentElement.style.setProperty('--move-in', qqq + 'deg')
+                // document.getElementById('currentOne').style.perspectiveOrigin="50% 50%"
+                // var eee = (window.innerWidth - document.getElementById('nextOne').width) / 2;
+                // document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+                // eee = e.velocityX + 0.8;
+                // document.documentElement.style.setProperty('--move-ya', eee + 's')
+                // currentOne.style.transform = 'translateX(' + qqq + '%)';
+                // currentOne.style.transition = 'all .5s ease';
+                // nextOne.style.transform = 'translateX(' + qqq + '%)';
+                // nextOne.style.transition = 'all .5s ease';
+                // app.next()
+              // }
+              // else if(percentage > 1 && k > 0) {
+              //   // app.nextSwitch = false;
+              //   //lastOne.style.transform = 'translateX(100%)';
+              //   // var qqq = (100-percentage)/100 * window.innerWidth;
+              //   console.log('qqq222: ' + qqq)
+              //   nextOne.src = app.imgList[app.currentImg-1]
+              //   imgDiv.style.transform = '';
+              //   // currentOne.classList.toggle('t1');
+              //   imgDiv.classList.toggle('t2');
+              //   // console.log('lastOne: ' + document.getElementById('lastOne').src)
+              //   // document.getElementById('lastOne').invisible = true;
+              //   // document.documentElement.style.setProperty('--move-out', qqq + 'px')
+              //   // document.documentElement.style.setProperty('--move-in', -qqq + 'px')
+              //   // var eee = (window.innerWidth - document.getElementById('lastOne').width) / 2;
+              //   // document.documentElement.style.setProperty('--mar-gin', eee + 'px')
+              //   // eee = 0.8 - e.velocityX;
+              //   // document.documentElement.style.setProperty('--move-ya', eee + 's')
+              //   // currentOne.style.transform = 'translateX(' + -qqq + '%)';
+              //   // currentOne.style.transition = 'all .5s ease';
+              //   // nextOne.style.transform = 'translateX(' + -qqq + '%)';
+              //   // nextOne.style.transition = 'all .5s ease';
+              //   // app.currentImg = app.currentImg - 1;
+              //   // k--;
+              //   // app.last()
+              // }
+              // else {
+                // console.log('ccccccc')
+                // if (app.currentImg > 0) {
+                //   lastOne.style.transform = 'translateX(-201.2%)';
+                //   nextOne.style.transform = 'translateX(-101.8%)';
+                //   currentOne.style.transform = 'translateX(0%)';
+                //   lastOne.style.transition = 'all .5s ease';
+                //   nextOne.style.transition = 'all .5s ease';
+                //   currentOne.style.transition = 'all .5s ease';
+                // } else {
+                //   currentOne.style.transform = 'translateX(0%)';
+                //   currentOne.style.transition = 'all .5s ease';
+                //   nextOne.style.transform = 'translateX(-1.7%)';
+                //   nextOne.style.transition = 'all .5s ease';
+                // }
       }
     },
 
