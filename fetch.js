@@ -56,7 +56,7 @@ var app = new Vue({
 
   data: function (){
     return {
-      headTop: 26,
+      headTop: '',
       headBot: '',
       loadski: true,
       message: 'Click for slide',
@@ -2348,7 +2348,7 @@ var app = new Vue({
         console.log('video: ' + app.vid)
         document.documentElement.style.setProperty('--min-w', '100vw')
         app.headBot = '';
-        app.headTop = 26;
+        app.headTop = '';
         // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
       } else {
         // console.log('zoompic[k][15]: ' + pic[k][15])
@@ -2379,7 +2379,7 @@ var app = new Vue({
           document.documentElement.style.setProperty('--max-w', '100vw')
           document.documentElement.style.setProperty('--max-h', '100vh')
         }
-        var headpos = nextOne.offsetTop + nextOne.offsetHeight;
+        var headpos = nextOne.offsetTop + nextOne.offsetHeight + 1;
         // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
         if ((imgDiv.offsetHeight - headpos) > 78) {
           app.headBot = headpos;
@@ -2387,7 +2387,7 @@ var app = new Vue({
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
         } else {
           app.headBot = '';
-          app.headTop = 26;
+          app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
@@ -2418,7 +2418,7 @@ var app = new Vue({
                   //   console.log('zoom vw')
                     document.documentElement.style.setProperty('--min-w', '100vw')
                     app.headBot = '';
-                    app.headTop = 26;
+                    app.headTop = '';
                     // document.documentElement.style.setProperty('--head-pos', (video.offsetTop + video.offsetHeight - 27) + 'px')
                 //     document.documentElement.style.setProperty('--min-h', '0vh')
                 //   } else {
@@ -3033,7 +3033,7 @@ var app = new Vue({
         currentOne.src = pic[k][11][qq];
         app.aaPos = qq+1 + ' / ' + pic[k][10];
         app.currentImgA = app.currentImgA - 1;
-        var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+        var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
         // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
         if ((imgDiv.offsetHeight - headpos) > 78) {
           app.headBot = headpos;
@@ -3041,7 +3041,7 @@ var app = new Vue({
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
         } else {
           app.headBot = '';
-          app.headTop = 26;
+          app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
@@ -3058,13 +3058,12 @@ var app = new Vue({
           app.comments = [];
           app.commentsL = [];
           app.ilSrc = [];
-          if (mobile) {
-            commsID.style.top = "27px";
-            commsID.style.maxHeight = document.getElementById('entries').clientHeight - 27 + "px";
-          } else {
+          // if (mobile) {
+          //   commsID.style.top = "27px";
+          //   commsID.style.maxHeight = document.getElementById('entries').clientHeight - 27 + "px";
+          // } else {
             // commsID.style.top = document.getElementById('container').offsetTop + "px";
-
-          }
+          // }
           app.commentsToggle()
         } else if (commsID.scrollHeight === commsID.clientHeight) {
           app.showComms = false;
@@ -3086,7 +3085,7 @@ var app = new Vue({
             console.log('qq: ' + qq);
             app.imageSrc = pic[k][11][qq];
             currentOne.src = pic[k][11][qq];
-            var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+            var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
             // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
             if ((imgDiv.offsetHeight - headpos) > 78) {
               app.headBot = headpos;
@@ -3094,7 +3093,7 @@ var app = new Vue({
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
             } else {
               app.headBot = '';
-              app.headTop = 26;
+              app.headTop = '';
               // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
             }
             if (qq < pic[k][10]-1) {
@@ -3114,7 +3113,7 @@ var app = new Vue({
                 app.hihi = 0;
                 app.err = 0;
                 console.log('ende')
-                var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+                var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
                 // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
                 if ((imgDiv.offsetHeight - headpos) > 78) {
                   app.headBot = headpos;
@@ -3122,7 +3121,7 @@ var app = new Vue({
                   // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
                 } else {
                   app.headBot = '';
-                  app.headTop = 26;
+                  app.headTop = '';
                   // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
                 }
               });
@@ -3135,7 +3134,7 @@ var app = new Vue({
             app.imageSrc = pic[k][11][qq];
             currentOne.src = pic[k][11][qq];
             app.aaPos = qq+1 + ' / ' + pic[k][10];
-            var headpos = currentOne.offsetTop + currentOne.offsetHeight;
+            var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
             // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
             if ((imgDiv.offsetHeight - headpos) > 78) {
               app.headBot = headpos;
@@ -3143,7 +3142,7 @@ var app = new Vue({
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
             } else {
               app.headBot = '';
-              app.headTop = 26;
+              app.headTop = '';
               // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
             }
           };
