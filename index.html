@@ -115,7 +115,7 @@
       .origSize { max-height: 100%; max-width: 100%}
       #box {
         /* margin-top: env(safe-area-inset-top); */
-        margin-left: env(safe-area-inset-left);
+        /* margin-left: env(safe-area-inset-left); */
         margin-bottom: env(safe-area-inset-bottom);
         margin-right: env(safe-area-inset-right);
       }
@@ -357,7 +357,7 @@
       <div id="lel"><a :href="hoho" target="_blank">{{hoho}}</a></div>
       <!-- <v-touch v-on:tap.passive="tap" v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:panleft.passive="touchnextX" v-on:panright.passive="touchnextX" v-bind:pan-options="{ direction: 'horizontal', threshold: 0, pointers: 0 }"> -->
       <div class="parent" align="center" id="entries">
-        <div v-if="showconf" id="settings" style="margin-top: env(safe-area-inset-top)">
+        <div v-if="showconf" id="settings" style="margin-top: 27px">
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="zero" value="redditSFW" v-model="picked" v-on:click="options = optionsRS; selected = 'All'">
           <label style="padding-top: 10px;padding-right: 10px;" for="zero">Reddit SFW</label></span>
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="one" value="reddit" v-model="picked" v-on:click="options = optionsR; selected = 'All'">
