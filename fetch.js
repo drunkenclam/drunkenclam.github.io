@@ -2580,7 +2580,7 @@ var app = new Vue({
         var pieces = pic[k][0].split("/");
         var pieces2 = pieces[pieces.length-1].split("-");
         //console.log('pieces2: ' + pieces2);
-        var apiURL = "https://gfycat.com/cajax/get/" + pieces2[0];
+        var apiURL = "https://api.gfycat.com/v1/gfycats/" + pieces2[0];
         //console.log(pic[k][0] + " apiurl: " + apiURL);
         fetch(apiURL).then(function(response) {
           return response.json();
@@ -2598,7 +2598,7 @@ var app = new Vue({
         var pieces = pic[k+1][0].split("/");
         var pieces2 = pieces[pieces.length-1].split("-");
         //console.log('pieces2: ' + pieces2);
-        var apiURL = "https://gfycat.com/cajax/get/" + pieces2[0];
+        var apiURL = "https://api.gfycat.com/v1/gfycats/" + pieces2[0];
         //console.log(pic[k][0] + " apiurl: " + apiURL);
         fetch(apiURL).then(function(response) {
           return response.json();
@@ -2615,7 +2615,7 @@ var app = new Vue({
         var pieces = pic[k+2][0].split("/");
         var pieces2 = pieces[pieces.length-1].split("-");
         //console.log('pieces2: ' + pieces2);
-        var apiURL = "https://gfycat.com/cajax/get/" + pieces2[0];
+        var apiURL = "https://api.gfycat.com/v1/gfycats/" + pieces2[0];
         //console.log(pic[k][0] + " apiurl: " + apiURL);
         fetch(apiURL).then(function(response) {
           return response.json();
