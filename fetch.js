@@ -124,7 +124,7 @@ var app = new Vue({
         picked: 'reddit',
         checked: false,
         checkedP: true,
-        selected: 'All',
+        selected: 'BestOf',
         optionsRS: [ 'All',
         'itookapicture',
         'urbanexploration',
@@ -2690,7 +2690,14 @@ var app = new Vue({
             // document.documentElement.style.setProperty('--max-w', '100vw')
             // document.documentElement.style.setProperty('--max-h', '100vh')
             // console.log(e.velocityX)
-            app.jump(percentage);
+            console.log('AAAAAAHHH ' + e.additionalEvent)
+            if (e.additionalEvent === 'panright' && percentage < 0) {
+              console.log('snap back')
+              imgDiv.style.transform = 'rotateY(0deg)';
+              imgDiv.style.transition = 'all 0.2s linear';
+            } else {
+              app.jump(percentage);
+            }
             // let elementx = document.getElementById("imgDiv");
           }
         }
@@ -2698,7 +2705,7 @@ var app = new Vue({
     },
 
     jump: function (percentage) {
-      // console.log('hehe ' + percentage);
+      console.log('hehe ' + percentage);
       // console.log(currentOne.src + ' currentOne ' + currentOne.naturalWidth)
       // console.log(nextOne.src + ' nextOne ' + nextOne.naturalWidth)
       plop = true;

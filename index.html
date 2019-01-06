@@ -90,7 +90,7 @@
         } */
       }
       @media all and (orientation: portrait) {
-        #progresslabel { position: fixed; top:-2px; font-weight: bold; left: 25px; font-size: x-small; color:white; z-index: 18;}
+        #progresslabel { position: fixed; top:-3px; font-weight: bold; left: 25px; font-size: x-small; color:white; z-index: 18;}
         #progress { position: fixed; top:0px; left: 0px; height: 9px; width: 100%; z-index: 13;}
         #radios { margin-top: 10px}
         a { color: white; }
@@ -385,7 +385,7 @@
         <label style="padding-left: 20px;" v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.52</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.53</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
