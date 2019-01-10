@@ -957,14 +957,13 @@ var app = new Vue({
               //pic.splice(k+1,1);
               //app.fetched = ' / ' + pic.length;
               nextBlob = '';
-            } else {
+            } else if (!app.checked) {
               if ((app.picked === 'reddit' || app.picked === 'redditSFW') && (app.selected === 'All' || app.selected === 'BestOf') && pic[k+2][0].indexOf('com/a/') === -1) {
                 var ppp = dd.findIndex(function (obj) { return obj === blob.size; });
                 if (ppp != -1) {
                   console.log(pic[k+2][1] + ' doppelt: https://www.reddit.com/user/' + pic[k+2][7] + ' bei Index ' + ppp + ' in Subreddit ' + pic[k+2][5]);
-                  //pic.splice(k+1,1);
                   app.fetched = ' / ' + pic.length;
-                  // nextBlob = '';
+                  nextBlob = '';
                 };
                 if (dd.length > 49) {dd.pop()};
                 dd.unshift(blob.size);
