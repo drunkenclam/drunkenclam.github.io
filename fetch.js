@@ -222,6 +222,7 @@ var app = new Vue({
         'theratio',
         'ass',
         'Celebswithbigtits',
+        'FitNakedGirls',
         'helgalovekaty',
         'RachelCook',
         'breedingmaterial',
@@ -406,6 +407,7 @@ var app = new Vue({
       'Goddesses',
       '2busty2hide',
       'Celebswithbigtits',
+      'FitNakedGirls',
       'polinasitnova',
       'RachelCook',
       'AnnaTsaralunga',
@@ -962,7 +964,7 @@ var app = new Vue({
                   console.log(pic[k+2][1] + ' doppelt: https://www.reddit.com/user/' + pic[k+2][7] + ' bei Index ' + ppp + ' in Subreddit ' + pic[k+2][5]);
                   //pic.splice(k+1,1);
                   app.fetched = ' / ' + pic.length;
-                  nextBlob = '';
+                  // nextBlob = '';
                 };
                 if (dd.length > 49) {dd.pop()};
                 dd.unshift(blob.size);
