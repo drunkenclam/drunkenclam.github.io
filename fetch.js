@@ -950,14 +950,15 @@ var app = new Vue({
             } else {
               var blobsize = Math.round(blob.size/1024/1024*10)/10 + ' MB';
             }
-            //console.log('blob.size: ' + blobsize);
+            // console.log('blob.size: ' + blobsize);
             // console.log(m[1]);
+            // console.log(pic[k+2][1]);
             if ((m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') && blob.size < 20000) {
               console.log('Pic < 20kB raus ');
               //pic.splice(k+1,1);
               //app.fetched = ' / ' + pic.length;
               nextBlob = '';
-            } else if (!app.checked) {
+            } else if (m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') {
               if ((app.picked === 'reddit' || app.picked === 'redditSFW') && (app.selected === 'All' || app.selected === 'BestOf') && pic[k+2][0].indexOf('com/a/') === -1) {
                 var ppp = dd.findIndex(function (obj) { return obj === blob.size; });
                 if (ppp != -1) {
@@ -2632,7 +2633,7 @@ var app = new Vue({
     },
 
     touchnextX: function (e) {
-      console.log(e.target.id);
+      // console.log(e.target.id);
       if (app.hihi > 0) {waitForNext = true} else {waitForNext = false}
       if (e.target.id === "nextOne") {app.last()}
       else if (!waitForNext && !plop && e.maxPointers === 1) {
@@ -3312,7 +3313,7 @@ var app = new Vue({
 
       hammertime.on('pan', function(e) {
         // console.log(e);
-        console.log(e.additionalEvent);
+        // console.log(e.additionalEvent);
         if (current.z <= 1) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
