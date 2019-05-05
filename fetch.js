@@ -220,6 +220,7 @@ var app = new Vue({
         'LegalTeens',
         'fortyfivefiftyfive',
         'theratio',
+        'SourcedNSFW',
         'ass',
         'Celebswithbigtits',
         'FitNakedGirls',
@@ -329,7 +330,7 @@ var app = new Vue({
         'AnalGW',
         'ChangingRooms',
         'FacialFun',
-        'thinspo',
+        // 'thinspo',
         'GroupOfNudeGirls',
         'FlashingGirls',
         'Sexy',
@@ -409,6 +410,7 @@ var app = new Vue({
       '2busty2hide',
       'Celebswithbigtits',
       'FitNakedGirls',
+      'SourcedNSFW',
       'polinasitnova',
       'RachelCook',
       'AnnaTsaralunga',
@@ -1033,14 +1035,28 @@ var app = new Vue({
       var linkify = '';
 
       arr.forEach(function(item) {
+        // console.log(item.data);
         if (typeof item.data.body !== 'undefined') {
           //var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
           text += item.data.body + '\n\n';
-          linkify = item.data.body;
+          if (item.data.is_submitter) {
+            linkify = '[OP]: ' + item.data.body;
+          } else {
+            linkify = item.data.body;
+          }
+          var prelinki = '';
+          for (var comdepth=0; comdepth < item.data.depth; comdepth++) {
+            prelinki = '> ' + prelinki;
+          }
+          // console.log(prelinki)
+          linkify = prelinki + linkify;
           // console.log(linkify);
           if (linkify.indexOf('#**') === -1 && linkify.indexOf('phonebatterylevelbot') === -1 &&
               linkify.indexOf('a bot for linking direct images') === -1 && linkify.indexOf('**Remember OP is a real person') === -1 &&
               linkify.indexOf('AlphaBetaGammaTheta') === -1 && linkify.indexOf('compose/?to') === -1 && linkify.indexOf('#Repost') === -1) {
+            if (linkify.indexOf('&amp;') != -1) {linkify = linkify.replace(/&amp;/g, "&")}
+            else if (linkify.indexOf('&lt;') != -1) {linkify = linkify.replace(/&lt;/g, "<")}
+            else if (linkify.indexOf('&gt;') != -1) {linkify = linkify.replace(/&gt;/g, ">")}
             var peep = linkify.match(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
             // console.log(peep);
             // if (peep === null && (linkify.indexOf('r/') === 0 || linkify.indexOf('r/') === 1)) {var peep = []; peep.push(linkify)};
@@ -2127,7 +2143,7 @@ var app = new Vue({
               //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
               //   };
               // }
-              var shit = json.data.children[i].data.created;
+              var shit = json.data.children[i].data.created-8*60*60;
               var ts = Math.round((new Date()).getTime() / 1000);
               var minutes = Math.round((ts-shit)/60);
               var date = Math.round(minutes/60);
