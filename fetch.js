@@ -391,6 +391,7 @@ var app = new Vue({
         'MouthWideOpen',
         'SpreadEm',
         'Goddesses',
+        'CelebrityPussy',
         '2busty2hide'
       ],
       optionsRbo: [ 'All',
@@ -411,6 +412,7 @@ var app = new Vue({
       'polinasitnova',
       'RachelCook',
       'AnnaTsaralunga',
+      'CelebrityPussy',
       // 'NSFW_GIF',
       // 'nsfw_gifs',
       // 'Amateur',
@@ -950,9 +952,9 @@ var app = new Vue({
             } else {
               var blobsize = Math.round(blob.size/1024/1024*10)/10 + ' MB';
             }
-            // console.log('blob.size: ' + blobsize);
-            // console.log(m[1]);
-            // console.log(pic[k+2][1]);
+            console.log('blob.size: ' + blobsize);
+            console.log(m[1]);
+            console.log(pic[k+2][1]);
             if ((m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') && blob.size < 20000) {
               console.log('Pic < 20kB raus ');
               //pic.splice(k+1,1);
@@ -961,6 +963,7 @@ var app = new Vue({
             } else if (m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') {
               if ((app.picked === 'reddit' || app.picked === 'redditSFW') && (app.selected === 'All' || app.selected === 'BestOf') && pic[k+2][0].indexOf('com/a/') === -1) {
                 var ppp = dd.findIndex(function (obj) { return obj === blob.size; });
+                console.log('ppp: ' + ppp);
                 if (ppp != -1) {
                   console.log(pic[k+2][1] + ' doppelt: https://www.reddit.com/user/' + pic[k+2][7] + ' bei Index ' + ppp + ' in Subreddit ' + pic[k+2][5]);
                   app.fetched = ' / ' + pic.length;
@@ -2124,13 +2127,13 @@ var app = new Vue({
               //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
               //   };
               // }
-              var shit = json.data.children[i].data.created-8*60*60;
+              var shit = json.data.children[i].data.created;
               var ts = Math.round((new Date()).getTime() / 1000);
               var minutes = Math.round((ts-shit)/60);
               var date = Math.round(minutes/60);
               var days = Math.round(date/24);
               var formattedTime = "";
-              //console.log((ts-shit)/60 + ": " + desc + " " + url);
+              // console.log((ts-shit)/60 + ": " + desc + " " + json.data.children[i].data.url);
               if (date >= 36) {formattedTime = days + ' days ago';}
               if (date < 36) {formattedTime = days + ' day ago';}
               if (date < 24) {formattedTime = date + ' hours ago';}
