@@ -115,6 +115,7 @@ var app = new Vue({
         imgCache: false,
         showComms: false,
         showCommsL: false,
+        opcom: 'white',
         truesize: false,
         nextSwitch: true,
         transmode: '',
@@ -222,6 +223,10 @@ var app = new Vue({
         'theratio',
         'SourcedNSFW',
         'ass',
+        'hardbodies',
+        'FitnessGirls',
+        'SkinnyWithAbs',
+        'Deathbysnusnu',
         'Celebswithbigtits',
         'FitNakedGirls',
         'helgalovekaty',
@@ -410,6 +415,10 @@ var app = new Vue({
       '2busty2hide',
       'Celebswithbigtits',
       'FitNakedGirls',
+      'hardbodies',
+      'FitnessGirls',
+      'SkinnyWithAbs',
+      'Deathbysnusnu',
       'SourcedNSFW',
       'polinasitnova',
       'RachelCook',
@@ -517,7 +526,6 @@ var app = new Vue({
       // 'AnalGW',
       // 'ChangingRooms',
       // 'FacialFun',
-      'thinspo',
       'GroupOfNudeGirls',
       // 'FlashingGirls',
       // 'Sexy',
@@ -535,7 +543,7 @@ var app = new Vue({
       'cleavage',
       // 'GirlsinSchoolUniforms',
       // 'deepthroat',
-      // 'AthleticGirls',
+      'AthleticGirls',
       // 'xsmallgirls',
       // 'Nipples',
       // 'tight_shorts',
@@ -920,6 +928,7 @@ var app = new Vue({
         xhr.responseType = 'arraybuffer';
 
         xhr.onprogress = function(ev) {
+          console.log(xhr.getAllResponseHeaders().content-length)
           if (abortnext) {console.log('abortnext'); abortnext = false; xhr.abort()}
           if (ev.lengthComputable) {
             onprogress(parseInt((ev.loaded / ev.total) * 100));
@@ -1041,8 +1050,12 @@ var app = new Vue({
           text += item.data.body + '\n\n';
           if (item.data.is_submitter) {
             linkify = '[OP]: ' + item.data.body;
+            app.opcom = 'yellow';
+            // console.log('opcom yellow')
           } else {
             linkify = item.data.body;
+            app.opcom = 'white';
+            // console.log('opcom white')
           }
           var prelinki = '';
           for (var comdepth=0; comdepth < item.data.depth; comdepth++) {
@@ -1139,6 +1152,9 @@ var app = new Vue({
         // if (!mobile) {app.$nextTick(() => app.$refs.commsRef.focus())}
         document.getElementById('commsID').scrollTop = 0;
       }
+      // for (var i = 0; i < document.getElementById('commsID').children.length; i++) {
+      //   console.log(i + document.getElementById('commsID').children[i].innerText)
+      // }
       return text;
     },
 
@@ -1148,7 +1164,7 @@ var app = new Vue({
       //console.log(commentsTree);
       axios.get(commentsTree)
         .then(function (response) {
-          //console.log(response);
+          // console.log(response);
           plep = response.data[1].data.children;
           var text = app.getCommentsFromArray(plep);
           // console.log(app.commentsL);
@@ -2046,6 +2062,8 @@ var app = new Vue({
           return response.json();
         }).then(function(json) {
           for (i = 0; i < json.data.children.length; i++) {
+            // console.log(json.data.children[i].data.url)
+            // console.log(json.data.children[i].data)
             if ((json.data.children[i].data.url.indexOf('imgur') > 0 ||
               json.data.children[i].data.url.indexOf('gfycat') > 0 ||
               json.data.children[i].data.url.indexOf('tumblr') > 0 ||
@@ -2513,6 +2531,8 @@ var app = new Vue({
           // app.currentImg = app.currentImg + 1;
         }
         console.log('preloading no ' + (k+2) + ': ' + pic[k+2][0]);
+        console.log(document.getElementById('nextOne'))
+        console.log(Math.round((document.getElementById('nextOne').naturalWidth*document.getElementById('nextOne').naturalHeight)/1024/1024));
         app.hihi = 100;
         app.err = 100;
         app.loadImage(pic[k+2][0], (ratio) => {
