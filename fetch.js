@@ -212,6 +212,7 @@ var app = new Vue({
         ],
         optionsR: [ 'All',
         'BestOf',
+        'Fitness',
         'gonewild',
         'nsfw',
         'gentlemanboners',
@@ -227,8 +228,12 @@ var app = new Vue({
         'FitnessGirls',
         'SkinnyWithAbs',
         'Deathbysnusnu',
-        'Celebswithbigtits',
         'FitNakedGirls',
+        'fitgirls',
+        'YogaPants',
+        'AthleticGirls',
+        'girlsinyogapants',
+        'Celebswithbigtits',
         'helgalovekaty',
         'RachelCook',
         'breedingmaterial',
@@ -238,7 +243,6 @@ var app = new Vue({
         'cumsluts',
         'OnOff',
         'milf',
-        'girlsinyogapants',
         'polinasitnova',
         'nsfwhardcore',
         'GirlsFinishingTheJob',
@@ -316,8 +320,6 @@ var app = new Vue({
         'gonewildcolor',
         'SexyButNotPorn',
         'ChristianGirls',
-        'fitgirls',
-        'YogaPants',
         'GirlswithNeonHair',
         'BeautifulTitsAndAss',
         'gwcumsluts',
@@ -353,7 +355,6 @@ var app = new Vue({
         'cleavage',
         'GirlsinSchoolUniforms',
         'deepthroat',
-        'AthleticGirls',
         'xsmallgirls',
         'Nipples',
         'tight_shorts',
@@ -400,6 +401,17 @@ var app = new Vue({
         'CelebrityPussy',
         '2busty2hide'
       ],
+      optionsRfit: [ 'All',
+      'hardbodies',
+      'FitnessGirls',
+      'SkinnyWithAbs',
+      'Deathbysnusnu',
+      'FitNakedGirls',
+      'fitgirls',
+      'YogaPants',
+      'AthleticGirls',
+      'girlsinyogapants',
+    ],
       optionsRbo: [ 'All',
       'nsfw',
       // 'gentlemanboners',
@@ -972,7 +984,7 @@ var app = new Vue({
               //app.fetched = ' / ' + pic.length;
               nextBlob = '';
             } else if (m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') {
-              if ((app.picked === 'reddit' || app.picked === 'redditSFW') && (app.selected === 'All' || app.selected === 'BestOf') && pic[k+2][0].indexOf('com/a/') === -1) {
+              if ((app.picked === 'reddit' || app.picked === 'redditSFW') && (app.selected === 'All' || app.selected === 'BestOf' || app.selected === 'Fitness') && pic[k+2][0].indexOf('com/a/') === -1) {
                 var ppp = dd.findIndex(function (obj) { return obj === blob.size; });
                 console.log('ppp: ' + ppp);
                 if (ppp != -1) {
@@ -2038,6 +2050,9 @@ var app = new Vue({
       var limit = 25;
       if (app.selected === 'BestOf') {
         sr = this.optionsRbo;
+        limit = 100;
+      } else if (app.selected === 'Fitness') {
+        sr = this.optionsRfit;
         limit = 100;
       } else if (app.selected != 'All') {
         sr.push('bla', app.selected);
