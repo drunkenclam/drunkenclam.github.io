@@ -75,6 +75,7 @@ var app = new Vue({
         entries : links,
         imageSrc: '',
         imageSrcA: '',
+        iglink: '',
         instaurl: '',
         imageNext: '',
         albumImageNext: '',
@@ -224,6 +225,7 @@ var app = new Vue({
         'theratio',
         'SourcedNSFW',
         'ass',
+        'GirlsThatCantDrink',
         'hardbodies',
         'FitnessGirls',
         'SkinnyWithAbs',
@@ -434,6 +436,7 @@ var app = new Vue({
       'fortyfivefiftyfive',
       'theratio',
       'ass',
+      'GirlsThatCantDrink',
       'helgalovekaty',
       'Goddesses',
       '2busty2hide',
@@ -1159,13 +1162,13 @@ var app = new Vue({
           }
         }
       });
-      if (app.comments.length === 0) {
+      if (app.comments.length === 100) {
         app.showComms = false;
         app.showCommsL = false;
       } else {
         app.showComms = true;
         commsID.childNodes[0].data = '';
-        if (app.commentsL.length === 0) {
+        if (app.commentsL.length === 1000) {
           app.showCommsL = false
         } else {
           //console.log('qqqqqq');
@@ -1197,7 +1200,7 @@ var app = new Vue({
     commentsToggle: function () {
       var pieces = pic[k][1].split("/");
       var commentsTree = 'https://www.reddit.com/r/' + pieces[4] + '/comments/' + pieces[6] + '.json';
-      //console.log(commentsTree);
+      // console.log(commentsTree);
       axios.get(commentsTree)
         .then(function (response) {
           // console.log(response);
@@ -1480,7 +1483,7 @@ var app = new Vue({
     },
 
     searchTab: function () {
-      window.open('https://www.qwant.com/?q=' + pic[k][titleLink], '_blank');
+      window.open('https://duckduckgo.com/?q=' + pic[k][titleLink], '_blank');
     },
 
     beforeLeave: function (el) {
@@ -2394,6 +2397,9 @@ var app = new Vue({
         // };
 
         app.postlink = pic[k][1];
+        var susu = pic[k][3].replace(/ /g, '');
+        app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
+        console.log(app.iglink);
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
           if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][3]};
@@ -3137,10 +3143,11 @@ var app = new Vue({
     up: function () {
       if (mobile && !document.webkitIsFullScreen) {
         //app.toggleFS();
-      } else if (imgNo === '' && pic[k][6] < 1 || (!document.webkitIsFullScreen && !muuh)) {
+      // } else if (imgNo === '' && pic[k][6] < 1 || (!document.webkitIsFullScreen && !muuh)) {
         //app.toggleFS();
       } else
-      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
+      // if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
+      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
         if (!app.showComms) {
           app.comments = [];
           app.commentsL = [];
