@@ -334,6 +334,9 @@
         transition: all .5s ease;
         opacity: 0;
       }
+      #igbtn { position: absolute; background-color: blue; color: white; border-radius: 10px; text-align: center; z-index: 51;
+             height: 50px; width: 50px; vertical-align: middle; line-height: 50px;
+             left: 50px; bottom: 200px; }
     </style>
   </head>
   <script src="hnl.mobileConsole.js"></script>
@@ -385,7 +388,7 @@
         <label style="padding-left: 20px;" v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.61</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.62</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
@@ -401,7 +404,7 @@
                     {{t}}
                   </ul>
                   <ul v-show="showCommsL">
-                    <a :href="iglink" target="_blank">------------------------ try IG ----------------------------</a>
+                    ------------------------------------------------------------
                   </ul>
                   <ul id="example-1" v-for="t in comments">
                     {{ t }}
@@ -414,6 +417,11 @@
               <img id="currentOne" class="poop" v-if="!vid" :src="imgList[currentImg]"/>
               <img id="nextOne" class="poop" :src="imgList[currentImg+1]"/>
             </div>
+            <a :href="iglink" target="_blank">
+              <transition name="slike-fadedown" mode="out-in">
+                <div id="igbtn" v-if="showComms">IG</div>
+              </transition>
+            </a>
             <!-- </transition-group> -->
           <!-- </span> -->
             <!-- <transition-group v-if="chicken === 1" tag="div" name="slide-fake">
