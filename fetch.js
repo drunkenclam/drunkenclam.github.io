@@ -443,21 +443,6 @@ var app = new Vue({
       'Goddesses',
       '2busty2hide',
       'Celebswithbigtits',
-      'FitNakedGirls',
-      'hardbodies',
-      'FitnessGirls',
-      'SkinnyWithAbs',
-      'Deathbysnusnu',
-      'FitNakedGirls',
-      'fitgirls',
-      'YogaPants',
-      'AthleticGirls',
-      'girlsinyogapants',
-      'bodyperfection',
-      'SexyTummies',
-      'Workoutgonewild',
-      'Bustyfit',
-      'CuteLittleButts',
       'adorableporn',
       'JizzedToThis',
       'SourcedNSFW',
@@ -1138,7 +1123,7 @@ var app = new Vue({
                   var uha = poop.indexOf('http');
                   poop = poop.substring(uha);
                 }
-                console.log(poop);
+                // console.log(poop);
                 // if (poop.indexOf(' ') > -1 || poop.indexOf('\n') > -1) {
                 if (poop.indexOf(' ') > -1 || poop.indexOf('\n') > -1) {
                   var urla1 = poop.replace('\n',' ').split(' ');
@@ -1177,6 +1162,12 @@ var app = new Vue({
           app.showCommsL = true;
           for (var jj = 0; jj < app.commentsL.length; jj++) {
             var miclink = app.commentsL[jj];
+            if (miclink.indexOf('instagram') != -1 && miclink.indexOf('?') > 0)
+            {
+              var jupp = miclink.split("?");
+              miclink = jupp[0];
+              app.commentsL[jj] = miclink;
+            };
             if (miclink.indexOf('imgur') != -1 && miclink.indexOf('imgur.com/a/') === -1 && miclink.indexOf('.', 22) < 0)
             {
               miclink += '.jpg';
@@ -2121,6 +2112,7 @@ var app = new Vue({
               json.data.children[i].data.url.indexOf('flic.kr') > 0 ||
               json.data.children[i].data.url.indexOf('.', json.data.children[i].data.url.length-7) > 0) &&
               (
+              json.data.children[i].data.author.indexOf('Chrisr25') < 0 &&
               json.data.children[i].data.title.indexOf(' m ') < 0 &&
               json.data.children[i].data.title.indexOf(' M ') < 0 &&
               json.data.children[i].data.title.indexOf('(m)') < 0 &&
@@ -2402,7 +2394,7 @@ var app = new Vue({
         app.postlink = pic[k][1];
         var susu = pic[k][3].replace(/ /g, '');
         app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
-        console.log(app.iglink);
+        // console.log(app.iglink);
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
           if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][3]};
