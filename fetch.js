@@ -1459,6 +1459,7 @@ var app = new Vue({
       // console.log(t)
       if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
         igbtn.hidden = true;
+        ybtn.hidden = true;
         for (var z = 0; z < aicA.length; z++) {
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
           if (t.indexOf(aicA[z][0]) !== -1) {
@@ -2719,7 +2720,7 @@ var app = new Vue({
 
     touchnextX: function (e) {
       // console.log(e.target.id);
-      if (app.showComms) {igbtn.hidden = true}
+      if (app.showComms) {igbtn.hidden = true; ybtn.hidden = true}
       if (app.hihi > 0) {waitForNext = true} else {waitForNext = false}
       if (e.target.id === "nextOne") {app.last()}
       else if (!waitForNext && !plop && e.maxPointers === 1) {
