@@ -8,6 +8,7 @@ var links = '';
 var abortnext = false;
 var showtitle = true;
 var pic = [];
+var pic2 = [];
 var dd = [];
 var aa = [];
 var ciao = [];
@@ -76,6 +77,7 @@ var app = new Vue({
         imageSrc: '',
         imageSrcA: '',
         iglink: '',
+        ylink: '',
         instaurl: '',
         imageNext: '',
         albumImageNext: '',
@@ -1477,7 +1479,8 @@ var app = new Vue({
     },
 
     searchTab: function () {
-      window.open('https://duckduckgo.com/?q=' + pic[k][titleLink], '_blank');
+      // window.open('https://duckduckgo.com/?q=' + pic[k][titleLink], '_blank');
+      window.open('https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic2[k][0], '_blank');
     },
 
     beforeLeave: function (el) {
@@ -2270,6 +2273,8 @@ var app = new Vue({
             }
             // app.imgList.push(pic[0][0]);
             // app.imgList.push(pic[1][0]);
+            pic2 = JSON.parse(JSON.stringify(pic));
+            console.log(pic2);
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -2394,6 +2399,7 @@ var app = new Vue({
         app.postlink = pic[k][1];
         var susu = pic[k][3].replace(/ /g, '');
         app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
+        app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic2[k][0];
         // console.log(app.iglink);
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
