@@ -8,7 +8,6 @@ var links = '';
 var abortnext = false;
 var showtitle = true;
 var pic = [];
-var pic2 = [];
 var dd = [];
 var aa = [];
 var ciao = [];
@@ -1459,6 +1458,7 @@ var app = new Vue({
       // console.log(t)
       if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
         igbtn.hidden = true;
+        gbtn.hidden = true;
         ybtn.hidden = true;
         for (var z = 0; z < aicA.length; z++) {
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
@@ -1481,7 +1481,7 @@ var app = new Vue({
 
     searchTab: function () {
       // window.open('https://duckduckgo.com/?q=' + pic[k][titleLink], '_blank');
-      window.open('https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic2[k][0], '_blank');
+      window.open('https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8], '_blank');
     },
 
     beforeLeave: function (el) {
@@ -2225,6 +2225,7 @@ var app = new Vue({
                 json.data.children[i].data.subreddit,
                 json.data.children[i].data.num_comments,
                 json.data.children[i].data.author,
+                json.data.children[i].data.url,
               ]);
               // app.imgList.push(json.data.children[i].data.url);
               app.fetched = ' / ' + pic.length;
@@ -2274,8 +2275,8 @@ var app = new Vue({
             }
             // app.imgList.push(pic[0][0]);
             // app.imgList.push(pic[1][0]);
-            pic2 = JSON.parse(JSON.stringify(pic));
-            console.log(pic2);
+            // pic2 = JSON.parse(JSON.stringify(pic));
+            // console.log(pic2);
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -2400,7 +2401,8 @@ var app = new Vue({
         app.postlink = pic[k][1];
         var susu = pic[k][3].replace(/ /g, '');
         app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
-        app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic2[k][0];
+        app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
+        app.glink = 'https://www.google.com/searchbyimage?&image_url=' + pic[k][8];
         // console.log(app.iglink);
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
           app.created = pic[k][2] + ' by ' + pic[k][3];
@@ -2720,7 +2722,7 @@ var app = new Vue({
 
     touchnextX: function (e) {
       // console.log(e.target.id);
-      if (app.showComms) {igbtn.hidden = true; ybtn.hidden = true}
+      if (app.showComms) {igbtn.hidden = true; gbtn.hidden = true; ybtn.hidden = true}
       if (app.hihi > 0) {waitForNext = true} else {waitForNext = false}
       if (e.target.id === "nextOne") {app.last()}
       else if (!waitForNext && !plop && e.maxPointers === 1) {
