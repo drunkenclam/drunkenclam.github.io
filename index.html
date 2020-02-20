@@ -386,15 +386,17 @@
             {{ option }}
           </option>
           </b-form-select>
+        <b-button style="margin-bottom: 10px; margin-top: 10px; width: 100px" v-on:click="fetchNow">Fetch</b-button>
         <span style="white-space: nowrap"><input type="checkbox" id="checkbox" v-model="checked">
         <label for="checkbox">Videos</label></span>
         <span style="padding-left: 20px; white-space: nowrap"><input type="checkbox" id="checkboxP" v-model="checkedP">
         <label for="checkboxP">Progress bar</label></span>
-        <b-button style="margin-bottom: 10px; margin-top: 10px; margin-left: 20px; width: 100px" v-on:click="fetchNow">Fetch</b-button>
+        <span style="padding-left: 20px; white-space: nowrap"><input type="checkbox" id="checkboxZ" v-model="checkedZ">
+        <label for="checkboxZ">Zoom 16:9</label></span>
         <label style="padding-left: 20px;" v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.66</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.67</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->

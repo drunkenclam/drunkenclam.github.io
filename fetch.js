@@ -77,6 +77,7 @@ var app = new Vue({
         imageSrcA: '',
         iglink: '',
         ylink: '',
+        glink: '',
         instaurl: '',
         imageNext: '',
         albumImageNext: '',
@@ -127,6 +128,7 @@ var app = new Vue({
         picked: 'reddit',
         checked: false,
         checkedP: true,
+        checkedZ: true,
         selected: 'BestOf',
         optionsRS: [ 'All',
         'itookapicture',
@@ -534,7 +536,6 @@ var app = new Vue({
       // 'gonewildcolor',
       'SexyButNotPorn',
       // 'ChristianGirls',
-      'fitgirls',
       // 'YogaPants',
       // 'GirlswithNeonHair',
       // 'BeautifulTitsAndAss',
@@ -955,7 +956,7 @@ var app = new Vue({
         xhr.responseType = 'arraybuffer';
 
         xhr.onprogress = function(ev) {
-          console.log(xhr.getAllResponseHeaders().content-length)
+          // console.log(xhr.getAllResponseHeaders().content-length)
           if (abortnext) {console.log('abortnext'); abortnext = false; xhr.abort()}
           if (ev.lengthComputable) {
             onprogress(parseInt((ev.loaded / ev.total) * 100));
@@ -2455,11 +2456,13 @@ var app = new Vue({
       }
       // console.log(typeof nextOne);
       if (typeof nextOne !== 'undefined' && !app.vid && document.webkitIsFullScreen && mobile) {
-        // console.log('offsetTop: ' + nextOne.offsetTop)
-        // console.log('offsetLeft: ' + nextOne.offsetLeft)
+        console.log('offsetTop: ' + nextOne.offsetTop)
+        console.log('offsetLeft: ' + nextOne.offsetLeft)
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--max-h', '100vh')
-        if (nextOne.offsetTop < 30 && nextOne.offsetTop > 0) {
+        if (app.checkedZ && nextOne.offsetTop < 90 && nextOne.offsetTop > 0) {
+          document.documentElement.style.setProperty('--max-w', '200vw')
+        } else if (nextOne.offsetTop < 30 && nextOne.offsetTop > 0) {
           document.documentElement.style.setProperty('--max-w', '200vw')
         } else if (nextOne.offsetLeft < 20) {
           document.documentElement.style.setProperty('--max-h', '200vh')
