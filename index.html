@@ -198,6 +198,7 @@
         --move-ya: 400ms;
         --max-w: 100vw;
         --max-h: 100vh;
+        --move-left: 0;
       }
       .peep {
         padding-left: var(--mar-gin);
@@ -210,7 +211,7 @@
         /* transform: translate(0%,50%); */
         margin-left: auto;
         margin-right: auto;
-        left: 0;
+        left: var(--move-left);
         right: 0;
         /* margin-top: auto; */
         margin-bottom: auto;
@@ -391,12 +392,12 @@
         <label for="checkbox">Videos</label></span>
         <span style="padding-left: 20px; white-space: nowrap"><input type="checkbox" id="checkboxP" v-model="checkedP">
         <label for="checkboxP">Progress bar</label></span>
-        <span style="padding-left: 20px; white-space: nowrap"><input type="checkbox" id="checkboxZ" v-model="checkedZ">
+        <span style="padding-left: 20px; padding-right: 60px; white-space: nowrap"><input type="checkbox" id="checkboxZ" v-model="checkedZ">
         <label for="checkboxZ">Zoom 16:9</label></span>
-        <label style="padding-left: 20px;" v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
+        <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.67</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.68</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->

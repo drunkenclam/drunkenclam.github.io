@@ -2460,8 +2460,15 @@ var app = new Vue({
         console.log('offsetLeft: ' + nextOne.offsetLeft)
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--max-h', '100vh')
+        document.documentElement.style.setProperty('--move-left', '0')
         if (app.checkedZ && nextOne.offsetTop < 90 && nextOne.offsetTop > 0) {
+          var okok = (nextOne.naturalHeight / imgDiv.offsetHeight);
+          okok = nextOne.naturalWidth / okok;
+          okok = (okok - nextOne.width) / 2;
+          okok = -okok + "px";
           document.documentElement.style.setProperty('--max-w', '200vw')
+          document.documentElement.style.setProperty('--move-left', okok)
+          // nextOne.style.left = okok;
         } else if (nextOne.offsetTop < 30 && nextOne.offsetTop > 0) {
           document.documentElement.style.setProperty('--max-w', '200vw')
         } else if (nextOne.offsetLeft < 20) {
@@ -3481,13 +3488,13 @@ var app = new Vue({
           lastEvent = 'panend';
       })
 
-      hammertime.on('pinchend', function(e) {
-        // console.log(e.additionalEvent);
-          last.x = current.x;
-          last.y = current.y;
-          last.z = current.z;
-          lastEvent = 'pinchend';
-      })
+      // hammertime.on('pinchend', function(e) {
+      //   // console.log(e.additionalEvent);
+      //     last.x = current.x;
+      //     last.y = current.y;
+      //     last.z = current.z;
+      //     lastEvent = 'pinchend';
+      // })
 
       function update() {
         // console.log('current.x ' + current.x)
