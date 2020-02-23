@@ -17,6 +17,7 @@ var imageSrc= '';
 var imageSrcA= '';
 var instaurl= '';
 var imgNo = '';
+var swup = false;
 var titleLink = 3;
 var i = 0;
 var j = 0;
@@ -3163,16 +3164,30 @@ var app = new Vue({
       } else
       // if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
       if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
-        if (!app.showComms) {
+        if (!app.showComms && swup) {
+          swup = false;
+          if (imgDiv.offsetHeight === currentOne.height) {
+            document.documentElement.style.setProperty('--max-h', '100vh')
+            document.documentElement.style.setProperty('--max-w', '100vw')
+            document.documentElement.style.setProperty('--move-left', '0')
+            chicken3 = true;
+            app.chicken3 = true;
+          } else {
+            var okok = (currentOne.naturalHeight / imgDiv.offsetHeight);
+            okok = currentOne.naturalWidth / okok;
+            okok = (okok - currentOne.width) / 2;
+            okok = -okok + "px";
+            console.log(okok)
+            document.documentElement.style.setProperty('--max-h', '100vh')
+            document.documentElement.style.setProperty('--max-w', '200vw')
+            document.documentElement.style.setProperty('--move-left', okok)
+            chicken3 = false;
+            app.chicken3 = false;
+          }
+        } else if (!app.showComms && !swup) {
           app.comments = [];
           app.commentsL = [];
           app.ilSrc = [];
-          // if (mobile) {
-          //   commsID.style.top = "27px";
-          //   commsID.style.maxHeight = document.getElementById('entries').clientHeight - 27 + "px";
-          // } else {
-            // commsID.style.top = document.getElementById('container').offsetTop + "px";
-          // }
           app.commentsToggle()
         } else if (commsID.scrollHeight === commsID.clientHeight) {
           app.showComms = false;
@@ -3408,6 +3423,7 @@ var app = new Vue({
       hammertime.on('swipeup', function(e) {
         console.log('swipe up');
         imgDiv.style.transform = '';
+        swup = true;
         app.up();
       })
 
