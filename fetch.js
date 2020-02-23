@@ -2792,6 +2792,9 @@ var app = new Vue({
             // document.documentElement.style.setProperty('--max-w', '100vw')
             // document.documentElement.style.setProperty('--max-h', '100vh')
             // console.log(e.velocityX)
+            document.documentElement.style.setProperty('--max-h', '100vh')
+            document.documentElement.style.setProperty('--max-w', '100vw')
+            document.documentElement.style.setProperty('--move-left', '0')
             console.log('AAAAAAHHH ' + e.additionalEvent)
             if (e.additionalEvent === 'panright' && percentage < 0) {
               console.log('snap back')
@@ -2811,6 +2814,10 @@ var app = new Vue({
       // console.log(currentOne.src + ' currentOne ' + currentOne.naturalWidth)
       // console.log(nextOne.src + ' nextOne ' + nextOne.naturalWidth)
       plop = true;
+      if (showtitle && document.webkitIsFullScreen) {
+        chicken3 = true;
+        app.chicken3 = true;
+      }
       imgDiv.addEventListener("transitionend", function(event) {
         // console.log('transitionend');
         plop = false;
@@ -3438,10 +3445,6 @@ var app = new Vue({
                 z: 1
             }
             update();
-            if (showtitle && document.webkitIsFullScreen) {
-              chicken3 = true;
-              app.chicken3 = true;
-            }
             app.touchnextX(e);
           }
         } else {
@@ -3555,6 +3558,9 @@ var app = new Vue({
             chicken3 = !chicken3;
             app.chicken3 = !app.chicken3;
             showtitle = !showtitle;
+            document.documentElement.style.setProperty('--max-h', '100vh')
+            document.documentElement.style.setProperty('--max-w', '100vw')
+            document.documentElement.style.setProperty('--move-left', '0')
           }
           if (imgNo != '' && meep > 0.5) {console.log('upAlbum!'); app.flipAlbum()}
           else if (meep > 0.5) {console.log('up!'); app.up()}
