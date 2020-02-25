@@ -2459,6 +2459,8 @@ var app = new Vue({
       if (typeof nextOne !== 'undefined' && !app.vid && document.webkitIsFullScreen && mobile) {
         console.log('offsetTop: ' + nextOne.offsetTop)
         console.log('offsetLeft: ' + nextOne.offsetLeft)
+        var element99 = document.getElementById("currentOne");
+        element99.classList.add("pop");
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--max-h', '100vh')
         document.documentElement.style.setProperty('--move-left', '0')
@@ -2832,8 +2834,6 @@ var app = new Vue({
         document.documentElement.style.setProperty('--max-h', '100vh')
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--move-left', '0')
-        var element99 = document.getElementById("currentOne");
-        element99.classList.add("pop");
         plop = false;
         // console.log('k: ' + k)
         // console.log(app.title);
@@ -3496,6 +3496,8 @@ var app = new Vue({
 
       var pinchZoomOrigin = undefined;
       hammertime.on('pinchstart', function(e) {
+        var element99 = document.getElementById("currentOne");
+        element99.classList.remove("pop");
         if (current.z === 1) {
           originalSize = {
               width: currentOne.clientWidth,
@@ -3526,10 +3528,12 @@ var app = new Vue({
 
       hammertime.on('pinchend', function(e) {
         // console.log(e.additionalEvent);
-          last.x = current.x;
-          last.y = current.y;
-          last.z = current.z;
-          lastEvent = 'pinchend';
+        var element99 = document.getElementById("currentOne");
+        element99.classList.add("pop");
+        last.x = current.x;
+        last.y = current.y;
+        last.z = current.z;
+        lastEvent = 'pinchend';
       })
 
       function update() {
