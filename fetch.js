@@ -2472,7 +2472,7 @@ var app = new Vue({
           // nextOne.style.left = okok;
         } else if (nextOne.offsetTop < 30 && nextOne.offsetTop > 0) {
           document.documentElement.style.setProperty('--max-w', '200vw')
-        } else if (nextOne.offsetLeft < 20) {
+        } else if (nextOne.offsetLeft < 20 && nextOne.offsetLeft > 0) {
           document.documentElement.style.setProperty('--max-h', '200vh')
         } else {
           document.documentElement.style.setProperty('--max-w', '100vw')
@@ -2765,8 +2765,17 @@ var app = new Vue({
             document.getElementById('nextOne').style.visibility='hidden';
             // app.currentImg = app.currentImg + 1;
           } else {
-            if (percentage < -30) {nextOne.src = app.imgList[app.currentImg+1]}
-            else if (percentage > 30) {nextOne.src = app.imgList[app.currentImg-1]}
+            // console.log(percentage)
+            // document.documentElement.style.setProperty('--min-h', '0vh')
+            // document.documentElement.style.setProperty('--max-h', '100vh')
+            // document.documentElement.style.setProperty('--max-w', '100vw')
+            // document.documentElement.style.setProperty('--move-left', '0')
+            if (percentage < -30) {
+              nextOne.src = app.imgList[app.currentImg+1]
+            }
+            else if (percentage > 30) {
+              nextOne.src = app.imgList[app.currentImg-1]
+            }
             else {nextOne.src = app.imgList[app.currentImg]}
           }
           if (app.currentImg === 0) {
@@ -2792,9 +2801,6 @@ var app = new Vue({
             // document.documentElement.style.setProperty('--max-w', '100vw')
             // document.documentElement.style.setProperty('--max-h', '100vh')
             // console.log(e.velocityX)
-            document.documentElement.style.setProperty('--max-h', '100vh')
-            document.documentElement.style.setProperty('--max-w', '100vw')
-            document.documentElement.style.setProperty('--move-left', '0')
             console.log('AAAAAAHHH ' + e.additionalEvent)
             if (e.additionalEvent === 'panright' && percentage < 0) {
               console.log('snap back')
@@ -2813,13 +2819,21 @@ var app = new Vue({
       console.log('hehe ' + percentage);
       // console.log(currentOne.src + ' currentOne ' + currentOne.naturalWidth)
       // console.log(nextOne.src + ' nextOne ' + nextOne.naturalWidth)
+      var element99 = document.getElementById("currentOne");
+      element99.classList.remove("pop");
       plop = true;
-      if (showtitle && document.webkitIsFullScreen) {
-        chicken3 = true;
-        app.chicken3 = true;
-      }
       imgDiv.addEventListener("transitionend", function(event) {
         // console.log('transitionend');
+        if (showtitle && document.webkitIsFullScreen) {
+          chicken3 = true;
+          app.chicken3 = true;
+        }
+        document.documentElement.style.setProperty('--min-h', '0vh')
+        document.documentElement.style.setProperty('--max-h', '100vh')
+        document.documentElement.style.setProperty('--max-w', '100vw')
+        document.documentElement.style.setProperty('--move-left', '0')
+        var element99 = document.getElementById("currentOne");
+        element99.classList.add("pop");
         plop = false;
         // console.log('k: ' + k)
         // console.log(app.title);
@@ -3173,10 +3187,11 @@ var app = new Vue({
       if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
         if (!app.showComms && swup) {
           swup = false;
-          if (imgDiv.offsetHeight === currentOne.height) {
-            document.documentElement.style.setProperty('--max-h', '100vh')
-            document.documentElement.style.setProperty('--max-w', '100vw')
+          if (imgDiv.offsetWidth < currentOne.width) {
             document.documentElement.style.setProperty('--move-left', '0')
+            document.documentElement.style.setProperty('--max-w', '100vw')
+            document.documentElement.style.setProperty('--min-h', '0vh')
+            document.documentElement.style.setProperty('--max-h', '100vh')
             chicken3 = true;
             app.chicken3 = true;
           } else {
@@ -3185,9 +3200,11 @@ var app = new Vue({
             okok = (okok - currentOne.width) / 2;
             okok = -okok + "px";
             console.log(okok)
-            document.documentElement.style.setProperty('--max-h', '100vh')
-            document.documentElement.style.setProperty('--max-w', '200vw')
+            // if (currentOne.naturalHeight )
             document.documentElement.style.setProperty('--move-left', okok)
+            document.documentElement.style.setProperty('--max-w', '400vw')
+            document.documentElement.style.setProperty('--min-h', '100vh')
+            document.documentElement.style.setProperty('--max-h', '100vh')
             chicken3 = false;
             app.chicken3 = false;
           }

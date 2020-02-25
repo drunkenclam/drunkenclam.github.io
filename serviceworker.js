@@ -1,5 +1,5 @@
 'use strict'
-const cacheName = 'app-v0.71' // change when cached content is updated
+const cacheName = 'app-v0.72' // change when cached content is updated
 const pathRoot = (location.host === 'localhost:8887' || location.host === '127.0.0.1:8887')?
 	'/Users/Daniel/Documents/GitHub/drunkenclam.github.io/' : // local directory
 	'/ratv/' // online directory

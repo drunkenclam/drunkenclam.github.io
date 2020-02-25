@@ -198,6 +198,7 @@
         --move-ya: 400ms;
         --max-w: 100vw;
         --max-h: 100vh;
+        /* --min-h: 0vh; */
         --move-left: 0;
       }
       .peep {
@@ -217,6 +218,9 @@
         margin-bottom: auto;
         top: 0;
         bottom: 0;
+      }
+      .pop {
+        transition: all 0.5s ease;
       }
       .slide-fade-enter-active {
         /* transition: transform var(--move-ya) cubic-bezier(0.5, 1, 1, 1); */
@@ -397,7 +401,7 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.71</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.72</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
@@ -423,7 +427,7 @@
               <!-- <img id="lastOne" class="poop" :src="imgList[currentImg-1]"/> -->
               <!-- <img id="currentOne" class="poop" v-bind:class="{origSize: truesize, imageF: full}" :src="imgList[currentImg]"/> -->
               <video id="video" class="poop" key="no3" v-if="vid" v-bind:src="imgList[currentImg]" autoplay controls muted preload="metadata"></video>
-              <img id="currentOne" class="poop" v-if="!vid" :src="imgList[currentImg]"/>
+              <img id="currentOne" class="poop pop" v-if="!vid" :src="imgList[currentImg]"/>
               <img id="nextOne" class="poop" :src="imgList[currentImg+1]"/>
             </div>
             <a :href="iglink" target="_blank">
