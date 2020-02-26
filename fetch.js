@@ -3470,7 +3470,7 @@ var app = new Vue({
         // console.log(e);
         // console.log(e.additionalEvent);
         // console.log('lumpi: ' + app.lumpi);
-        if (app.lumpi || (current.z <= 1 && currentOne.x >= 0)) {
+        if (app.lumpi || (current.z <= 1 && currentOne.x >= 0) || currentOne.offsetLeft > 0) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
                 x: 0,
