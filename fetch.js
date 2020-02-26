@@ -3469,8 +3469,8 @@ var app = new Vue({
       hammertime.on('pan', function(e) {
         // console.log(e);
         // console.log(e.additionalEvent);
-        // console.log(current.z);
-        if (app.lumpi || (current.z <= 1 && currentOne.x === 0)) {
+        // console.log('lumpi: ' + app.lumpi);
+        if (app.lumpi || (current.z <= 1 && currentOne.x >= 0)) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
                 x: 0,
