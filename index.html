@@ -120,7 +120,7 @@
         margin-right: env(safe-area-inset-right);
       }
       #container {height: 100vh; perspective: 1000px;}
-      #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; margin-top: env(safe-area-inset-top); text-align: center; z-index: 10; backface-visibility: hidden;}
+      #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; margin-top: env(safe-area-inset-top); text-align: center; z-index: -10; backface-visibility: hidden;}
       #ralbum { color: #7292df; font-size: medium; background-color: black; position: fixed; top:-1px; right:0px; z-index: 12; padding-left: 5px; padding-right: 15px}
       #mic { font-size: medium; position: fixed; top:24px; right:0px; z-index: 11; padding-left: 5px; padding-right: 15px}
       #entries {height: 100vh}
@@ -339,6 +339,10 @@
         transition: all .5s ease;
         opacity: 0;
       }
+      .zuzu {
+        opacity: 0;
+        transition: all .5s ease;
+      }
       #igbtn { position: absolute; background-color: blue; color: white; border-radius: 10px; text-align: center; z-index: 51;
              height: 50px; width: 50px; vertical-align: middle; line-height: 50px;
              left: 50px; bottom: 200px; }
@@ -401,13 +405,15 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.73</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.74</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
             <!-- <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave"> -->
             <div id="imgDiv" v-for="number in [currentImg]" v-bind:key="number">
-              <div id="headline" v-bind:style="{ bottom: headBot + 'px', top: headTop + 'px'}" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
+              <transition name="zuzu" mode="out-in">
+                <div id="headline" v-bind:style="{ bottom: headBot + 'px', top: headTop + 'px'}" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
+              </transition>
               <transition name="slike-fadedown" mode="out-in">
                 <div id="commsID" class="comms" v-show="showComms" ref="commsRef" tabindex="10">
                   <div class="imgurlinks1" v-show="il" v-for="z in ilSrc">

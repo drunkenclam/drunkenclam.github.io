@@ -129,7 +129,7 @@ var app = new Vue({
         picked: 'reddit',
         checked: false,
         checkedP: true,
-        checkedZ: true,
+        checkedZ: false,
         selected: 'BestOf',
         optionsRS: [ 'All',
         'itookapicture',
@@ -422,9 +422,9 @@ var app = new Vue({
       'Deathbysnusnu',
       'FitNakedGirls',
       'fitgirls',
-      'YogaPants',
+      // 'YogaPants',
       'AthleticGirls',
-      'girlsinyogapants',
+      // 'girlsinyogapants',
       'bodyperfection',
       'SexyTummies',
       'Workoutgonewild',
@@ -2442,6 +2442,8 @@ var app = new Vue({
         // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
       } else {
         // console.log('zoompic[k][15]: ' + pic[k][15])
+        var element99 = document.getElementById("currentOne");
+        element99.classList.add("pop");
         if (pic[k][15] === 'zoompw' || pic[k][15] === 'zoomvw') {
           console.log('zoom w');
           document.documentElement.style.setProperty('--min-w', '100vw')
@@ -3424,8 +3426,12 @@ var app = new Vue({
       hammertime.on('tap', function(e) {
         console.log('tap');
         // console.log(e);
-        if (current.z != 1) {
+        if (current.z != 1 || currentOne.x < 0) {
           current.x = 0; current.y = 0; current.z = 1;
+          document.documentElement.style.setProperty('--min-h', '0vh')
+          document.documentElement.style.setProperty('--max-w', '100vw')
+          document.documentElement.style.setProperty('--max-h', '100vh')
+          document.documentElement.style.setProperty('--move-left', '0')
           if (showtitle) {
             chicken3 = true;
             app.chicken3 = true;
@@ -3452,9 +3458,10 @@ var app = new Vue({
       })
 
       hammertime.on('pan', function(e) {
-        // console.log(e);
-        // console.log(e.additionalEvent);
-        if (current.z <= 1) {
+        console.log(e);
+        console.log(e.additionalEvent);
+        console.log(current.z);
+        if (current.z <= 1 && currentOne.x === 0) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
                 x: 0,
@@ -3465,6 +3472,8 @@ var app = new Vue({
             app.touchnextX(e);
           }
         } else {
+          var element99 = document.getElementById("currentOne");
+          element99.classList.remove("pop");
           if (lastEvent !== 'pan') {
               fixHammerjsDeltaIssue = {
                   x: e.deltaX,
@@ -3524,6 +3533,8 @@ var app = new Vue({
           last.x = current.x;
           last.y = current.y;
           lastEvent = 'panend';
+          var element99 = document.getElementById("currentOne");
+          element99.classList.add("pop");
       })
 
       hammertime.on('pinchend', function(e) {
