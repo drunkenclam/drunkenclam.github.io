@@ -130,6 +130,7 @@ var app = new Vue({
         checked: false,
         checkedP: true,
         checkedZ: true,
+        lumpi: false,
         selected: 'BestOf',
         optionsRS: [ 'All',
         'itookapicture',
@@ -2463,6 +2464,7 @@ var app = new Vue({
         console.log('offsetLeft: ' + nextOne.offsetLeft)
         var element99 = document.getElementById("currentOne");
         element99.classList.add("pop");
+        app.lumpi = false;
         document.documentElement.style.setProperty('--z-indx', '10')
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--max-h', '100vh')
@@ -2472,6 +2474,7 @@ var app = new Vue({
           okok = nextOne.naturalWidth / okok;
           okok = (okok - nextOne.width) / 2;
           okok = -okok + "px";
+          app.lumpi = true;
           document.documentElement.style.setProperty('--max-w', '200vw')
           document.documentElement.style.setProperty('--move-left', okok)
           // nextOne.style.left = okok;
@@ -3467,7 +3470,7 @@ var app = new Vue({
         // console.log(e);
         // console.log(e.additionalEvent);
         // console.log(current.z);
-        if (current.z <= 1 && currentOne.x === 0) {
+        if (app.lumpi || (current.z <= 1 && currentOne.x === 0)) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
                 x: 0,
