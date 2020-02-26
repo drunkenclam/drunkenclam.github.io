@@ -129,7 +129,7 @@ var app = new Vue({
         picked: 'reddit',
         checked: false,
         checkedP: true,
-        checkedZ: false,
+        checkedZ: true,
         selected: 'BestOf',
         optionsRS: [ 'All',
         'itookapicture',
@@ -2463,6 +2463,7 @@ var app = new Vue({
         console.log('offsetLeft: ' + nextOne.offsetLeft)
         var element99 = document.getElementById("currentOne");
         element99.classList.add("pop");
+        document.documentElement.style.setProperty('--z-indx', '10')
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--max-h', '100vh')
         document.documentElement.style.setProperty('--move-left', '0')
@@ -3190,6 +3191,8 @@ var app = new Vue({
         if (!app.showComms && swup) {
           swup = false;
           if (imgDiv.offsetWidth < currentOne.width) {
+            var element99 = document.getElementById("currentOne");
+            element99.classList.add("pop");
             document.documentElement.style.setProperty('--move-left', '0')
             document.documentElement.style.setProperty('--max-w', '100vw')
             document.documentElement.style.setProperty('--min-h', '0vh')
@@ -3427,6 +3430,8 @@ var app = new Vue({
         console.log('tap');
         // console.log(e);
         if (current.z != 1 || currentOne.x < 0) {
+          var element99 = document.getElementById("currentOne");
+          element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
           document.documentElement.style.setProperty('--min-h', '0vh')
           document.documentElement.style.setProperty('--max-w', '100vw')
@@ -3452,15 +3457,16 @@ var app = new Vue({
 
       hammertime.on('swipeup', function(e) {
         console.log('swipe up');
+        document.documentElement.style.setProperty('--z-indx', '-10')
         imgDiv.style.transform = '';
         swup = true;
         app.up();
       })
 
       hammertime.on('pan', function(e) {
-        console.log(e);
-        console.log(e.additionalEvent);
-        console.log(current.z);
+        // console.log(e);
+        // console.log(e.additionalEvent);
+        // console.log(current.z);
         if (current.z <= 1 && currentOne.x === 0) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
@@ -3533,8 +3539,6 @@ var app = new Vue({
           last.x = current.x;
           last.y = current.y;
           lastEvent = 'panend';
-          var element99 = document.getElementById("currentOne");
-          element99.classList.add("pop");
       })
 
       hammertime.on('pinchend', function(e) {
