@@ -2443,8 +2443,13 @@ var app = new Vue({
         // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
       } else {
         // console.log('zoompic[k][15]: ' + pic[k][15])
-        var element99 = document.getElementById("currentOne");
-        element99.classList.add("pop");
+        if (pic[k][8] != 'video') {
+          console.log(k)
+          console.log(pic[k][8])
+          console.log(pic[k+1][8])
+          // var element99 = document.getElementById("currentOne");
+          // element99.classList.add("pop");
+        }
         if (pic[k][15] === 'zoompw' || pic[k][15] === 'zoomvw') {
           console.log('zoom w');
           document.documentElement.style.setProperty('--min-w', '100vw')
@@ -2462,8 +2467,8 @@ var app = new Vue({
       if (typeof nextOne !== 'undefined' && !app.vid && document.webkitIsFullScreen && mobile) {
         console.log('offsetTop: ' + nextOne.offsetTop)
         console.log('offsetLeft: ' + nextOne.offsetLeft)
-        var element99 = document.getElementById("currentOne");
-        element99.classList.add("pop");
+        // var element99 = document.getElementById("currentOne");
+        // element99.classList.add("pop");
         app.lumpi = false;
         document.documentElement.style.setProperty('--z-indx', '10')
         document.documentElement.style.setProperty('--max-w', '100vw')
@@ -2827,8 +2832,10 @@ var app = new Vue({
       console.log('hehe ' + percentage);
       // console.log(currentOne.src + ' currentOne ' + currentOne.naturalWidth)
       // console.log(nextOne.src + ' nextOne ' + nextOne.naturalWidth)
-      var element99 = document.getElementById("currentOne");
-      element99.classList.remove("pop");
+      if (pic[k][8] != 'video') {
+        var element99 = document.getElementById("currentOne");
+        element99.classList.remove("pop");
+      }
       plop = true;
       imgDiv.addEventListener("transitionend", function(event) {
         // console.log('transitionend');
@@ -3432,7 +3439,7 @@ var app = new Vue({
       hammertime.on('tap', function(e) {
         console.log('tap');
         // console.log(e);
-        if (current.z != 1 || currentOne.x < 0) {
+        if (pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
           var element99 = document.getElementById("currentOne");
           element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
@@ -3462,7 +3469,7 @@ var app = new Vue({
         console.log('swipe up');
         document.documentElement.style.setProperty('--z-indx', '-10')
         imgDiv.style.transform = '';
-        swup = true;
+        if (!app.vid) {swup = true};
         app.up();
       })
 
@@ -3470,7 +3477,11 @@ var app = new Vue({
         // console.log(e);
         // console.log(e.additionalEvent);
         // console.log('lumpi: ' + app.lumpi);
-        if (app.lumpi || (current.z <= 1 && currentOne.x >= 0) || currentOne.offsetLeft > 0) {
+        if (pic[k][8] === 'video') {
+          if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
+            app.touchnextX(e);
+          }
+        } else if (app.lumpi || (current.z <= 1 && currentOne.x >= 0) || currentOne.offsetLeft > 0) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
                 x: 0,
