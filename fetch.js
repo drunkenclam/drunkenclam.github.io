@@ -94,6 +94,7 @@ var app = new Vue({
         commentsL: [],
         hehe: '',
         hoho: '',
+        bibo: '',
         max: 100,
         hihi: 0,
         err: '',
@@ -1354,7 +1355,7 @@ var app = new Vue({
             if (date < 36) {formattedTime = days + ' day ago';}
             if (date < 24) {formattedTime = date + ' hours ago';}
             if (minutes < 90) {formattedTime = date + ' hour ago';}
-            if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+            if (minutes < 60) {formattedTime = minutes + ' min ago';}
 
 //          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
             // console.log(url);
@@ -1623,7 +1624,7 @@ var app = new Vue({
                   if (date < 36) {formattedTime = days + ' day ago';}
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
-                  if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+                  if (minutes < 60) {formattedTime = minutes + ' min ago';}
                   pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo]);
                   app.fetched = ' / ' + pic.length;
                 //}
@@ -1649,7 +1650,7 @@ var app = new Vue({
                   if (date < 36) {formattedTime = days + ' day ago';}
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
-                  if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+                  if (minutes < 60) {formattedTime = minutes + ' min ago';}
                   pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo]);
                   app.fetched = ' / ' + pic.length;
                 }
@@ -1741,7 +1742,7 @@ var app = new Vue({
                 if (date < 36) {formattedTime = days + ' day ago';}
                 if (date < 24) {formattedTime = date + ' hours ago';}
                 if (minutes < 90) {formattedTime = date + ' hour ago';}
-                if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+                if (minutes < 60) {formattedTime = minutes + ' min ago';}
                 pic.push([imgID, posturl, formattedTime, blogname, shit, tagline, picNo]);
                 app.fetched = ' / ' + pic.length;
               } else if (tp[z].node.is_video === false) {
@@ -1775,7 +1776,7 @@ var app = new Vue({
                   if (date < 36) {formattedTime = days + ' day ago';}
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
-                  if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+                  if (minutes < 60) {formattedTime = minutes + ' min ago';}
                   pic.push([imgID, posturl, formattedTime, blogname, shit, tagline, picNo]);
                   app.fetched = ' / ' + pic.length;
                 }
@@ -1872,7 +1873,7 @@ var app = new Vue({
                   if (date < 36) {formattedTime = days + ' day ago';}
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
-                  if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+                  if (minutes < 60) {formattedTime = minutes + ' min ago';}
                   pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload, comments]);
                   app.fetched = ' / ' + pic.length;
                 //}
@@ -1898,7 +1899,7 @@ var app = new Vue({
                   if (date < 36) {formattedTime = days + ' day ago';}
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
-                  if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+                  if (minutes < 60) {formattedTime = minutes + ' min ago';}
                   pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo]);
                   app.fetched = ' / ' + pic.length;
                 }
@@ -1979,7 +1980,7 @@ var app = new Vue({
               if (date < 36) {formattedTime = days + ' day ago';}
               if (date < 24) {formattedTime = date + ' hours ago';}
               if (minutes < 90) {formattedTime = date + ' hour ago';}
-              if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+              if (minutes < 60) {formattedTime = minutes + ' min ago';}
               pic.push([imgID, posturl, formattedTime, blogname, shit, tagline, picNo, shitload]);
               app.fetched = ' / ' + pic.length;
             //}
@@ -2049,7 +2050,7 @@ var app = new Vue({
               if (date < 36) {formattedTime = days + ' day ago';}
               if (date < 24) {formattedTime = date + ' hours ago';}
               if (minutes < 90) {formattedTime = date + ' hour ago';}
-              if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+              if (minutes < 60) {formattedTime = minutes + ' min ago';}
               pic.push([imgID, posturl, formattedTime, blogname, shit, tagline, picNo, shitload]);
               app.fetched = ' / ' + pic.length;
             //}
@@ -2216,7 +2217,7 @@ var app = new Vue({
               if (date < 36) {formattedTime = days + ' day ago';}
               if (date < 24) {formattedTime = date + ' hours ago';}
               if (minutes < 90) {formattedTime = date + ' hour ago';}
-              if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+              if (minutes < 60) {formattedTime = minutes + ' min ago';}
 
 //          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
               pic.push([
@@ -2419,7 +2420,7 @@ var app = new Vue({
           if (pic[k][3].indexOf('&gt;') != -1) {pic[k][3] = pic[k][3].replace(/&gt;/g, ">")};
           if (pic[k][6] > 0) {app.title = pic[k][3] + ' (' + pic[k][6] + ')'} else {app.title = pic[k][3]};
           // console.log('muuuuh')
-          // console.log(pic[k][2].indexOf('day'))
+          console.log(pic[k][2]);
           if (pic[k][2].indexOf('day') === 2) {app.bh24 = true} else {app.bh24 = false}
         }
         //console.log(pic[k]);
@@ -2503,9 +2504,14 @@ var app = new Vue({
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
+      // app.derp = false;
       if (k === pic.length-2) {
+        app.bibo = 'The End!';
         app.derp = true;
-      } else {app.derp = false}
+      } else {
+        app.bibo = pic[k][2];
+        app.derp = true;
+      }
       if (k === 0) {
         window.addEventListener("orientationchange", function() {
           console.log('orientation change! ' + window.screen.orientation.type)
@@ -3207,6 +3213,7 @@ var app = new Vue({
             document.documentElement.style.setProperty('--max-w', '100vw')
             document.documentElement.style.setProperty('--min-h', '0vh')
             document.documentElement.style.setProperty('--max-h', '100vh')
+            app.derp = true;
             chicken3 = true;
             app.chicken3 = true;
           } else {
@@ -3220,6 +3227,7 @@ var app = new Vue({
             document.documentElement.style.setProperty('--max-w', '400vw')
             document.documentElement.style.setProperty('--min-h', '100vh')
             document.documentElement.style.setProperty('--max-h', '100vh')
+            app.derp = false;
             chicken3 = false;
             app.chicken3 = false;
           }
@@ -3608,6 +3616,8 @@ var app = new Vue({
             chicken3 = !chicken3;
             app.chicken3 = !app.chicken3;
             showtitle = !showtitle;
+            app.derp = !app.derp;
+            // console.log(app.derp)
             document.documentElement.style.setProperty('--max-h', '100vh')
             document.documentElement.style.setProperty('--max-w', '100vw')
             document.documentElement.style.setProperty('--move-left', '0')
@@ -3858,7 +3868,7 @@ var request = new Request('https://ratv-cors-proxy.herokuapp.com/' + 'https://ap
             if (date < 36) {formattedTime = days + ' day ago';}
             if (date < 24) {formattedTime = date + ' hours ago';}
             if (minutes < 90) {formattedTime = date + ' hour ago';}
-            if (minutes < 60) {formattedTime = minutes + ' minutes ago';}
+            if (minutes < 60) {formattedTime = minutes + ' min ago';}
             pic.push([imgID, posturl, formattedTime, blogname, shit, tagline, picNo, shitload, url_o]);
             app.fetched = ' / ' + pic.length;
           //}
