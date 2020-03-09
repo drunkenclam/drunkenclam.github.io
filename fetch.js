@@ -1237,6 +1237,7 @@ var app = new Vue({
     userincomms: function (q) {
       console.log('userincomms ' + q)
       var url = q;
+      aicA = [];
       fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
         return response.json();
       }).then(function(json) {
@@ -1360,8 +1361,10 @@ var app = new Vue({
 
 //          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
             // console.log(url);
-            // console.log(json.data.children[i].data.url);
-            aicA.push([url, json.data.children[i].data.url]);
+            // console.log(json.data.children[i].data.preview);
+            if (typeof json.data.children[i].data.preview != 'undefined') {
+              aicA.push([url, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height]);
+            }
             // console.log(aicA)
             // pic.push([
             //   json.data.children[i].data.url,
@@ -1384,6 +1387,13 @@ var app = new Vue({
         if (!app.checked) {
           aicA = aicA.filter( element => !~element[0].indexOf('gif') && !~element[0].indexOf('gfycat') && !~element[0].indexOf('mp4') );
         };
+        // doppelte raus
+        aicA = aicA.filter(function(item, pos) {
+          if (!this.hasOwnProperty(item[2])) {
+              return this[item[2]] = true;
+          }
+          return false;
+        }, {});
         // app.fetched = ' / ' + pic.length;
         // app.sort();
         // titleLink = 3;
@@ -1398,10 +1408,20 @@ var app = new Vue({
         var eee = app.commentsL[pppp] + ' (' + count + ')';
         Vue.set(app.commentsL, pppp, eee);
         console.log('count: ' + eee);
+
         for (var z = 0; z < aicA.length; z++) {
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
           if (q.indexOf(aicA[z][0]) !== -1) {
-            app.ilSrc.push(aicA[z][1]);
+            if (z > 0) {
+              // console.log(aicA[z][2])
+              // console.log(aicA[z-1][2])
+              if (aicA[z][2] !== aicA[z-1][2]) {
+                app.ilSrc.push(aicA[z][1]);
+              }
+            } else {
+              app.ilSrc.push(aicA[z][1]);
+            }
+            // console.log(aicA[z][1])
           }
         };
       }).catch(function(err) {
