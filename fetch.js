@@ -574,7 +574,6 @@ var app = new Vue({
       'cleavage',
       // 'GirlsinSchoolUniforms',
       // 'deepthroat',
-      'AthleticGirls',
       // 'xsmallgirls',
       // 'Nipples',
       // 'tight_shorts',
@@ -1104,7 +1103,7 @@ var app = new Vue({
             var peep = linkify.match(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig);
             // console.log(peep);
             // if (peep === null && (linkify.indexOf('r/') === 0 || linkify.indexOf('r/') === 1)) {var peep = []; peep.push(linkify)};
-            if (peep === null && (linkify.indexOf('r/') > -1)) {var peep = []; peep.push(linkify)};
+            if (peep === null && (linkify.indexOf('r/') > -1 || linkify.indexOf('u/') > -1)) {var peep = []; peep.push(linkify)};
             app.comments.push('');
             app.comments.push(linkify);
             if (peep !== null) {
@@ -1122,8 +1121,10 @@ var app = new Vue({
                 if (poop.slice(-1) === '.') {poop = poop.slice(0, -1)}
                 else if (poop.slice(-2) === '. ') {poop = poop.slice(0, -2)}
                 // console.log(poop);
-                if (poop.indexOf('/r/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("/r/", "https://www.reddit.com/r/")}
-                else if (poop.indexOf('r/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("r/", "https://www.reddit.com/r/")}
+                if (poop.indexOf('/r/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("/r/", "https://reddit.com/r/")}
+                else if (poop.indexOf('r/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("r/", "https://reddit.com/r/")}
+                if (poop.indexOf('/u/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("/u/", "https://reddit.com/user/")}
+                else if (poop.indexOf('u/') > -1 && poop.indexOf('http') === -1) {poop = poop.replace("u/", "https://reddit.com/user/")}
                 if (poop.indexOf('http') !== 0) {
                   var uha = poop.indexOf('http');
                   poop = poop.substring(uha);
@@ -1136,8 +1137,12 @@ var app = new Vue({
                   for (var dw=0; dw < urla1.length; dw++) {
                     console.log('urla1[dw]: ' + urla1[dw]);
                     if (urla1[dw].indexOf('r/') > -1) {
-                      if (urla1[dw].indexOf('/r/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("/r/", "https://www.reddit.com/r/")}
-                      else if (urla1[dw].indexOf('r/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("r/", "https://www.reddit.com/r/")}
+                      if (urla1[dw].indexOf('/r/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("/r/", "https://reddit.com/r/")}
+                      else if (urla1[dw].indexOf('r/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("r/", "https://reddit.com/r/")}
+                      app.commentsL.push(urla1[dw])
+                    } else if (urla1[dw].indexOf('u/') > -1) {
+                      if (urla1[dw].indexOf('/u/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("/u/", "https://reddit.com/user/")}
+                      else if (urla1[dw].indexOf('u/') > -1 && urla1[dw].indexOf('http') === -1) {urla1[dw] = urla1[dw].replace("u/", "https://reddit.com/user/")}
                       app.commentsL.push(urla1[dw])
                     }
                   }
@@ -1216,6 +1221,8 @@ var app = new Vue({
               app.subincomms(app.commentsL[jj]);
             }
           }
+          app.commentsL.push('');
+          app.commentsL.push('https://reddit.com/user/' + pic[k][7]);
           document.getElementById('commsID').scrollTop = 0;
           //app.comments = text;
           //for (var i = 0; i < response.data[1].data.children.length; i++) {
@@ -1227,19 +1234,13 @@ var app = new Vue({
         });
     },
 
-    subincomms: function (q) {
-      // if (q.indexOf('%20') > -1) {}
-      console.log('q: ' + q);
-      var urla = q.split(' ');
-      console.log('urla[0]: ' + urla[0]);
-      var url = urla[0];
-      // console.log(url.charAt(url.length-1))
-      if (url.charAt(url.length-1) === '/') {url = url.slice(0, -1)}
-      console.log('url: ' + url);
-      aicA = [];
-      fetch(url + '/new.json?limit=25').then(function(response) {
+    userincomms: function (q) {
+      console.log('userincomms ' + q)
+      var url = q;
+      fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
         return response.json();
       }).then(function(json) {
+        console.log(json.data)
         for (i = 0; i < json.data.children.length; i++) {
           if ((json.data.children[i].data.url.indexOf('imgur') > 0 ||
             // json.data.children[i].data.url.indexOf('gfycat') > 0 ||
@@ -1361,6 +1362,190 @@ var app = new Vue({
             // console.log(url);
             // console.log(json.data.children[i].data.url);
             aicA.push([url, json.data.children[i].data.url]);
+            // console.log(aicA)
+            // pic.push([
+            //   json.data.children[i].data.url,
+            //   'https://www.reddit.com' + json.data.children[i].data.permalink,
+            //   formattedTime,
+            //   json.data.children[i].data.title,
+            //   shit,
+            //   json.data.children[i].data.subreddit,
+            //   json.data.children[i].data.num_comments,
+            //   json.data.children[i].data.author,
+            // ]);
+            // app.imgList.push(json.data.children[i].data.url);
+            // app.fetched = ' / ' + pic.length;
+          } else {
+            // ciao.push([json.data.children[i].data.url, json.data.children[i].data.title]);
+            console.log('wegwerfen: ' + json.data.children[i].data.url + ' ' + json.data.children[i].data.title)
+          }
+        }
+        //videos raus wenn abgewählt
+        if (!app.checked) {
+          aicA = aicA.filter( element => !~element[0].indexOf('gif') && !~element[0].indexOf('gfycat') && !~element[0].indexOf('mp4') );
+        };
+        // app.fetched = ' / ' + pic.length;
+        // app.sort();
+        // titleLink = 3;
+        console.log('lol url: ' + url);
+        var pppp = app.commentsL.findIndex(function (obj) { return obj === url; });
+        console.log(pppp);
+        var count = 0;
+        for(var i = 0; i < aicA.length; i++){
+          if(aicA[i][0] === url)
+          count++;
+        }
+        var eee = app.commentsL[pppp] + ' (' + count + ')';
+        Vue.set(app.commentsL, pppp, eee);
+        console.log('count: ' + eee);
+        for (var z = 0; z < aicA.length; z++) {
+          //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
+          if (q.indexOf(aicA[z][0]) !== -1) {
+            app.ilSrc.push(aicA[z][1]);
+          }
+        };
+      }).catch(function(err) {
+        console.log(err);
+        app.err = 'error: ' + err.message;
+      });
+    },
+
+    subincomms: function (q) {
+      // if (q.indexOf('%20') > -1) {}
+      console.log('q: ' + q);
+      var urla = q.split(' ');
+      console.log('urla[0]: ' + urla[0]);
+      var url = urla[0];
+      // console.log(url.charAt(url.length-1))
+      if (url.charAt(url.length-1) === '/') {url = url.slice(0, -1)}
+      console.log('url: ' + url);
+      aicA = [];
+      fetch('https://ratv-cors-proxy.herokuapp.com/' + url + '/new.json?limit=25').then(function(response) {
+        return response.json();
+      }).then(function(json) {
+        // console.log(json.data)
+        for (i = 0; i < json.data.children.length; i++) {
+          if ((json.data.children[i].data.url.indexOf('imgur') > 0 ||
+            // json.data.children[i].data.url.indexOf('gfycat') > 0 ||
+            json.data.children[i].data.url.indexOf('tumblr') > 0 ||
+            json.data.children[i].data.url.indexOf('500px') > 0 ||
+            json.data.children[i].data.url.indexOf('redditmedia') > 0 ||
+            json.data.children[i].data.url.indexOf('reddituploads') > 0 ||
+            json.data.children[i].data.url.indexOf('artstation') > 0 ||
+            //json.data.children[i].data.url.indexOf('deviantart') > 0 ||
+            json.data.children[i].data.url.indexOf('flickr.com') > 0 ||
+            json.data.children[i].data.url.indexOf('flic.kr') > 0 ||
+            json.data.children[i].data.url.indexOf('.', json.data.children[i].data.url.length-7) > 0) &&
+            (
+            json.data.children[i].data.title.indexOf(' m ') < 0 &&
+            json.data.children[i].data.title.indexOf(' M ') < 0 &&
+            json.data.children[i].data.title.indexOf('(m)') < 0 &&
+            json.data.children[i].data.title.indexOf('(m1') < 0 &&
+            json.data.children[i].data.title.indexOf('(m2') < 0 &&
+            json.data.children[i].data.title.indexOf('(m3') < 0 &&
+            json.data.children[i].data.title.indexOf('(M)') < 0 &&
+            json.data.children[i].data.title.indexOf('(M1') < 0 &&
+            json.data.children[i].data.title.indexOf('(M2') < 0 &&
+            json.data.children[i].data.title.indexOf('(M3') < 0 &&
+            json.data.children[i].data.title.indexOf('[m') < 0 &&
+            json.data.children[i].data.title.indexOf('[M') < 0 &&
+            json.data.children[i].data.title.indexOf('{m') < 0 &&
+            json.data.children[i].data.title.indexOf('{M') < 0 &&
+            json.data.children[i].data.url.indexOf('.htm') < 0 &&
+            json.data.children[i].data.url.indexOf('imgur.com/a/') < 0 &&
+            json.data.children[i].data.url.indexOf('gifv') < 0 &&
+            json.data.children[i].data.url.substr(json.data.children[i].data.url.length - 4) != '.com'
+          )) {
+//              if (json.data.children[i].data.url.indexOf('imgur') > 0 &&
+            if (json.data.children[i].data.url.indexOf('ttp://') > 0)
+            {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("http", "https")
+            };
+            if (json.data.children[i].data.url.indexOf('jpeg99') > 0)
+            {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("jpeg", "jpg")
+            };
+            if (json.data.children[i].data.url.indexOf('_d.jpg') > 0)
+            {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("_d.jpg", ".jpg")
+            };
+            if (json.data.children[i].data.url.indexOf('//imgur.com/gallery') > 0)
+            {
+                //json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//imgur.com/a")
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//i.imgur.com")
+            };
+            if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('?', 22) > 0)
+            {
+              var jupp = json.data.children[i].data.url.split("?");
+              json.data.children[i].data.url = jupp[0];
+            };
+            if (json.data.children[i].data.url.indexOf('imgur.com/r/') != -1)
+            {
+              console.log(json.data.children[i].data.url + ' an Pos. ' + i + ' umschreiben in ');
+              var jupp = json.data.children[i].data.url.split("/");
+              json.data.children[i].data.url = jupp[0] + '//' + jupp[2] + '/' + jupp[5] + '.jpg';
+              console.log(json.data.children[i].data.url);
+            };
+            if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('imgur.com/a/') === -1 && json.data.children[i].data.url.indexOf('.', 22) < 0)
+            {
+              json.data.children[i].data.url += '.jpg';
+            };
+            if (json.data.children[i].data.url.indexOf('//imgur') != -1 && json.data.children[i].data.url.indexOf('.jpg') != -1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur", "//i.imgur")
+            };
+            if (json.data.children[i].data.url.indexOf('//m.imgur.com/a/') != -1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//imgur")
+            } else if (json.data.children[i].data.url.indexOf('//m.imgur.com/') != -1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//i.imgur")
+              json.data.children[i].data.url += '.jpg';
+            }
+            if (json.data.children[i].data.url.indexOf('imgur.com/a/') != -1 && json.data.children[i].data.url.indexOf('#') != -1)
+            {
+              var jupp = json.data.children[i].data.url.split("#");
+              json.data.children[i].data.url = jupp[0];
+            };
+            if (json.data.children[i].data.url.indexOf('/') === json.data.children[i].data.url.length-1)
+            {
+              json.data.children[i].data.url = json.data.children[i].data.url.slice(0, -1)
+            };
+            // if (app.checked) {
+            //   if (json.data.children[i].data.url.indexOf('/gfycat') > 0)
+            //   {
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("/gfycat", "/giant.gfycat");
+            //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
+            //   }
+            //   else if (json.data.children[i].data.url.indexOf('www.gfycat') > 0)
+            //   {
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("www.gfycat", "giant.gfycat");
+            //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
+            //   };
+            //   if (json.data.children[i].data.url.indexOf('-size_restricted.gif') > 0)
+            //   {
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("-size_restricted.gif", ".webm");
+            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
+            //   };
+            // }
+            var shit = json.data.children[i].data.created-8*60*60;
+            var ts = Math.round((new Date()).getTime() / 1000);
+            var minutes = Math.round((ts-shit)/60);
+            var date = Math.round(minutes/60);
+            var days = Math.round(date/24);
+            var formattedTime = "";
+            //console.log((ts-shit)/60 + ": " + desc + " " + url);
+            if (date >= 36) {formattedTime = days + ' days ago';}
+            if (date < 36) {formattedTime = days + ' day ago';}
+            if (date < 24) {formattedTime = date + ' hours ago';}
+            if (minutes < 90) {formattedTime = date + ' hour ago';}
+            if (minutes < 60) {formattedTime = minutes + ' min ago';}
+
+//          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
+            // console.log(url);
+            // console.log(json.data.children[i].data.url);
+            aicA.push([url, json.data.children[i].data.url]);
+            // console.log(aicA)
             // pic.push([
             //   json.data.children[i].data.url,
             //   'https://www.reddit.com' + json.data.children[i].data.permalink,
@@ -1460,7 +1645,12 @@ var app = new Vue({
 
     fetchmic: function (t) {
       // console.log(t)
-      if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
+      if (t.indexOf('reddit.com/user/') > 0 && t.indexOf('comments') < 0) {
+        igbtn.hidden = true;
+        gbtn.hidden = true;
+        ybtn.hidden = true;
+        app.userincomms(t);
+      } else if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
         igbtn.hidden = true;
         gbtn.hidden = true;
         ybtn.hidden = true;
@@ -2659,6 +2849,7 @@ var app = new Vue({
             //console.log('nextBlob ist nicht leer, daher normal weiter');
             nextBlob = imgSrc;
             app.imageNext = imgSrc;
+            console.log(imgSrc.length);
             // if (pic[k+2][0].indexOf('imgur.com/a/') === -1 && pic[k+2][0].indexOf('gfycat') === -1) {pic[k+2][0] = imgSrc};
             if (pic[k+2][0].indexOf('imgur.com/a/') === -1) {pic[k+2][0] = imgSrc};
           } else {
