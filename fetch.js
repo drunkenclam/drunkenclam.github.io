@@ -235,6 +235,7 @@ var app = new Vue({
         'GirlsThatCantDrink',
         'hardbodies',
         'FitnessGirls',
+        'FitAndNatural',
         'SkinnyWithAbs',
         'Deathbysnusnu',
         'FitNakedGirls',
@@ -428,6 +429,7 @@ var app = new Vue({
       'AthleticGirls',
       // 'girlsinyogapants',
       'bodyperfection',
+      'FitAndNatural',
       'SexyTummies',
       'Workoutgonewild',
       'Bustyfit',
@@ -1238,7 +1240,7 @@ var app = new Vue({
       console.log('userincomms ' + q)
       var url = q;
       aicA = [];
-      fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
+      fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=50').then(function(response) {
         return response.json();
       }).then(function(json) {
         console.log(json.data)
@@ -1363,7 +1365,7 @@ var app = new Vue({
             // console.log(url);
             // console.log(json.data.children[i].data.preview);
             if (typeof json.data.children[i].data.preview != 'undefined') {
-              aicA.push([url, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height]);
+              aicA.push([url, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height + json.data.children[i].data.preview.images[0].source.width, json.data.children[i].data.title]);
             }
             // console.log(aicA)
             // pic.push([
@@ -1387,11 +1389,22 @@ var app = new Vue({
         if (!app.checked) {
           aicA = aicA.filter( element => !~element[0].indexOf('gif') && !~element[0].indexOf('gfycat') && !~element[0].indexOf('mp4') );
         };
+        console.log(aicA)
         // doppelte raus
         aicA = aicA.filter(function(item, pos) {
-          if (!this.hasOwnProperty(item[2])) {
-              return this[item[2]] = true;
+          if (!this.hasOwnProperty(item[1])) {
+            console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
+            return this[item[1]] = true;
           }
+          console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
+          return false;
+        }, {});
+        aicA = aicA.filter(function(item, pos) {
+          if (!this.hasOwnProperty(item[3])) {
+            console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
+            return this[item[3]] = true;
+          }
+          console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
           return false;
         }, {});
         // app.fetched = ' / ' + pic.length;
@@ -1412,15 +1425,15 @@ var app = new Vue({
         for (var z = 0; z < aicA.length; z++) {
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
           if (q.indexOf(aicA[z][0]) !== -1) {
-            if (z > 0) {
-              // console.log(aicA[z][2])
-              // console.log(aicA[z-1][2])
-              if (aicA[z][2] !== aicA[z-1][2]) {
-                app.ilSrc.push(aicA[z][1]);
-              }
-            } else {
+            // if (z > 0) {
+            //   // console.log(aicA[z][2])
+            //   // console.log(aicA[z-1][2])
+            //   if (aicA[z][2] !== aicA[z-1][2]) {
+            //     app.ilSrc.push(aicA[z][1]);
+            //   }
+            // } else {
               app.ilSrc.push(aicA[z][1]);
-            }
+            // }
             // console.log(aicA[z][1])
           }
         };
