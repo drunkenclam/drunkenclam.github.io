@@ -77,6 +77,7 @@ var app = new Vue({
         imageSrc: '',
         imageSrcA: '',
         iglink: '',
+        userlink: '',
         ylink: '',
         glink: '',
         instaurl: '',
@@ -1096,7 +1097,7 @@ var app = new Vue({
           // console.log(prelinki)
           linkify = prelinki + linkify;
           // console.log(linkify);
-          if (linkify.indexOf('#**') === -1 && linkify.indexOf('phonebatterylevelbot') === -1 &&
+          if (linkify.indexOf('#**') === -1 && linkify.indexOf('phonebatterylevelbot') === -1 && linkify.indexOf('nices') === -1 &&
               linkify.indexOf('a bot for linking direct images') === -1 && linkify.indexOf('**Remember OP is a real person') === -1 &&
               linkify.indexOf('AlphaBetaGammaTheta') === -1 && linkify.indexOf('compose/?to') === -1 && linkify.indexOf('#Repost') === -1) {
             if (linkify.indexOf('&amp;') != -1) {linkify = linkify.replace(/&amp;/g, "&")}
@@ -1236,11 +1237,37 @@ var app = new Vue({
         });
     },
 
+    getBase64Image: function (url) {
+      var promise = new Promise(function(resolve, reject) {
+
+        var img = new Image();
+        // To prevent: "Uncaught SecurityError: Failed to execute 'toDataURL' on 'HTMLCanvasElement': Tainted canvases may not be exported."
+        img.crossOrigin = "Anonymous";
+        img.onload = function() {
+          var canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+          var dataURL = canvas.toDataURL("image/png");
+          resolve(dataURL.replace(/^data:image\/(png|jpg|jpeg|pdf);base64,/, ""));
+        };
+        img.src = url;
+      });
+
+      return promise;
+    },
+
     userincomms: function (q) {
+      if (q === undefined) {q = 'https://reddit.com/user/' + pic[k][7]};
       console.log('userincomms ' + q)
+      igbtn.hidden = true;
+      userbtn.hidden = true;
+      gbtn.hidden = true;
+      ybtn.hidden = true;
       var url = q;
       aicA = [];
-      fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=50').then(function(response) {
+      fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
         return response.json();
       }).then(function(json) {
         console.log(json.data)
@@ -1365,8 +1392,9 @@ var app = new Vue({
             // console.log(url);
             // console.log(json.data.children[i].data.preview);
             if (typeof json.data.children[i].data.preview != 'undefined') {
-              aicA.push([url, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height + json.data.children[i].data.preview.images[0].source.width, json.data.children[i].data.title]);
+              aicA.push([json.data.children[i].data.subreddit, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height + json.data.children[i].data.preview.images[0].source.width, Math.round(minutes / 20) * 20, json.data.children[i].data.title]);
             }
+
             // console.log(aicA)
             // pic.push([
             //   json.data.children[i].data.url,
@@ -1393,29 +1421,80 @@ var app = new Vue({
         // doppelte raus
         aicA = aicA.filter(function(item, pos) {
           if (!this.hasOwnProperty(item[1])) {
-            console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
+            // console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
             return this[item[1]] = true;
           }
-          console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
+          // console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
           return false;
         }, {});
         aicA = aicA.filter(function(item, pos) {
           if (!this.hasOwnProperty(item[3])) {
-            console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
+            // console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
             return this[item[3]] = true;
           }
-          console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
+          // console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
           return false;
         }, {});
+
+        // var lolli = [];
+        // for (var z = 0; z < aicA.length; z++) {
+        //   var promise = app.getBase64Image('https://ratv-cors-proxy.herokuapp.com/' + aicA[z][1]);
+        //
+        //   promise.then(function (dataURL) {
+        //     console.log(aicA)
+        //     console.log(z)
+        //     console.log(aicA[z])
+        //     lolli.push(dataURL);
+        //     console.log(lolli);
+        //   });
+        // }
+
+        // var diff = resemble('https://ratv-cors-proxy.herokuapp.com/' + aicA[0][1])
+        //     .compareTo('https://ratv-cors-proxy.herokuapp.com/' + aicA[1][1])
+        //     .ignoreColors()
+        //     .onComplete(function(data) {
+        //         console.log(data);
+        //         /*
+        //   {
+        //     misMatchPercentage : 100, // %
+        //     isSameDimensions: true, // or false
+        //     dimensionDifference: { width: 0, height: -1 }, // defined if dimensions are not the same
+        //     getImageDataUrl: function(){}
+        //   }
+        //   */
+        //     });
+
+        // aicA = aicA.filter(function(item, pos) {
+        //   // console.log(item + ' ' + pos)
+        //   if (this.hasOwnProperty(item[2])) {
+        //     var ww = false;
+        //     for (var ii = 0; ii < pos; ii++) {
+        //       console.log('------------')
+        //       console.log('aicA[ii][0] ' + aicA[ii][0])
+        //       console.log('item[0] ' + item[0])
+        //       if (aicA[ii][0] !== item[0]) {return false}
+        //     }
+        //     if (ww === true) {
+        //       console.log('true ' + item[0] + ' ' + item[1] + ' ' + item[2])
+        //       return this[item[2]] = true;
+        //     } else {
+        //       console.log('false ' + item[0] + ' ' + item[1] + ' ' + item[2])
+        //       return false;
+        //     }
+        //   }
+        //   console.log('true ' + item[0] + ' ' + item[1] + ' ' + item[2])
+        //   return this[item[2]] = true;
+        // }, {});
+
         // app.fetched = ' / ' + pic.length;
         // app.sort();
         // titleLink = 3;
-        console.log('lol url: ' + url);
+        console.log('lol url: ' + url + '/submitted/?sort=new');
         var pppp = app.commentsL.findIndex(function (obj) { return obj === url; });
         console.log(pppp);
         var count = 0;
         for(var i = 0; i < aicA.length; i++){
-          if(aicA[i][0] === url)
+          // if(aicA[i][0] === url)
           count++;
         }
         var eee = app.commentsL[pppp] + ' (' + count + ')';
@@ -1423,8 +1502,9 @@ var app = new Vue({
         console.log('count: ' + eee);
 
         for (var z = 0; z < aicA.length; z++) {
+          // console.log(q.indexOf(aicA[z][0]))
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
-          if (q.indexOf(aicA[z][0]) !== -1) {
+          // if (q.indexOf(aicA[z][0]) !== -1) {
             // if (z > 0) {
             //   // console.log(aicA[z][2])
             //   // console.log(aicA[z-1][2])
@@ -1435,7 +1515,7 @@ var app = new Vue({
               app.ilSrc.push(aicA[z][1]);
             // }
             // console.log(aicA[z][1])
-          }
+          // }
         };
       }).catch(function(err) {
         console.log(err);
@@ -1680,11 +1760,13 @@ var app = new Vue({
       // console.log(t)
       if (t.indexOf('reddit.com/user/') > 0 && t.indexOf('comments') < 0) {
         igbtn.hidden = true;
+        userbtn.hidden = true;
         gbtn.hidden = true;
         ybtn.hidden = true;
         app.userincomms(t);
       } else if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
         igbtn.hidden = true;
+        userbtn.hidden = true;
         gbtn.hidden = true;
         ybtn.hidden = true;
         for (var z = 0; z < aicA.length; z++) {
@@ -1699,7 +1781,7 @@ var app = new Vue({
     },
 
     tapAction: function () {
-      console.log('tap');
+      console.log('tap11');
       //document.getElementById('commsID').scrollTop = 0;
       app.showComms = false;
       app.ilSrc = [];
@@ -2534,8 +2616,13 @@ var app = new Vue({
         }
         document.documentElement.webkitRequestFullscreen();
         if (typeof video != 'undefined') {console.log('ig');app.headBot = video.offsetTop + video.offsetHeight;}
-        else {app.headBot = currentOne.offsetTop + currentOne.offsetHeight;}
-        app.headTop = '';
+        else if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+          app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
+          app.headTop = '';
+        } else {
+          app.headBot = '';
+          app.headTop = '';
+        }
       }
     },
 
@@ -2628,6 +2715,7 @@ var app = new Vue({
         app.postlink = pic[k][1];
         var susu = pic[k][3].replace(/ /g, '');
         app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
+        app.userlink = 'https://www.reddit.com/user/' + pic[k][7];
         app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
         app.glink = 'https://www.google.com/searchbyimage?&image_url=' + pic[k][8];
         // console.log(app.iglink);
@@ -2716,8 +2804,8 @@ var app = new Vue({
           document.documentElement.style.setProperty('--max-h', '100vh')
         }
         var headpos = nextOne.offsetTop + nextOne.offsetHeight + 1;
-        // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-        if ((imgDiv.offsetHeight - headpos) > 78) {
+        // console.log(k + ' bottom: ' + (headpos) + ' imgDiv offsetheight: ' + imgDiv.offsetHeight)
+        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
           app.headBot = headpos;
           app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
@@ -2976,7 +3064,7 @@ var app = new Vue({
 
     touchnextX: function (e) {
       // console.log(e.target.id);
-      if (app.showComms) {igbtn.hidden = true; gbtn.hidden = true; ybtn.hidden = true}
+      if (app.showComms) {igbtn.hidden = true; userbtn.hidden = true; gbtn.hidden = true; ybtn.hidden = true}
       if (app.hihi > 0) {waitForNext = true} else {waitForNext = false}
       if (e.target.id === "nextOne") {app.last()}
       else if (!waitForNext && !plop && e.maxPointers === 1) {
@@ -3408,7 +3496,7 @@ var app = new Vue({
         app.currentImgA = app.currentImgA - 1;
         var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
         // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-        if ((imgDiv.offsetHeight - headpos) > 78) {
+        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
           app.headBot = headpos;
           app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
@@ -3482,7 +3570,7 @@ var app = new Vue({
             currentOne.src = pic[k][11][qq];
             var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
             // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-            if ((imgDiv.offsetHeight - headpos) > 78) {
+            if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
               app.headBot = headpos;
               app.headTop = '';
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
@@ -3510,7 +3598,7 @@ var app = new Vue({
                 console.log('ende')
                 var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
                 // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-                if ((imgDiv.offsetHeight - headpos) > 78) {
+                if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
                   app.headBot = headpos;
                   app.headTop = '';
                   // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
@@ -3531,7 +3619,7 @@ var app = new Vue({
             app.aaPos = qq+1 + ' / ' + pic[k][10];
             var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
             // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-            if ((imgDiv.offsetHeight - headpos) > 78) {
+            if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
               app.headBot = headpos;
               app.headTop = '';
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
@@ -3671,7 +3759,12 @@ var app = new Vue({
       hammertime.on('tap', function(e) {
         console.log('tap');
         // console.log(e);
-        if (pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
+        if (currentOne.y === 0 && e.center.y/imgDiv.clientHeight < 0.5) {
+          chicken3 = !chicken3;
+          app.chicken3 = !app.chicken3;
+          app.derp = !app.derp;
+        } else
+        if (currentOne.offsetLeft < -20 && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
           var element99 = document.getElementById("currentOne");
           element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
@@ -3684,11 +3777,11 @@ var app = new Vue({
             app.chicken3 = true;
           }
           update();
-        } else if (app.showComms && e.target.id != 'example-2') {
+        } else if (app.showComms && e.target.id != 'example-2' && e.target.id != 'userbtn') {
           app.showComms = false;
           app.ilSrc = [];
           app.il = false;
-        } else {app.tap(e)}
+        } else if (e.target.id != 'userbtn') {app.tap(e)}
       })
 
       hammertime.on('swipedown', function(e) {
@@ -3836,7 +3929,7 @@ var app = new Vue({
             app.chicken3 = !app.chicken3;
             showtitle = !showtitle;
           }
-          else if (imgNo === '' && meep < 0.5 && !app.showComms) {
+          else if (imgNo === '' && meep < 0.5 && !app.showComms && currentOne.y != 0) {
             chicken3 = !chicken3;
             app.chicken3 = !app.chicken3;
             showtitle = !showtitle;
