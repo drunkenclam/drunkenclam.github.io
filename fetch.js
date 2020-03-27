@@ -19,6 +19,7 @@ var instaurl= '';
 var imgNo = '';
 var swup = false;
 var titleLink = 3;
+var gimme = false;
 var i = 0;
 var j = 0;
 var k = 0;
@@ -2782,6 +2783,7 @@ var app = new Vue({
         // var element99 = document.getElementById("currentOne");
         // element99.classList.add("pop");
         app.lumpi = false;
+        gimme = false;
         document.documentElement.style.setProperty('--z-indx', '10')
         document.documentElement.style.setProperty('--max-w', '100vw')
         document.documentElement.style.setProperty('--max-h', '100vh')
@@ -2792,12 +2794,15 @@ var app = new Vue({
           okok = (okok - nextOne.width) / 2;
           okok = -okok + "px";
           app.lumpi = true;
+          gimme = true;
           document.documentElement.style.setProperty('--max-w', '200vw')
           document.documentElement.style.setProperty('--move-left', okok)
           // nextOne.style.left = okok;
         } else if (nextOne.offsetTop < 30 && nextOne.offsetTop > 0) {
+          gimme = true;
           document.documentElement.style.setProperty('--max-w', '200vw')
         } else if (nextOne.offsetLeft < 20 && nextOne.offsetLeft > 0) {
+          gimme = true;
           document.documentElement.style.setProperty('--max-h', '200vh')
         } else {
           document.documentElement.style.setProperty('--max-w', '100vw')
@@ -3764,8 +3769,8 @@ var app = new Vue({
           app.chicken3 = !app.chicken3;
           app.derp = !app.derp;
         } else
-        // currentOne.offsetLeft < -40 && 
-        if (pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
+        // currentOne.offsetLeft < -40 &&
+        if (!gimme && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
           var element99 = document.getElementById("currentOne");
           element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
@@ -3776,6 +3781,7 @@ var app = new Vue({
           if (showtitle) {
             chicken3 = true;
             app.chicken3 = true;
+            app.derp = true;
           }
           update();
         } else if (app.showComms && e.target.id != 'example-2' && e.target.id != 'userbtn') {
