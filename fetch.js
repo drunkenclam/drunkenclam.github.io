@@ -3764,7 +3764,8 @@ var app = new Vue({
           app.chicken3 = !app.chicken3;
           app.derp = !app.derp;
         } else
-        if (currentOne.offsetLeft < -20 && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
+        // currentOne.offsetLeft < -40 && 
+        if (pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
           var element99 = document.getElementById("currentOne");
           element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
@@ -3864,6 +3865,7 @@ var app = new Vue({
           }
           chicken3 = false;
           app.chicken3 = false;
+          app.derp = false;
           update();
         }
         pinchStart.x = e.center.x;
@@ -3923,6 +3925,7 @@ var app = new Vue({
         if (e.target.tagName === 'A') {
           // window.open(e.target.href, '_blank');
         } else if (document.webkitIsFullScreen && e.target.id != "video") {
+          console.log('tap2');
           var meep = e.center.y/imgDiv.clientHeight;
           if (imgNo === '' && app.picked === 'tumblr' && !app.showComms) {
             chicken3 = !chicken3;
