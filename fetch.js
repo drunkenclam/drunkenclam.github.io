@@ -1004,9 +1004,9 @@ var app = new Vue({
             if (blob.size < 1024*1024) {
               blobsize = Math.round(blob.size/1024) + ' kB';
             } else {
-              blobsize = Math.round(blob.size/1024/1024*10)/10 + ' kB';
+              blobsize = Math.round(blob.size/1024/1024*10)/10 + ' mB';
             }
-            console.log('blob.size: ' + blobsize);
+            console.log('blob.size: ' + blob.size + ' ' + blobsize);
             pic[k+2][12] = blobsize;
             console.log(m[1]);
             console.log(pic[k+2][1]);
@@ -2820,7 +2820,7 @@ var app = new Vue({
         }
         var headpos = nextOne.offsetTop + nextOne.offsetHeight + 1;
         // console.log(k + ' bottom: ' + (headpos) + ' imgDiv offsetheight: ' + imgDiv.offsetHeight)
-        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 30) {
           app.headBot = headpos;
           app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
