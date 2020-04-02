@@ -13,6 +13,7 @@ var aa = [];
 var ciao = [];
 var desc = [];
 var aicA = [];
+var blobsize = '';
 var imageSrc= '';
 var imageSrcA= '';
 var instaurl= '';
@@ -232,7 +233,11 @@ var app = new Vue({
         'LegalTeens',
         'fortyfivefiftyfive',
         'theratio',
+        'titsonastick',
         'SourcedNSFW',
+        'Amateurs_Only',
+        'OnlyFans_Females',
+        'OnlyFans_Accounts',
         'ass',
         'GirlsThatCantDrink',
         'hardbodies',
@@ -447,6 +452,10 @@ var app = new Vue({
       'LegalTeens',
       'fortyfivefiftyfive',
       'theratio',
+      'titsonastick',
+      'Amateurs_Only',
+      'OnlyFans_Females',
+      'OnlyFans_Accounts',
       'ass',
       'GirlsThatCantDrink',
       'helgalovekaty',
@@ -993,11 +1002,12 @@ var app = new Vue({
             nextBlob = 'init';
             var blob = new Blob([this.response], options);
             if (blob.size < 1024*1024) {
-              var blobsize = Math.round(blob.size/1024) + ' KB';
+              blobsize = Math.round(blob.size/1024) + ' kB';
             } else {
-              var blobsize = Math.round(blob.size/1024/1024*10)/10 + ' MB';
+              blobsize = Math.round(blob.size/1024/1024*10)/10 + ' kB';
             }
             console.log('blob.size: ' + blobsize);
+            pic[k+2][12] = blobsize;
             console.log(m[1]);
             console.log(pic[k+2][1]);
             if ((m[1] === 'image/jpeg' || m[1] === 'image/png' || m[1] === 'application/octet-stream') && blob.size < 20000) {
@@ -2825,7 +2835,7 @@ var app = new Vue({
         app.bibo = 'The End!';
         app.derp = true;
       } else {
-        app.bibo = pic[k][2];
+        app.bibo = pic[k][2] + ' ' + pic[k][12];
         app.derp = true;
       }
       if (k === 0) {
@@ -3813,7 +3823,7 @@ var app = new Vue({
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             app.touchnextX(e);
           }
-        } else if (app.lumpi || (current.z <= 1 && currentOne.x >= 0) || currentOne.offsetLeft > 0) {
+        } else if (app.showComms || app.lumpi || (current.z <= 1 && currentOne.x >= 0) || currentOne.offsetLeft > 0) {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             last, current = {
                 x: 0,
