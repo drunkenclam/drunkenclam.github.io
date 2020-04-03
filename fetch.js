@@ -2823,7 +2823,7 @@ var app = new Vue({
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
         } else {
           app.headBot = '';
-          app.headTop = '';
+          app.headTop = 27;
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
