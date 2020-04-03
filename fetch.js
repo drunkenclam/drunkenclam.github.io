@@ -2624,12 +2624,12 @@ var app = new Vue({
         }
         document.documentElement.webkitRequestFullscreen();
         if (typeof video != 'undefined') {console.log('ig');app.headBot = video.offsetTop + video.offsetHeight;}
-        else if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+        else if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
           app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
           app.headTop = '';
         } else {
           app.headBot = '';
-          app.headTop = '';
+          app.headTop = -1;
         }
       }
     },
@@ -2823,7 +2823,7 @@ var app = new Vue({
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
         } else {
           app.headBot = '';
-          app.headTop = 0;
+          app.headTop = -1;
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
@@ -3508,13 +3508,13 @@ var app = new Vue({
         app.currentImgA = app.currentImgA - 1;
         var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
         // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
           app.headBot = headpos;
           app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
         } else {
           app.headBot = '';
-          app.headTop = '';
+          app.headTop = -1;
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
@@ -3582,13 +3582,13 @@ var app = new Vue({
             currentOne.src = pic[k][11][qq];
             var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
             // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-            if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+            if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
               app.headBot = headpos;
               app.headTop = '';
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
             } else {
               app.headBot = '';
-              app.headTop = '';
+              app.headTop = '-1;
               // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
             }
             if (qq < pic[k][10]-1) {
@@ -3610,13 +3610,13 @@ var app = new Vue({
                 console.log('ende')
                 var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
                 // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-                if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+                if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
                   app.headBot = headpos;
                   app.headTop = '';
                   // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
                 } else {
                   app.headBot = '';
-                  app.headTop = '';
+                  app.headTop = -1;
                   // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
                 }
               });
@@ -3631,13 +3631,13 @@ var app = new Vue({
             app.aaPos = qq+1 + ' / ' + pic[k][10];
             var headpos = currentOne.offsetTop + currentOne.offsetHeight + 1;
             // console.log(k + ' bottom: ' + (headpos) + ' headline offsetheight: ' + headline.offsetHeight)
-            if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 78) {
+            if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
               app.headBot = headpos;
               app.headTop = '';
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
             } else {
               app.headBot = '';
-              app.headTop = '';
+              app.headTop = -1;
               // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
             }
           };
