@@ -3588,7 +3588,7 @@ var app = new Vue({
               // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
             } else {
               app.headBot = '';
-              app.headTop = '-1;
+              app.headTop = -1;
               // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
             }
             if (qq < pic[k][10]-1) {
@@ -3732,7 +3732,7 @@ var app = new Vue({
 
       function getCoordinateShiftDueToScale(size, scale){
         var newWidth = scale * size.width;
-          var newHeight = scale * size.height;
+        var newHeight = scale * size.height;
         var dx = (newWidth - size.width) / 2
         var dy = (newHeight - size.height) / 2
         return {
@@ -3849,6 +3849,13 @@ var app = new Vue({
         }
       })
 
+      hammertime.on('panend', function(e) {
+        // console.log(e.additionalEvent);
+          last.x = current.x;
+          last.y = current.y;
+          lastEvent = 'panend';
+      })
+
       hammertime.on('pinch', function(e) {
         // console.log('last.z ' + last.z);
         // console.log('current.z ' + current.z);
@@ -3863,6 +3870,7 @@ var app = new Vue({
       })
 
       var pinchZoomOrigin = undefined;
+
       hammertime.on('pinchstart', function(e) {
         var element99 = document.getElementById("currentOne");
         element99.classList.remove("pop");
@@ -3886,13 +3894,6 @@ var app = new Vue({
         pinchZoomOrigin = getRelativePosition(element, { x: pinchStart.x, y: pinchStart.y }, originalSize, current.z);
         // console.log(pinchZoomOrigin)
         lastEvent = 'pinchstart';
-      })
-
-      hammertime.on('panend', function(e) {
-        // console.log(e.additionalEvent);
-          last.x = current.x;
-          last.y = current.y;
-          lastEvent = 'panend';
       })
 
       hammertime.on('pinchend', function(e) {
