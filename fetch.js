@@ -453,9 +453,6 @@ var app = new Vue({
       'fortyfivefiftyfive',
       'theratio',
       'titsonastick',
-      'Amateurs_Only',
-      'OnlyFans_Females',
-      'OnlyFans_Accounts',
       'ass',
       'GirlsThatCantDrink',
       'helgalovekaty',
@@ -2818,9 +2815,9 @@ var app = new Vue({
           document.documentElement.style.setProperty('--max-w', '100vw')
           document.documentElement.style.setProperty('--max-h', '100vh')
         }
-        var headpos = nextOne.offsetTop + nextOne.offsetHeight + 1;
-        // console.log(k + ' bottom: ' + (headpos) + ' imgDiv offsetheight: ' + imgDiv.offsetHeight)
-        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 30) {
+        var headpos = nextOne.offsetTop + nextOne.offsetHeight;
+        console.log(k + ' bottom: ' + (headpos) + ' imgDiv offsetheight: ' + imgDiv.offsetHeight)
+        if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
           app.headBot = headpos;
           app.headTop = '';
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
