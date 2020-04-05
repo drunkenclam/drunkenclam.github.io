@@ -1230,6 +1230,8 @@ var app = new Vue({
               app.albumsincomms(app.commentsL[jj]);
             } else if (app.commentsL[jj].indexOf('reddit.com/r/') > 0 && app.commentsL[jj].indexOf('comments') < 0) {
               app.subincomms(app.commentsL[jj]);
+            } else if (app.commentsL[jj].indexOf('fitnakedgirls.com') > 0) {
+              app.fitnaked(app.commentsL[jj]);
             }
           }
           app.commentsL.push('');
@@ -1242,6 +1244,51 @@ var app = new Vue({
         })
         .catch(function (error) {
           console.log(error);
+        });
+    },
+
+    fitnaked: function (url) {
+      aicA = [];
+
+      fetch('https://ratv-cors-proxy.herokuapp.com/' + url)
+        .then(function (response) {
+            switch (response.status) {
+                // status "OK"
+                case 200:
+                    return response.text();
+                // status "Not Found"
+                case 404:
+                    throw response;
+            }
+        })
+        .then(function (template) {
+            // console.log(template);
+            var indexes = [...template.matchAll(new RegExp('srcset', 'gi'))].map(a => a.index);
+            // console.log(indexes)
+            // var imagesfn = [];
+            // var srcList = [];
+            var imagesfn = '';
+            for(var i = 0; i < indexes.length; i++) {
+              imagesfn = template.substring(indexes[i], indexes[i] + 500);
+              imagesfn = imagesfn.substring(8, imagesfn.indexOf(' '));
+              aicA.push(imagesfn);
+              // app.ilSrc.push(imagesfn);
+              // srcList.push(imagesfn);
+            }
+            var pppp = app.commentsL.findIndex(function (obj) { return obj === url; });
+            console.log(pppp);
+            // var count = 0;
+            // for(var i = 0; i < aicA.length; i++){
+            //   if(aicA[i] === url)
+            //   count++;
+            // }
+            var eee = app.commentsL[pppp] + ' (' + indexes.length + ')';
+            Vue.set(app.commentsL, pppp, eee);
+            console.log('count: ' + indexes.length);
+        })
+        .catch(function (response) {
+            // "Not Found"
+            console.log(response.statusText);
         });
     },
 
@@ -1766,22 +1813,24 @@ var app = new Vue({
 
     fetchmic: function (t) {
       // console.log(t)
+      igbtn.hidden = true;
+      userbtn.hidden = true;
+      gbtn.hidden = true;
+      ybtn.hidden = true;
+      app.derp = false;
       if (t.indexOf('reddit.com/user/') > 0 && t.indexOf('comments') < 0) {
-        igbtn.hidden = true;
-        userbtn.hidden = true;
-        gbtn.hidden = true;
-        ybtn.hidden = true;
         app.userincomms(t);
       } else if (t.indexOf('/a/') > 0 || (t.indexOf('reddit.com/r/') > 0 && t.indexOf('comments') < 0)) {
-        igbtn.hidden = true;
-        userbtn.hidden = true;
-        gbtn.hidden = true;
-        ybtn.hidden = true;
         for (var z = 0; z < aicA.length; z++) {
           //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
           if (t.indexOf(aicA[z][0]) !== -1) {
             app.ilSrc.push(aicA[z][1]);
           }
+        };
+      } else if (t.indexOf('fitnakedgirls') > 0 && t.indexOf('comments') < 0) {
+        for (var z = 0; z < aicA.length; z++) {
+          app.ilSrc.push(aicA[z]);
+          // console.log(aicA[z])
         };
       } else {
         window.open(t, '_blank');
@@ -3795,6 +3844,7 @@ var app = new Vue({
           app.showComms = false;
           app.ilSrc = [];
           app.il = false;
+          app.derp = true;
         } else if (e.target.id != 'userbtn') {app.tap(e)}
       })
 
