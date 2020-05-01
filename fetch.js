@@ -234,6 +234,7 @@ var app = new Vue({
         'fortyfivefiftyfive',
         'theratio',
         'titsonastick',
+        'igsluts',
         'SourcedNSFW',
         'Amateurs_Only',
         'OnlyFans_Females',
@@ -440,7 +441,13 @@ var app = new Vue({
       'SexyTummies',
       'Workoutgonewild',
       'Bustyfit',
+      'newyorknine',
       'CuteLittleButts',
+      'BustyPetite',
+      'fortyfivefiftyfive',
+      'theratio',
+      'titsonastick',
+      'igsluts',
     ],
       optionsRbo: [ 'All',
       'nsfw',
@@ -448,11 +455,7 @@ var app = new Vue({
       'RealGirls',
       'Boobies',
       'FantasticBreasts',
-      'BustyPetite',
       'LegalTeens',
-      'fortyfivefiftyfive',
-      'theratio',
-      'titsonastick',
       'ass',
       'GirlsThatCantDrink',
       'helgalovekaty',
@@ -2881,7 +2884,11 @@ var app = new Vue({
         app.bibo = 'The End!';
         app.derp = true;
       } else {
-        app.bibo = pic[k][2] + ' ' + pic[k][12];
+        if (pic[k][12]) {
+          app.bibo = pic[k][2] + ' ' + pic[k][12];
+        } else {
+          app.bibo = pic[k][2];
+        }
         app.derp = true;
       }
       if (k === 0) {
