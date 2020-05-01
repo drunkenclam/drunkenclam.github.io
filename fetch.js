@@ -98,6 +98,7 @@ var app = new Vue({
         hehe: '',
         hoho: '',
         bibo: '',
+        bru: '',
         max: 100,
         hihi: 0,
         err: '',
@@ -2646,6 +2647,7 @@ var app = new Vue({
             // app.imgList.push(pic[1][0]);
             // pic2 = JSON.parse(JSON.stringify(pic));
             // console.log(pic2);
+            app.bru = pic[k][5];
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -2891,6 +2893,7 @@ var app = new Vue({
         }
         app.derp = true;
       }
+      app.bru = pic[k][5];
       if (k === 0) {
         window.addEventListener("orientationchange", function() {
           console.log('orientation change! ' + window.screen.orientation.type)

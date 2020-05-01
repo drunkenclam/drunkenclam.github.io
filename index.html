@@ -124,6 +124,7 @@
       #container {height: 100vh; perspective: 1000px;}
       #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; margin-top: env(safe-area-inset-top); text-align: center; z-index: var(--z-indx); backface-visibility: hidden;}
       #ralbum { color: #7292df; font-size: medium; background-color: black; position: fixed; top:-1px; right:0px; z-index: 12; padding-left: 5px; padding-right: 15px}
+      #sub { font-size: small; position: fixed; top:0px; left:0px; z-index: 10; padding-left: 10px}
       #mic { font-size: small; position: fixed; top:0px; right:0px; z-index: 11; padding-left: 5px; padding-right: 10px}
       #entries {height: 100vh}
       #behind24 {background-color: white; position: fixed; top:0px; right:0px; width:2px; height:2px; z-index: 99}
@@ -328,6 +329,13 @@
       .slike-fadedown-leave-to {
         opacity: 0;
       } */
+      .slippe-fadein-enter-active {
+        transition: all .2s ease;
+      }
+      .slippe-fadein-enter, .slippe-fadein-leave-to {
+        transition: all .2s ease;
+        transform: translateX(-100%);
+      }
       .slipe-fadein-enter-active {
         transition: all .2s ease;
       }
@@ -372,6 +380,9 @@
     <div id="box">
     <b-container fluid>
     <div id="app">
+      <transition name="slippe-fadein" mode="out-in">
+        <div id="sub" v-if="derp">{{bru}}</div>
+      </transition>
       <transition name="slipe-fadein" mode="out-in">
         <div id="ralbum" v-if="imgNo != ''">{{aaPos}}</div>
       </transition>
