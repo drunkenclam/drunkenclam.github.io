@@ -1219,6 +1219,13 @@ var app = new Vue({
       var pieces = pic[k][1].split("/");
       var commentsTree = 'https://www.reddit.com/r/' + pieces[4] + '/comments/' + pieces[6] + '.json';
       // console.log(commentsTree);
+      navigator.clipboard.writeText(pic[k][3])
+        .then(() => {
+          console.log('Copied to Clipboard');
+        })
+        .catch(err => {
+          console.log('Something went wrong', err);
+        });
       axios.get(commentsTree)
         .then(function (response) {
           // console.log(response);
@@ -3203,6 +3210,7 @@ var app = new Vue({
             // document.documentElement.style.setProperty('--max-w', '100vw')
             // document.documentElement.style.setProperty('--max-h', '100vh')
             // console.log(e.velocityX)
+            app.derp = false;
             console.log('AAAAAAHHH ' + e.additionalEvent)
             if (e.additionalEvent === 'panright' && percentage < 0) {
               console.log('snap back')
