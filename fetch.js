@@ -3210,7 +3210,6 @@ var app = new Vue({
             // document.documentElement.style.setProperty('--max-w', '100vw')
             // document.documentElement.style.setProperty('--max-h', '100vh')
             // console.log(e.velocityX)
-            app.derp = false;
             console.log('AAAAAAHHH ' + e.additionalEvent)
             if (e.additionalEvent === 'panright' && percentage < 0) {
               console.log('snap back')
@@ -3884,6 +3883,7 @@ var app = new Vue({
         // console.log(e);
         // console.log(e.additionalEvent);
         // console.log('lumpi: ' + app.lumpi);
+        app.derp = false;
         if (pic[k][8] === 'video') {
           if (e.additionalEvent != 'panup' && e.additionalEvent != 'pandown') {
             app.touchnextX(e);
