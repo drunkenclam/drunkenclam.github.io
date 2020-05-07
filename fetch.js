@@ -231,6 +231,7 @@ var app = new Vue({
         'Boobies',
         'FantasticBreasts',
         'BustyPetite',
+        'newyorknine',
         'LegalTeens',
         'fortyfivefiftyfive',
         'theratio',
@@ -2685,12 +2686,16 @@ var app = new Vue({
         }
         document.documentElement.webkitRequestFullscreen();
         if (typeof video != 'undefined') {console.log('ig');app.headBot = video.offsetTop + video.offsetHeight;}
-        else if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
+        else if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) {
+          console.log('1 ' + imgDiv.offsetHeight)
+          // console.log(headpos)
           app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
           app.headTop = '';
         } else {
-          app.headBot = '';
-          app.headTop = -1;
+          console.log('2 ' + imgDiv.offsetHeight)
+          // console.log(headpos)
+          app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
+          app.headTop = '';
         }
       }
     },
@@ -3146,8 +3151,9 @@ var app = new Vue({
       if (app.hihi > 0) {waitForNext = true} else {waitForNext = false}
       if (e.target.id === "nextOne") {app.last()}
       else if (!waitForNext && !plop && e.maxPointers === 1) {
+        // console.log(e.target.id)
         // || e.target.id === "commsID" || e.target.id === "example-1"
-        if (e.target.id === "currentOne" || e.target.id === "video" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
+        if (e.target.id === "currentOne" || e.target.id === "video" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv" || e.target.id === "commsID" || e.target.id === "example-1" || e.target.id === "example-2" || e.target.id === "imgurComms1") {
           // app.showComms = false;
           // app.ilSrc = [];
           // app.il = false;
