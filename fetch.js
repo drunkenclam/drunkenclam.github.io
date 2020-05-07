@@ -2686,14 +2686,7 @@ var app = new Vue({
         }
         document.documentElement.webkitRequestFullscreen();
         if (typeof video != 'undefined') {console.log('ig');app.headBot = video.offsetTop + video.offsetHeight;}
-        else if (window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) {
-          console.log('1 ' + imgDiv.offsetHeight)
-          // console.log(headpos)
-          app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
-          app.headTop = '';
-        } else {
-          console.log('2 ' + imgDiv.offsetHeight)
-          // console.log(headpos)
+        else {
           app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
           app.headTop = '';
         }
@@ -3152,8 +3145,9 @@ var app = new Vue({
       if (e.target.id === "nextOne") {app.last()}
       else if (!waitForNext && !plop && e.maxPointers === 1) {
         // console.log(e.target.id)
-        // || e.target.id === "commsID" || e.target.id === "example-1"
-        if (e.target.id === "currentOne" || e.target.id === "video" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv" || e.target.id === "commsID" || e.target.id === "example-1" || e.target.id === "example-2" || e.target.id === "imgurComms1") {
+        // die folgenden targets lüppen nicht weil das scrollen als swipe missinterpretiert wird
+        //  || e.target.id === "commsID" || e.target.id === "example-1" || e.target.id === "example-2" || e.target.id === "imgurComms1"
+        if (e.target.id === "currentOne" || e.target.id === "video" || e.target.id === "container" || e.target.id === "imgDiv" || e.target.id === "albumDiv") {
           // app.showComms = false;
           // app.ilSrc = [];
           // app.il = false;
