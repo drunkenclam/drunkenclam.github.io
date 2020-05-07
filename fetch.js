@@ -2686,7 +2686,7 @@ var app = new Vue({
         }
         document.documentElement.webkitRequestFullscreen();
         if (typeof video != 'undefined') {console.log('ig');app.headBot = video.offsetTop + video.offsetHeight;}
-        else if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) {
+        else if (window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) {
           console.log('1 ' + imgDiv.offsetHeight)
           // console.log(headpos)
           app.headBot = currentOne.offsetTop + currentOne.offsetHeight;
