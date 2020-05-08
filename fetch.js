@@ -2912,9 +2912,11 @@ var app = new Vue({
             if (window.screen.orientation.type === 'landscape-primary') {
               chicken3 = false;
               app.chicken3 = false;
+              app.derp = false;
             } else if (showtitle) {
               chicken3 = true;
               app.chicken3 = true;
+              app.derp = true;
             }
               if (pic[k][8] === 'video' || pic[k][7] === 'video') {
                 // if (video.offsetWidth < imgDiv.clientWidth && video.offsetHeight < imgDiv.clientHeight) {
@@ -3836,8 +3838,9 @@ var app = new Vue({
 
       hammertime.on('tap', function(e) {
         console.log('tap');
-        // console.log(e);
-        if (currentOne.y === 0 && e.center.y/imgDiv.clientHeight < 0.5) {
+        console.log(e.target);
+        if (pic[k][8] === 'video' && e.target.id != 'imgDiv') {return}
+        if (pic[k][8] != 'video' && currentOne.y === 0 && e.center.y/imgDiv.clientHeight < 0.5) {
           chicken3 = !chicken3;
           app.chicken3 = !app.chicken3;
           app.derp = !app.derp;
