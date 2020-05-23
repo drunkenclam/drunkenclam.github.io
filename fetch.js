@@ -3135,6 +3135,9 @@ var app = new Vue({
           pic[k+2][0] = app.imgList[k+2] = json.gfyItem.webmUrl;
           pic[k+2][8] = 'video';
           //app.imageSrc = json.gfyItem.webmUrl;
+        }).catch(function(err) {
+          console.log(err);
+          pic[k+2][0] = '404.jpg';
         });
         //console.log("gfyurl: " + pic[k][0]);
       }
