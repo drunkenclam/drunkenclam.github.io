@@ -843,6 +843,8 @@ var app = new Vue({
         'vavaca',
 
       ],
+      optionsFNG: [ 'All',
+      ],
       optionsF: [ 'All',
         'samrambo1',
         'johnpdunnigan',
@@ -859,7 +861,6 @@ var app = new Vue({
         'barepixels',
         'bifidumbakterin',
         'vavaca',
-
       ],
       optionsP: [ 'All',
         'gsdmott/babe-favs',
@@ -944,6 +945,7 @@ var app = new Vue({
 
         if (imageUrl[0].indexOf('i.redd.it') > 0 ||
             imageUrl.indexOf('i.redd.it') > 0 ||
+            imageUrl.indexOf('fitnakedgirls.com') > 0 ||
             imageUrl.indexOf('vidble.com') > 0 ||
             imageUrl.indexOf('flickr.com') > 0 ||
             imageUrl.indexOf('flic.kr') > 0 ||
@@ -1939,11 +1941,129 @@ var app = new Vue({
         app.fetchI();
       } else if (app.picked === 'pint') {
         app.fetchP();
+      } else if (app.picked === 'FNG') {
+        app.fetchFNG();
       } else if (app.picked === '500px') {
         app.fetch5();
       } else if (app.picked === 'flickr') {
         app.fetchF();
       };
+    },
+
+    fetchFNG: function (event) {
+      console.log(app.selected);
+      var sr = [];
+      sr = this.optionsFNG;
+      var counter = 0;
+      pic = [];
+      k = 0;
+      var FNGarr = [];
+      fetch('https://ratv-cors-proxy.herokuapp.com/https://fitnakedgirls.com/fitness-porn-photo-galleries/?order=newest')
+        .then(function (response) {
+            switch (response.status) {
+                // status "OK"
+                case 200:
+                    return response.text();
+                // status "Not Found"
+                case 404:
+                    throw response;
+            }
+        })
+        .then(function (template) {
+            // console.log(template);
+            var indexes = [...template.matchAll(new RegExp('thumb"><a href="https://fitnakedgirls.com/gallery', 'gi'))].map(a => a.index);
+            var imagesfn = '';
+            var z = 0;
+            // var titlefn = '';
+            // var datefn = '';
+            for(var i = 0; i < indexes.length; i++) {
+              imagesfn = template.substring(indexes[i], indexes[i] + 800);
+              // console.log(imagesfn)
+              // datefn = imagesfn.substring(imagesfn.indexOf('h2><p>')+6, imagesfn.indexOf('</p><div'));
+              // console.log(datefn)
+              // titlefn = imagesfn.substring(imagesfn.indexOf('title')+7, imagesfn.indexOf('"><img'));
+              // console.log(titlefn)
+              imagesfn = imagesfn.substring(16, imagesfn.indexOf('" '));
+              FNGarr.push(imagesfn);
+            }
+            console.log(FNGarr)
+            for(var ii = 0; ii < FNGarr.length; ii++) {
+              fetch('https://ratv-cors-proxy.herokuapp.com/' + FNGarr[ii])
+                .then(function (response1) {
+                  // console.log(response1)
+                    switch (response1.status) {
+                        // status "OK"
+                        case 200:
+                            return response1.text();
+                        // status "Not Found"
+                        case 404:
+                            throw response1;
+                    }
+                })
+                .then(function (template1) {
+                    // console.log(template1);
+                    var indexes1 = [...template1.matchAll(new RegExp('srcset', 'gi'))].map(a => a.index);
+                    var n = template1.indexOf('dateModified');
+                    var datefn = template1.substring(n+15, n+34);
+                    console.log(datefn)
+                    var v = template1.indexOf('<title>');
+                    var titlefn = template1.substring(v+7, template1.indexOf(' |'));
+                    console.log(titlefn)
+                    console.log(FNGarr[z])
+                    // console.log(indexes1)
+                    var image = '';
+                    for(var i = 0; i < indexes1.length; i++) {
+                      image = template1.substring(indexes1[i], indexes1[i] + 500);
+                      image = image.substring(8, image.indexOf(' '));
+                      pic.push([image, FNGarr[z], datefn, titlefn, '', '', '', '', image]);
+                      app.fetched = ' / ' + pic.length;
+                    }
+                    counter++;
+                    z++;
+                    if (counter === FNGarr.length-1) {
+                      console.log(counter)
+                      console.log(pic)
+                      app.imgList.push(pic[0][0]);
+                      app.imgList.push(pic[1][0]);
+                      app.nextpic();
+                    }
+                    // console.log(image)
+                })
+                .catch(function (response1) {
+                    // "Not Found"
+                    console.log(response1.statusText);
+                });
+            }
+
+            // var shit = json.data.children[i].data.created-8*60*60;
+            // var ts = Math.round((new Date()).getTime() / 1000);
+            // var minutes = Math.round((ts-shit)/60);
+            // var date = Math.round(minutes/60);
+            // var days = Math.round(date/24);
+            // var formattedTime = "";
+            // pic.push([
+            //   json.data.children[i].data.url,
+            //   'https://www.reddit.com' + json.data.children[i].data.permalink,
+            //   formattedTime,
+            //   json.data.children[i].data.title,
+            //   shit,
+            //   json.data.children[i].data.subreddit,
+            //   json.data.children[i].data.num_comments,
+            //   json.data.children[i].data.author,
+            //   json.data.children[i].data.url,
+            // ]);
+            // app.fetched = ' / ' + pic.length;
+        })
+        .catch(function (response) {
+            // "Not Found"
+            console.log(response.statusText);
+        });
+
+      // var arr = [], l = document.links;
+      // for(var i=0; i<l.length; i++) {
+      //   if (l[i].href.indexOf('gallery') > 0) {if (!arr.includes(l[i].href)) {arr.push(l[i].href)}}
+      // }
+      // for (var knut=0; knut<)
     },
 
     fetchP: function (event) {
@@ -2694,7 +2814,7 @@ var app = new Vue({
     },
 
     nextpic: function () {
-      //console.log('chicken: ' + chicken)
+      // console.log('chicken: ' + chicken)
       chicken2 = true;
       app.chicken2 = chicken2;
       app.chicken4 = true;
@@ -3598,7 +3718,7 @@ var app = new Vue({
         //app.toggleFS();
       } else
       // if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
-      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
+      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW' || app.picked === 'FNG')) {
         if (!app.showComms && swup) {
           swup = false;
           if (imgDiv.offsetWidth < currentOne.width) {
@@ -3630,7 +3750,11 @@ var app = new Vue({
           app.comments = [];
           app.commentsL = [];
           app.ilSrc = [];
-          app.commentsToggle()
+          if (app.picked === 'FNG') {
+            app.showComms = true;
+          } else {
+            app.commentsToggle()
+          }
         } else if (commsID.scrollHeight === commsID.clientHeight) {
           app.showComms = false;
           app.ilSrc = [];

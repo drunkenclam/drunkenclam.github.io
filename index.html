@@ -404,8 +404,8 @@
           <label style="padding-top: 10px;padding-right: 10px;" for="three">Instagram</label></span>
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="four" value="pint" v-model="picked" v-on:click="options = optionsP; selected = 'All'">
           <label style="padding-top: 10px;padding-right: 10px;" for="four">Pinterest</label></span> -->
-          <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="five" value="500px" v-model="picked" v-on:click="options = options5; selected = 'All'">
-          <label style="padding-top: 10px;padding-right: 10px;" for="five">500px</label></span>
+          <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="five" value="FNG" v-model="picked" v-on:click="options = optionsFNG; selected = 'All'">
+          <label style="padding-top: 10px;padding-right: 10px;" for="five">FNG</label></span>
           <!-- <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="six" value="flickr" v-model="picked" v-on:click="options = optionsF; selected = 'All'">
           <label style="padding-top: 10px;padding-right: 20px;" for="six">Flickr</label></span> -->
           <b-form-select style="width: 200px; margin-right: 20px" v-model.lazy="selected">
@@ -423,7 +423,7 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.98.6</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.98.7</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
