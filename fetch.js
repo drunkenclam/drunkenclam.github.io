@@ -1328,268 +1328,284 @@ var app = new Vue({
     },
 
     userincomms: function (q) {
-      if (q === undefined) {q = 'https://reddit.com/user/' + pic[k][7]};
-      console.log('userincomms ' + q)
       igbtn.hidden = true;
       userbtn.hidden = true;
       gbtn.hidden = true;
       ybtn.hidden = true;
-      var url = q;
-      aicA = [];
-      fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
-        return response.json();
-      }).then(function(json) {
-        console.log(json.data)
-        for (i = 0; i < json.data.children.length; i++) {
-          if ((json.data.children[i].data.url.indexOf('imgur') > 0 ||
-            // json.data.children[i].data.url.indexOf('gfycat') > 0 ||
-            json.data.children[i].data.url.indexOf('tumblr') > 0 ||
-            json.data.children[i].data.url.indexOf('500px') > 0 ||
-            json.data.children[i].data.url.indexOf('redditmedia') > 0 ||
-            json.data.children[i].data.url.indexOf('reddituploads') > 0 ||
-            json.data.children[i].data.url.indexOf('artstation') > 0 ||
-            //json.data.children[i].data.url.indexOf('deviantart') > 0 ||
-            json.data.children[i].data.url.indexOf('flickr.com') > 0 ||
-            json.data.children[i].data.url.indexOf('flic.kr') > 0 ||
-            json.data.children[i].data.url.indexOf('.', json.data.children[i].data.url.length-7) > 0) &&
-            (
-            json.data.children[i].data.title.indexOf(' m ') < 0 &&
-            json.data.children[i].data.title.indexOf(' M ') < 0 &&
-            json.data.children[i].data.title.indexOf('(m)') < 0 &&
-            json.data.children[i].data.title.indexOf('(m1') < 0 &&
-            json.data.children[i].data.title.indexOf('(m2') < 0 &&
-            json.data.children[i].data.title.indexOf('(m3') < 0 &&
-            json.data.children[i].data.title.indexOf('(M)') < 0 &&
-            json.data.children[i].data.title.indexOf('(M1') < 0 &&
-            json.data.children[i].data.title.indexOf('(M2') < 0 &&
-            json.data.children[i].data.title.indexOf('(M3') < 0 &&
-            json.data.children[i].data.title.indexOf('[m') < 0 &&
-            json.data.children[i].data.title.indexOf('[M') < 0 &&
-            json.data.children[i].data.title.indexOf('{m') < 0 &&
-            json.data.children[i].data.title.indexOf('{M') < 0 &&
-            json.data.children[i].data.url.indexOf('.htm') < 0 &&
-            json.data.children[i].data.url.indexOf('imgur.com/a/') < 0 &&
-            json.data.children[i].data.url.indexOf('gifv') < 0 &&
-            json.data.children[i].data.url.substr(json.data.children[i].data.url.length - 4) != '.com'
-          )) {
-//              if (json.data.children[i].data.url.indexOf('imgur') > 0 &&
-            if (json.data.children[i].data.url.indexOf('ttp://') > 0)
-            {
-                json.data.children[i].data.url = json.data.children[i].data.url.replace("http", "https")
-            };
-            if (json.data.children[i].data.url.indexOf('jpeg99') > 0)
-            {
-                json.data.children[i].data.url = json.data.children[i].data.url.replace("jpeg", "jpg")
-            };
-            if (json.data.children[i].data.url.indexOf('_d.jpg') > 0)
-            {
-                json.data.children[i].data.url = json.data.children[i].data.url.replace("_d.jpg", ".jpg")
-            };
-            if (json.data.children[i].data.url.indexOf('//imgur.com/gallery') > 0)
-            {
-                //json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//imgur.com/a")
-                json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//i.imgur.com")
-            };
-            if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('?', 22) > 0)
-            {
-              var jupp = json.data.children[i].data.url.split("?");
-              json.data.children[i].data.url = jupp[0];
-            };
-            if (json.data.children[i].data.url.indexOf('imgur.com/r/') != -1)
-            {
-              console.log(json.data.children[i].data.url + ' an Pos. ' + i + ' umschreiben in ');
-              var jupp = json.data.children[i].data.url.split("/");
-              json.data.children[i].data.url = jupp[0] + '//' + jupp[2] + '/' + jupp[5] + '.jpg';
-              console.log(json.data.children[i].data.url);
-            };
-            if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('imgur.com/a/') === -1 && json.data.children[i].data.url.indexOf('.', 22) < 0)
-            {
-              json.data.children[i].data.url += '.jpg';
-            };
-            if (json.data.children[i].data.url.indexOf('//imgur') != -1 && json.data.children[i].data.url.indexOf('.jpg') != -1)
-            {
-              json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur", "//i.imgur")
-            };
-            if (json.data.children[i].data.url.indexOf('//m.imgur.com/a/') != -1)
-            {
-              json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//imgur")
-            } else if (json.data.children[i].data.url.indexOf('//m.imgur.com/') != -1)
-            {
-              json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//i.imgur")
-              json.data.children[i].data.url += '.jpg';
-            }
-            if (json.data.children[i].data.url.indexOf('imgur.com/a/') != -1 && json.data.children[i].data.url.indexOf('#') != -1)
-            {
-              var jupp = json.data.children[i].data.url.split("#");
-              json.data.children[i].data.url = jupp[0];
-            };
-            if (json.data.children[i].data.url.indexOf('/') === json.data.children[i].data.url.length-1)
-            {
-              json.data.children[i].data.url = json.data.children[i].data.url.slice(0, -1)
-            };
-            // if (app.checked) {
-            //   if (json.data.children[i].data.url.indexOf('/gfycat') > 0)
-            //   {
-            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("/gfycat", "/giant.gfycat");
-            //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
-            //   }
-            //   else if (json.data.children[i].data.url.indexOf('www.gfycat') > 0)
-            //   {
-            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("www.gfycat", "giant.gfycat");
-            //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
-            //   };
-            //   if (json.data.children[i].data.url.indexOf('-size_restricted.gif') > 0)
-            //   {
-            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("-size_restricted.gif", ".webm");
-            //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
-            //   };
-            // }
-            var shit = json.data.children[i].data.created-8*60*60;
-            var ts = Math.round((new Date()).getTime() / 1000);
-            var minutes = Math.round((ts-shit)/60);
-            var date = Math.round(minutes/60);
-            var days = Math.round(date/24);
-            var formattedTime = "";
-            //console.log((ts-shit)/60 + ": " + desc + " " + url);
-            if (date >= 36) {formattedTime = days + ' days ago';}
-            if (date < 36) {formattedTime = days + ' day ago';}
-            if (date < 24) {formattedTime = date + ' hours ago';}
-            if (minutes < 90) {formattedTime = date + ' hour ago';}
-            if (minutes < 60) {formattedTime = minutes + ' min ago';}
-
-//          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
-            // console.log(url);
-            // console.log(json.data.children[i].data.preview);
-            if (typeof json.data.children[i].data.preview != 'undefined') {
-              aicA.push([json.data.children[i].data.subreddit, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height + json.data.children[i].data.preview.images[0].source.width, Math.round(minutes / 20) * 20, json.data.children[i].data.title]);
-            }
-
-            // console.log(aicA)
-            // pic.push([
-            //   json.data.children[i].data.url,
-            //   'https://www.reddit.com' + json.data.children[i].data.permalink,
-            //   formattedTime,
-            //   json.data.children[i].data.title,
-            //   shit,
-            //   json.data.children[i].data.subreddit,
-            //   json.data.children[i].data.num_comments,
-            //   json.data.children[i].data.author,
-            // ]);
-            // app.imgList.push(json.data.children[i].data.url);
-            // app.fetched = ' / ' + pic.length;
-          } else {
-            // ciao.push([json.data.children[i].data.url, json.data.children[i].data.title]);
-            console.log('wegwerfen: ' + json.data.children[i].data.url + ' ' + json.data.children[i].data.title)
+      if (app.picked === 'FNG') {
+        var j = app.currentImg+2;
+        var s = pic[app.currentImg][3].split(' (');
+        var w = s[0];
+        for (var i = j; i < pic.length; i++) {
+          // console.log(pic[i][3])
+          // console.log(w)
+          if (pic[i][3].indexOf(w) > -1) {
+            console.log('delete ' + pic[i])
+            pic.splice(i, 1);
+            i--;
+            app.fetched = ' / ' + pic.length;
           }
         }
-        //videos raus wenn abgewählt
-        if (!app.checked) {
-          aicA = aicA.filter( element => !~element[0].indexOf('gif') && !~element[0].indexOf('gfycat') && !~element[0].indexOf('mp4') );
-        };
-        console.log(aicA)
-        // doppelte raus
-        aicA = aicA.filter(function(item, pos) {
-          if (!this.hasOwnProperty(item[1])) {
-            // console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
-            return this[item[1]] = true;
+      } else {
+        if (q === undefined) {q = 'https://reddit.com/user/' + pic[k][7]};
+        console.log('userincomms ' + q)
+        var url = q;
+        aicA = [];
+        fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
+          return response.json();
+        }).then(function(json) {
+          console.log(json.data)
+          for (i = 0; i < json.data.children.length; i++) {
+            if ((json.data.children[i].data.url.indexOf('imgur') > 0 ||
+              // json.data.children[i].data.url.indexOf('gfycat') > 0 ||
+              json.data.children[i].data.url.indexOf('tumblr') > 0 ||
+              json.data.children[i].data.url.indexOf('500px') > 0 ||
+              json.data.children[i].data.url.indexOf('redditmedia') > 0 ||
+              json.data.children[i].data.url.indexOf('reddituploads') > 0 ||
+              json.data.children[i].data.url.indexOf('artstation') > 0 ||
+              //json.data.children[i].data.url.indexOf('deviantart') > 0 ||
+              json.data.children[i].data.url.indexOf('flickr.com') > 0 ||
+              json.data.children[i].data.url.indexOf('flic.kr') > 0 ||
+              json.data.children[i].data.url.indexOf('.', json.data.children[i].data.url.length-7) > 0) &&
+              (
+              json.data.children[i].data.title.indexOf(' m ') < 0 &&
+              json.data.children[i].data.title.indexOf(' M ') < 0 &&
+              json.data.children[i].data.title.indexOf('(m)') < 0 &&
+              json.data.children[i].data.title.indexOf('(m1') < 0 &&
+              json.data.children[i].data.title.indexOf('(m2') < 0 &&
+              json.data.children[i].data.title.indexOf('(m3') < 0 &&
+              json.data.children[i].data.title.indexOf('(M)') < 0 &&
+              json.data.children[i].data.title.indexOf('(M1') < 0 &&
+              json.data.children[i].data.title.indexOf('(M2') < 0 &&
+              json.data.children[i].data.title.indexOf('(M3') < 0 &&
+              json.data.children[i].data.title.indexOf('[m') < 0 &&
+              json.data.children[i].data.title.indexOf('[M') < 0 &&
+              json.data.children[i].data.title.indexOf('{m') < 0 &&
+              json.data.children[i].data.title.indexOf('{M') < 0 &&
+              json.data.children[i].data.url.indexOf('.htm') < 0 &&
+              json.data.children[i].data.url.indexOf('imgur.com/a/') < 0 &&
+              json.data.children[i].data.url.indexOf('gifv') < 0 &&
+              json.data.children[i].data.url.substr(json.data.children[i].data.url.length - 4) != '.com'
+            )) {
+  //              if (json.data.children[i].data.url.indexOf('imgur') > 0 &&
+              if (json.data.children[i].data.url.indexOf('ttp://') > 0)
+              {
+                  json.data.children[i].data.url = json.data.children[i].data.url.replace("http", "https")
+              };
+              if (json.data.children[i].data.url.indexOf('jpeg99') > 0)
+              {
+                  json.data.children[i].data.url = json.data.children[i].data.url.replace("jpeg", "jpg")
+              };
+              if (json.data.children[i].data.url.indexOf('_d.jpg') > 0)
+              {
+                  json.data.children[i].data.url = json.data.children[i].data.url.replace("_d.jpg", ".jpg")
+              };
+              if (json.data.children[i].data.url.indexOf('//imgur.com/gallery') > 0)
+              {
+                  //json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//imgur.com/a")
+                  json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur.com/gallery", "//i.imgur.com")
+              };
+              if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('?', 22) > 0)
+              {
+                var jupp = json.data.children[i].data.url.split("?");
+                json.data.children[i].data.url = jupp[0];
+              };
+              if (json.data.children[i].data.url.indexOf('imgur.com/r/') != -1)
+              {
+                console.log(json.data.children[i].data.url + ' an Pos. ' + i + ' umschreiben in ');
+                var jupp = json.data.children[i].data.url.split("/");
+                json.data.children[i].data.url = jupp[0] + '//' + jupp[2] + '/' + jupp[5] + '.jpg';
+                console.log(json.data.children[i].data.url);
+              };
+              if (json.data.children[i].data.url.indexOf('imgur') != -1 && json.data.children[i].data.url.indexOf('imgur.com/a/') === -1 && json.data.children[i].data.url.indexOf('.', 22) < 0)
+              {
+                json.data.children[i].data.url += '.jpg';
+              };
+              if (json.data.children[i].data.url.indexOf('//imgur') != -1 && json.data.children[i].data.url.indexOf('.jpg') != -1)
+              {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("//imgur", "//i.imgur")
+              };
+              if (json.data.children[i].data.url.indexOf('//m.imgur.com/a/') != -1)
+              {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//imgur")
+              } else if (json.data.children[i].data.url.indexOf('//m.imgur.com/') != -1)
+              {
+                json.data.children[i].data.url = json.data.children[i].data.url.replace("//m.imgur", "//i.imgur")
+                json.data.children[i].data.url += '.jpg';
+              }
+              if (json.data.children[i].data.url.indexOf('imgur.com/a/') != -1 && json.data.children[i].data.url.indexOf('#') != -1)
+              {
+                var jupp = json.data.children[i].data.url.split("#");
+                json.data.children[i].data.url = jupp[0];
+              };
+              if (json.data.children[i].data.url.indexOf('/') === json.data.children[i].data.url.length-1)
+              {
+                json.data.children[i].data.url = json.data.children[i].data.url.slice(0, -1)
+              };
+              // if (app.checked) {
+              //   if (json.data.children[i].data.url.indexOf('/gfycat') > 0)
+              //   {
+              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("/gfycat", "/giant.gfycat");
+              //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
+              //   }
+              //   else if (json.data.children[i].data.url.indexOf('www.gfycat') > 0)
+              //   {
+              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("www.gfycat", "giant.gfycat");
+              //       json.data.children[i].data.url = json.data.children[i].data.url + '.webm';
+              //   };
+              //   if (json.data.children[i].data.url.indexOf('-size_restricted.gif') > 0)
+              //   {
+              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("-size_restricted.gif", ".webm");
+              //       json.data.children[i].data.url = json.data.children[i].data.url.replace("thumbs", "giant");
+              //   };
+              // }
+              var shit = json.data.children[i].data.created-8*60*60;
+              var ts = Math.round((new Date()).getTime() / 1000);
+              var minutes = Math.round((ts-shit)/60);
+              var date = Math.round(minutes/60);
+              var days = Math.round(date/24);
+              var formattedTime = "";
+              //console.log((ts-shit)/60 + ": " + desc + " " + url);
+              if (date >= 36) {formattedTime = days + ' days ago';}
+              if (date < 36) {formattedTime = days + ' day ago';}
+              if (date < 24) {formattedTime = date + ' hours ago';}
+              if (minutes < 90) {formattedTime = date + ' hour ago';}
+              if (minutes < 60) {formattedTime = minutes + ' min ago';}
+
+  //          if (json.data.children[i].data.author === '[deleted]') {console.log(json.data.children[i].data); console.log(' an Pos. ' + i)}
+              // console.log(url);
+              // console.log(json.data.children[i].data.preview);
+              if (typeof json.data.children[i].data.preview != 'undefined') {
+                aicA.push([json.data.children[i].data.subreddit, json.data.children[i].data.url, json.data.children[i].data.preview.images[0].source.height + json.data.children[i].data.preview.images[0].source.width, Math.round(minutes / 20) * 20, json.data.children[i].data.title]);
+              }
+
+              // console.log(aicA)
+              // pic.push([
+              //   json.data.children[i].data.url,
+              //   'https://www.reddit.com' + json.data.children[i].data.permalink,
+              //   formattedTime,
+              //   json.data.children[i].data.title,
+              //   shit,
+              //   json.data.children[i].data.subreddit,
+              //   json.data.children[i].data.num_comments,
+              //   json.data.children[i].data.author,
+              // ]);
+              // app.imgList.push(json.data.children[i].data.url);
+              // app.fetched = ' / ' + pic.length;
+            } else {
+              // ciao.push([json.data.children[i].data.url, json.data.children[i].data.title]);
+              console.log('wegwerfen: ' + json.data.children[i].data.url + ' ' + json.data.children[i].data.title)
+            }
           }
-          // console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
-          return false;
-        }, {});
-        aicA = aicA.filter(function(item, pos) {
-          if (!this.hasOwnProperty(item[3])) {
-            // console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
-            return this[item[3]] = true;
-          }
-          // console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
-          return false;
-        }, {});
+          //videos raus wenn abgewählt
+          if (!app.checked) {
+            aicA = aicA.filter( element => !~element[0].indexOf('gif') && !~element[0].indexOf('gfycat') && !~element[0].indexOf('mp4') );
+          };
+          console.log(aicA)
+          // doppelte raus
+          aicA = aicA.filter(function(item, pos) {
+            if (!this.hasOwnProperty(item[1])) {
+              // console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
+              return this[item[1]] = true;
+            }
+            // console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
+            return false;
+          }, {});
+          aicA = aicA.filter(function(item, pos) {
+            if (!this.hasOwnProperty(item[3])) {
+              // console.log('true ' + item[1] + ' ' + item[2] + ' ' + item[3])
+              return this[item[3]] = true;
+            }
+            // console.log('false ' + item[1] + ' ' + item[2] + ' ' + item[3])
+            return false;
+          }, {});
 
-        // var lolli = [];
-        // for (var z = 0; z < aicA.length; z++) {
-        //   var promise = app.getBase64Image('https://ratv-cors-proxy.herokuapp.com/' + aicA[z][1]);
-        //
-        //   promise.then(function (dataURL) {
-        //     console.log(aicA)
-        //     console.log(z)
-        //     console.log(aicA[z])
-        //     lolli.push(dataURL);
-        //     console.log(lolli);
-        //   });
-        // }
-
-        // var diff = resemble('https://ratv-cors-proxy.herokuapp.com/' + aicA[0][1])
-        //     .compareTo('https://ratv-cors-proxy.herokuapp.com/' + aicA[1][1])
-        //     .ignoreColors()
-        //     .onComplete(function(data) {
-        //         console.log(data);
-        //         /*
-        //   {
-        //     misMatchPercentage : 100, // %
-        //     isSameDimensions: true, // or false
-        //     dimensionDifference: { width: 0, height: -1 }, // defined if dimensions are not the same
-        //     getImageDataUrl: function(){}
-        //   }
-        //   */
-        //     });
-
-        // aicA = aicA.filter(function(item, pos) {
-        //   // console.log(item + ' ' + pos)
-        //   if (this.hasOwnProperty(item[2])) {
-        //     var ww = false;
-        //     for (var ii = 0; ii < pos; ii++) {
-        //       console.log('------------')
-        //       console.log('aicA[ii][0] ' + aicA[ii][0])
-        //       console.log('item[0] ' + item[0])
-        //       if (aicA[ii][0] !== item[0]) {return false}
-        //     }
-        //     if (ww === true) {
-        //       console.log('true ' + item[0] + ' ' + item[1] + ' ' + item[2])
-        //       return this[item[2]] = true;
-        //     } else {
-        //       console.log('false ' + item[0] + ' ' + item[1] + ' ' + item[2])
-        //       return false;
-        //     }
-        //   }
-        //   console.log('true ' + item[0] + ' ' + item[1] + ' ' + item[2])
-        //   return this[item[2]] = true;
-        // }, {});
-
-        // app.fetched = ' / ' + pic.length;
-        // app.sort();
-        // titleLink = 3;
-        console.log('lol url: ' + url + '/submitted/?sort=new');
-        var pppp = app.commentsL.findIndex(function (obj) { return obj === url; });
-        console.log(pppp);
-        var count = 0;
-        for(var i = 0; i < aicA.length; i++){
-          // if(aicA[i][0] === url)
-          count++;
-        }
-        var eee = app.commentsL[pppp] + ' (' + count + ')';
-        Vue.set(app.commentsL, pppp, eee);
-        console.log('count: ' + eee);
-
-        for (var z = 0; z < aicA.length; z++) {
-          // console.log(q.indexOf(aicA[z][0]))
-          //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
-          // if (q.indexOf(aicA[z][0]) !== -1) {
-            // if (z > 0) {
-            //   // console.log(aicA[z][2])
-            //   // console.log(aicA[z-1][2])
-            //   if (aicA[z][2] !== aicA[z-1][2]) {
-            //     app.ilSrc.push(aicA[z][1]);
-            //   }
-            // } else {
-              app.ilSrc.push(aicA[z][1]);
-            // }
-            // console.log(aicA[z][1])
+          // var lolli = [];
+          // for (var z = 0; z < aicA.length; z++) {
+          //   var promise = app.getBase64Image('https://ratv-cors-proxy.herokuapp.com/' + aicA[z][1]);
+          //
+          //   promise.then(function (dataURL) {
+          //     console.log(aicA)
+          //     console.log(z)
+          //     console.log(aicA[z])
+          //     lolli.push(dataURL);
+          //     console.log(lolli);
+          //   });
           // }
-        };
-      }).catch(function(err) {
-        console.log(err);
-        app.err = 'error: ' + err.message;
-      });
+
+          // var diff = resemble('https://ratv-cors-proxy.herokuapp.com/' + aicA[0][1])
+          //     .compareTo('https://ratv-cors-proxy.herokuapp.com/' + aicA[1][1])
+          //     .ignoreColors()
+          //     .onComplete(function(data) {
+          //         console.log(data);
+          //         /*
+          //   {
+          //     misMatchPercentage : 100, // %
+          //     isSameDimensions: true, // or false
+          //     dimensionDifference: { width: 0, height: -1 }, // defined if dimensions are not the same
+          //     getImageDataUrl: function(){}
+          //   }
+          //   */
+          //     });
+
+          // aicA = aicA.filter(function(item, pos) {
+          //   // console.log(item + ' ' + pos)
+          //   if (this.hasOwnProperty(item[2])) {
+          //     var ww = false;
+          //     for (var ii = 0; ii < pos; ii++) {
+          //       console.log('------------')
+          //       console.log('aicA[ii][0] ' + aicA[ii][0])
+          //       console.log('item[0] ' + item[0])
+          //       if (aicA[ii][0] !== item[0]) {return false}
+          //     }
+          //     if (ww === true) {
+          //       console.log('true ' + item[0] + ' ' + item[1] + ' ' + item[2])
+          //       return this[item[2]] = true;
+          //     } else {
+          //       console.log('false ' + item[0] + ' ' + item[1] + ' ' + item[2])
+          //       return false;
+          //     }
+          //   }
+          //   console.log('true ' + item[0] + ' ' + item[1] + ' ' + item[2])
+          //   return this[item[2]] = true;
+          // }, {});
+
+          // app.fetched = ' / ' + pic.length;
+          // app.sort();
+          // titleLink = 3;
+          console.log('lol url: ' + url + '/submitted/?sort=new');
+          var pppp = app.commentsL.findIndex(function (obj) { return obj === url; });
+          console.log(pppp);
+          var count = 0;
+          for(var i = 0; i < aicA.length; i++){
+            // if(aicA[i][0] === url)
+            count++;
+          }
+          var eee = app.commentsL[pppp] + ' (' + count + ')';
+          Vue.set(app.commentsL, pppp, eee);
+          console.log('count: ' + eee);
+
+          for (var z = 0; z < aicA.length; z++) {
+            // console.log(q.indexOf(aicA[z][0]))
+            //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
+            // if (q.indexOf(aicA[z][0]) !== -1) {
+              // if (z > 0) {
+              //   // console.log(aicA[z][2])
+              //   // console.log(aicA[z-1][2])
+              //   if (aicA[z][2] !== aicA[z-1][2]) {
+              //     app.ilSrc.push(aicA[z][1]);
+              //   }
+              // } else {
+                app.ilSrc.push(aicA[z][1]);
+              // }
+              // console.log(aicA[z][1])
+            // }
+          };
+        }).catch(function(err) {
+          console.log(err);
+          app.err = 'error: ' + err.message;
+        });
+      }
     },
 
     subincomms: function (q) {
@@ -1978,11 +1994,6 @@ var app = new Vue({
             // var datefn = '';
             for(var i = 0; i < indexes.length; i++) {
               imagesfn = template.substring(indexes[i], indexes[i] + 800);
-              // console.log(imagesfn)
-              // datefn = imagesfn.substring(imagesfn.indexOf('h2><p>')+6, imagesfn.indexOf('</p><div'));
-              // console.log(datefn)
-              // titlefn = imagesfn.substring(imagesfn.indexOf('title')+7, imagesfn.indexOf('"><img'));
-              // console.log(titlefn)
               imagesfn = imagesfn.substring(16, imagesfn.indexOf('" '));
               FNGarr.push(imagesfn);
             }
@@ -2008,6 +2019,8 @@ var app = new Vue({
                     console.log(datefn)
                     var v = template1.indexOf('<title>');
                     var titlefn = template1.substring(v+7, template1.indexOf(' |'));
+                    titlefn = titlefn.replace(' nude','');
+                    titlefn = titlefn.replace(' fit','');
                     console.log(titlefn)
                     console.log(FNGarr[z])
                     // console.log(indexes1)
@@ -2015,7 +2028,9 @@ var app = new Vue({
                     for(var i = 0; i < indexes1.length; i++) {
                       image = template1.substring(indexes1[i], indexes1[i] + 500);
                       image = image.substring(8, image.indexOf(' '));
-                      pic.push([image, FNGarr[z], datefn, titlefn, '', '', '', '', image]);
+                      var rr = i+1;
+                      var titlefng = titlefn + ' (' + rr + ' / ' + indexes1.length + ')';
+                      pic.push([image, FNGarr[z], datefn, titlefng, '', '', '', '', image]);
                       app.fetched = ' / ' + pic.length;
                     }
                     counter++;
@@ -3201,7 +3216,7 @@ var app = new Vue({
     jumpto: function (i) {
       k = i;
       app.currentImg = k;
-      app.preload();
+      // app.preload();
       app.next();
     },
 
