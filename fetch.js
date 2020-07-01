@@ -2015,7 +2015,7 @@ var app = new Vue({
                     // console.log(template1);
                     var indexes1 = [...template1.matchAll(new RegExp('srcset', 'gi'))].map(a => a.index);
                     var n = template1.indexOf('dateModified');
-                    var datefn = template1.substring(n+15, n+34);
+                    var datefn = template1.substring(n+15, n+25);
                     console.log(datefn)
                     var v = template1.indexOf('<title>');
                     var titlefn = template1.substring(v+7, template1.indexOf(' |'));
@@ -2916,6 +2916,10 @@ var app = new Vue({
 
         app.postlink = pic[k][1];
         var susu = pic[k][3].replace(/ /g, '');
+        if (app.picked === "FNG") {
+          var qw = susu.split('(');
+          susu = qw[0];
+        }
         app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
         app.userlink = 'https://www.reddit.com/user/' + pic[k][7];
         app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
