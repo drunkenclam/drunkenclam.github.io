@@ -4078,11 +4078,11 @@ var app = new Vue({
       })
 
       hammertime.on('pinch', function(e) {
-        console.log('last.z ' + last.z);
-        console.log('current.z ' + current.z);
+        // console.log('last.z ' + last.z);
+        // console.log('current.z ' + current.z);
         if (current.z === 1) {last.z = 1}
         var d = scaleFrom(pinchZoomOrigin, last.z, last.z * e.scale)
-        console.log(d)
+        // console.log(d)
         current.x = d.x + last.x + e.deltaX;
         current.y = d.y + last.y + e.deltaY;
         current.z = d.z + last.z;
@@ -4100,7 +4100,7 @@ var app = new Vue({
               width: currentOne.clientWidth,
               height: currentOne.clientHeight
           }
-          console.log(originalSize)
+          // console.log(originalSize)
           last, current = {
               x: 0,
               y: 0,
@@ -4114,14 +4114,14 @@ var app = new Vue({
         pinchStart.x = e.center.x;
         pinchStart.y = e.center.y;
         pinchZoomOrigin = getRelativePosition(element, { x: pinchStart.x, y: pinchStart.y }, originalSize, current.z);
-        console.log(pinchZoomOrigin)
+        // console.log(pinchZoomOrigin)
         lastEvent = 'pinchstart';
       })
 
       hammertime.on('pinchend', function(e) {
-        console.log(e.additionalEvent);
-        console.log(current.z)
-        console.log(last.z)
+        // console.log(e.additionalEvent);
+        // console.log(current.z)
+        // console.log(last.z)
         var element99 = document.getElementById("currentOne");
         element99.classList.add("pop");
         last.x = current.x;
@@ -4131,9 +4131,9 @@ var app = new Vue({
       })
 
       function update() {
-        console.log('current.x ' + current.x)
-        console.log('current.y ' + current.y)
-        console.log('current.z ' + current.z)
+        // console.log('current.x ' + current.x)
+        // console.log('current.y ' + current.y)
+        // console.log('current.z ' + current.z)
         if (typeof currentOne != 'undefined') {
           var picelement = document.getElementById('currentOne')
           // var ele = e.target;
