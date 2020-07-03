@@ -4120,6 +4120,8 @@ var app = new Vue({
 
       hammertime.on('pinchend', function(e) {
         console.log(e.additionalEvent);
+        console.log(current.z)
+        console.log(last.z)
         var element99 = document.getElementById("currentOne");
         element99.classList.add("pop");
         last.x = current.x;
@@ -4134,7 +4136,6 @@ var app = new Vue({
         console.log('current.z ' + current.z)
         if (typeof currentOne != 'undefined') {
           var picelement = document.getElementById('currentOne')
-          console.log(e)
           // var ele = e.target;
           current.height = originalSize.height * current.z;
           current.width = originalSize.width * current.z;
