@@ -4095,21 +4095,21 @@ var app = new Vue({
       hammertime.on('pinchstart', function(e) {
         var element99 = document.getElementById("currentOne");
         element99.classList.remove("pop");
-        // if (current.z === 1) {
-        //   originalSize = {
-        //       width: currentOne.clientWidth,
-        //       height: currentOne.clientHeight
-        //   }
-        //   last, current = {
-        //       x: 0,
-        //       y: 0,
-        //       z: 1
-        //   }
-        //   chicken3 = false;
-        //   app.chicken3 = false;
-        //   app.derp = false;
-        //   update();
-        // }
+        if (current.z === 1) {
+          originalSize = {
+              width: currentOne.clientWidth,
+              height: currentOne.clientHeight
+          }
+          last, current = {
+              x: 0,
+              y: 0,
+              z: 1
+          }
+          chicken3 = false;
+          app.chicken3 = false;
+          app.derp = false;
+          update();
+        }
         pinchStart.x = e.center.x;
         pinchStart.y = e.center.y;
         pinchZoomOrigin = getRelativePosition(element, { x: pinchStart.x, y: pinchStart.y }, originalSize, current.z);
