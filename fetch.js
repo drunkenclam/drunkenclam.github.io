@@ -3405,6 +3405,10 @@ var app = new Vue({
             pic[k+1][15] = '';
           }
         } else {
+          console.log(nextOne.naturalWidth)
+          console.log(imgDiv.clientWidth)
+          console.log(nextOne.naturalHeight)
+          console.log(imgDiv.clientHeight)
           if (nextOne.naturalWidth < imgDiv.clientWidth && nextOne.naturalHeight < imgDiv.clientHeight) {
             console.log('zoom pic');
             if (nextOne.naturalWidth / imgDiv.clientWidth > nextOne.naturalHeight / imgDiv.clientHeight) {
@@ -4076,7 +4080,7 @@ var app = new Vue({
       hammertime.on('pinch', function(e) {
         // console.log('last.z ' + last.z);
         // console.log('current.z ' + current.z);
-        if (current.z === 1) {last.z = 1}
+        // if (current.z === 1) {last.z = 1}
         var d = scaleFrom(pinchZoomOrigin, last.z, last.z * e.scale)
         // console.log(d)
         current.x = d.x + last.x + e.deltaX;
