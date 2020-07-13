@@ -1935,6 +1935,9 @@ var app = new Vue({
     fetchNow: function (event) {
       if (window.screen.orientation.type === 'portrait-primary' || window.screen.orientation.angle !== 0) {
         mobile = true;
+        if (!mobileConsole.status.initialized) {
+            mobileConsole.init();
+        }
       } else {
         mobile = false;
       }

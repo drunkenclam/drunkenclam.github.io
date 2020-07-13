@@ -1,5 +1,5 @@
 /*!
- * hnl.mobileConsole - javascript mobile console - v1.2.6 - 26/10/2016
+ * hnl.mobileConsole - javascript mobile console - v1.3.5 - 19/4/2018
  * Adds html console to webpage. Especially useful for debugging JS on mobile devices.
  * Supports 'log', 'trace', 'info', 'warn', 'error', 'group', 'groupEnd', 'table', 'assert', 'clear'
  * Inspired by code by jakub fiala (https://gist.github.com/jakubfiala/8fe3461ab6508f46003d)
@@ -13,70 +13,231 @@
  * Info: http://www.hnldesign.nl/work/code/javascript-mobile-console/
  * Demo: http://code.hnldesign.nl/demo/hnl.MobileConsole.html
  */
+
+//Polyfills
+
+//Date.now polyfill
+if (!Date.now) {
+  Date.now = function now() {
+    return new Date().getTime();
+  };
+}
+//Array.isArray polyfill
+if (typeof Array.isArray === 'undefined') {
+  Array.isArray = function(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]';
+  };
+}
+//Array.filter polyfill
+if (!Array.prototype.filter) {
+  Array.prototype.filter = function(fun/*, thisArg*/) {
+    if (this === void 0 || this === null) {
+      throw new TypeError();
+    }
+    var t = Object(this);
+    var len = t.length >>> 0;
+    if (typeof fun !== 'function') {
+      throw new TypeError();
+    }
+    var res = [];
+    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+    for (var i = 0; i < len; i++) {
+      if (i in t) {
+        var val = t[i];
+        if (fun.call(thisArg, val, i, t)) {
+          res.push(val);
+        }
+      }
+    }
+
+    return res;
+  };
+}
+//Function.bind polyfill
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== 'function') {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    }
+    var aArgs   = Array.prototype.slice.call(arguments, 1),
+      fToBind = this,
+      fNOP    = function() {},
+      fBound  = function() {
+        return fToBind.apply(this instanceof fNOP
+          ? this
+          : oThis,
+          aArgs.concat(Array.prototype.slice.call(arguments)));
+      };
+    if (this.prototype) {
+      // Function.prototype doesn't have a prototype property
+      fNOP.prototype = this.prototype;
+    }
+    fBound.prototype = new fNOP();
+    return fBound;
+  };
+}
+//Array.prototype.indexOf polyfill
+// Production steps of ECMA-262, Edition 5, 15.4.4.14
+// Referentie: http://es5.github.io/#x15.4.4.14
+if (!Array.prototype.indexOf) {
+  Array.prototype.indexOf = function(searchElement, fromIndex) {
+    var k;
+    if (this == null) {
+      throw new TypeError('"this" is null or not defined');
+    }
+    var o = Object(this);
+    var len = o.length >>> 0;
+    if (len === 0) {
+      return -1;
+    }
+    var n = +fromIndex || 0;
+    if (Math.abs(n) === Infinity) {
+      n = 0;
+    }
+    if (n >= len) {
+      return -1;
+    }
+    k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+    while (k < len) {
+      if (k in o && o[k] === searchElement) {
+        return k;
+      }
+      k++;
+    }
+    return -1;
+  };
+}
+//String.prototype.trim polyfill
+if (!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  };
+}
+//Array.prototype.map polyfill
+// Production steps of ECMA-262, Edition 5, 15.4.4.19
+// Reference: http://es5.github.io/#x15.4.4.19
+if (!Array.prototype.map) {
+  Array.prototype.map = function(callback/*, thisArg*/) {
+    var T, A, k;
+    if (this == null) {
+      throw new TypeError('this is null or not defined');
+    }
+    var O = Object(this);
+    var len = O.length >>> 0;
+    if (typeof callback !== 'function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+    if (arguments.length > 1) {
+      T = arguments[1];
+    }
+    A = new Array(len);
+    k = 0;
+    while (k < len) {
+      var kValue, mappedValue;
+      if (k in O) {
+        kValue = O[k];
+        mappedValue = callback.call(T, kValue, k, O);
+        A[k] = mappedValue;
+      }
+      k++;
+    }
+    return A;
+  };
+}
+
+// DocReady - Fires supplied function when document is ready
+if (typeof 'docReady' !== 'function') {
+  (function (funcName, baseObj) {
+    // The public function name defaults to window.docReady
+    // but you can pass in your own object and own function name and those will be used
+    // if you want to put them in a different namespace
+    funcName = funcName || 'docReady';
+    baseObj = baseObj || window;
+    var i, len, readyList = [], readyFired = false, readyEventHandlersInstalled = false;
+
+    // call this when the document is ready
+    // this function protects itself against being called more than once
+    function ready() {
+      if (!readyFired) {
+        // this must be set to true before we start calling callbacks
+        readyFired = true;
+        for (i = 0, len = readyList.length; i < len; i = i + 1) {
+          // if a callback here happens to add new ready handlers,
+          // the docReady() function will see that it already fired
+          // and will schedule the callback to run right after
+          // this event loop finishes so all handlers will still execute
+          // in order and no new ones will be added to the readyList
+          // while we are processing the list
+          readyList[i].fn.call(window, readyList[i].ctx);
+        }
+        // allow any closures held by these functions to free
+        readyList = [];
+      }
+    }
+
+    function readyStateChange() {
+      if (document.readyState === 'complete') {
+        ready();
+      }
+    }
+
+    // This is the one public interface
+    // docReady(fn, context);
+    // the context argument is optional - if present, it will be passed
+    // as an argument to the callback
+    baseObj[funcName] = function (callback, context) {
+      // if ready has already fired, then just schedule the callback
+      // to fire asynchronously, but right away
+      if (readyFired) {
+        setTimeout(function () {callback(context); }, 1);
+        return;
+      }
+      // add the function and context to the list
+      readyList.push({fn: callback, ctx: context});
+      // if document already ready to go, schedule the ready function to run
+      if (document.readyState === 'complete') {
+        setTimeout(ready, 1);
+      } else if (!readyEventHandlersInstalled) {
+        // otherwise if we don't have event handlers installed, install them
+        if (document.addEventListener) {
+          // first choice is DOMContentLoaded event
+          document.addEventListener('DOMContentLoaded', ready, false);
+          // backup is window load event
+          window.addEventListener('load', ready, false);
+        } else {
+          // must be IE
+          document.attachEvent('onreadystatechange', readyStateChange);
+          window.attachEvent('onload', ready);
+        }
+        readyEventHandlersInstalled = true;
+      }
+    };
+  }('docReady', window));
+}
+
+//define console variable
 var console = window.console;
 
 var mobileConsole = (function () {
   'use strict';
 
-  //stop if there is no console in this browser
-  if (!console) {
-    alert('mobileConsole not supported on this browser');
-    return;
-  }
-  //polyfills
-  if (!Date.now) {
-    Date.now = function now() {
-      return new Date().getTime();
-    };
-  }
-  if (!Array.prototype.filter) {
-    Array.prototype.filter = function(fun/*, thisArg*/) {
-      'use strict';
-
-      if (this === void 0 || this === null) {
-        throw new TypeError();
-      }
-
-      var t = Object(this);
-      var len = t.length >>> 0;
-      if (typeof fun !== 'function') {
-        throw new TypeError();
-      }
-
-      var res = [];
-      var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
-      for (var i = 0; i < len; i++) {
-        if (i in t) {
-          var val = t[i];
-
-          // NOTE: Technically this should Object.defineProperty at
-          //       the next index, as push can be affected by
-          //       properties on Object.prototype and Array.prototype.
-          //       But that method's new, and collisions should be
-          //       rare, so use the more-compatible alternative.
-          if (fun.call(thisArg, val, i, t)) {
-            res.push(val);
-          }
-        }
-      }
-
-      return res;
-    };
-  }
-
   //options and other variable containers
   var options = {
       overrideAutorun: false,
-      version : '1.2.6',
+      version : '1.3.5',
       baseClass : 'mobileConsole_',
       animParams: 'all 200ms ease',
       browserinfo: {
+        isMobile: (function (a) {
+          return (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4)));
+        }(navigator.userAgent || navigator.vendor || window.opera)),
         browserChrome: /chrome/.test(navigator.userAgent.toLowerCase()),
         ffox: /firefox/.test(navigator.userAgent.toLowerCase()) && !/chrome/.test(navigator.userAgent.toLowerCase()),
         safari: /safari/.test(navigator.userAgent.toLowerCase()) && !/chrome/.test(navigator.userAgent.toLowerCase()),
         trident: /trident/.test(navigator.userAgent.toLowerCase()),
-        evtLstn: typeof window.addEventListener === 'function',
-        isCrap: document.querySelectorAll === undefined
+        evtLstn: typeof window.addEventListener === 'function'
       },
       methods : ['log', 'trace', 'info', 'warn', 'error', 'group', 'groupCollapsed', 'groupEnd', 'table', 'assert', 'time', 'timeEnd', 'clear'],
       hideButtons : ['group', 'groupCollapsed', 'groupEnd', 'table', 'assert', 'time', 'timeEnd'],
@@ -108,39 +269,23 @@ var mobileConsole = (function () {
         acHovered: false
       }
     },
-  //'backup' original console for reference & internal debugging
+    //'backup' original console for reference & internal debugging
+    missingMethod = function() { return true; },  //method is not supported on this device's original console, return dummy
     originalConsole = {
-      log:        (typeof console.log === 'function') ? console.log.bind(console) : null,
-      info:       (typeof console.info === 'function') ? console.info.bind(console) : null,
-      dir:        (typeof console.dir === 'function') ? console.dir.bind(console) : null,
-      group:      (typeof console.group === 'function') ? console.group.bind(console) : null,
-      groupEnd:   (typeof console.groupEnd === 'function') ? console.groupEnd.bind(console) : null,
-      warn:       (typeof console.warn === 'function') ? console.warn.bind(console) : null,
-      error:      (typeof console.error === 'function') ? console.error.bind(console) : null,
-      trace:      (typeof console.trace === 'function') ? console.trace.bind(console) : null,
-      clear:      (typeof console.clear === 'function') ? console.clear.bind(console) : null
+      log:        (console && typeof console.log === 'function') ?       console.log.bind(console) :       missingMethod,
+      info:       (console && typeof console.info === 'function') ?      console.info.bind(console) :      missingMethod,
+      dir:        (console && typeof console.dir === 'function') ?       console.dir.bind(console) :       missingMethod,
+      group:      (console && typeof console.group === 'function') ?     console.group.bind(console) :     missingMethod,
+      groupEnd:   (console && typeof console.groupEnd === 'function') ?  console.groupEnd.bind(console) :  missingMethod,
+      warn:       (console && typeof console.warn === 'function') ?      console.warn.bind(console) :      missingMethod,
+      error:      (console && typeof console.error === 'function') ?     console.error.bind(console) :     missingMethod,
+      trace:      (console && typeof console.trace === 'function') ?     console.trace.bind(console) :     missingMethod,
+      clear:      (console && typeof console.clear === 'function') ?     console.clear.bind(console) :     missingMethod
     },
-  // reference variables
+    // reference variables
     mobileConsole, consoleElement, commandLine;
 
-  if(options.browserinfo.isCrap) {
-    console.error(
-      '--==## Error: Browser not supported by Mobile Console ##==--' + '\n' +
-      'MobileConsole v' + options.version + ', running on ' + navigator.userAgent.toLowerCase()
-    );
-    return false;
-  }
-
   //helpers for all sub functions
-  function isMobile() {
-    var check = false;
-    (function (a) {
-      if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0, 4))) {
-        check = true;
-      }
-    }(navigator.userAgent || navigator.vendor || window.opera));
-    return check;
-  }
   function setCSS(el, css) {
     var i;
     for (i in css) {
@@ -151,7 +296,9 @@ var mobileConsole = (function () {
     return el;
   }
   function htmlToString(html) {
-    return String(html).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/ /g, '\u00a0').replace(/(?:\r\n|\r|\n)/g, '<br />').trim();
+    var string;
+    try { string = String(html); } catch(e) { string = JSON.stringify(html); } //this should be done differently, but works for now
+    return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/ /g, '\u00a0').replace(/(?:\r\n|\r|\n)/g, '<br />').trim();
   }
   function createElem(type, className, css) {
     if (!type || typeof setCSS !== 'function') { return; }
@@ -182,76 +329,6 @@ var mobileConsole = (function () {
     return String(returnVal);
   }
 
-  // DocReady - Fires supplied function when document is ready
-  if (typeof 'docReady' !== 'function') {
-    (function (funcName, baseObj) {
-      // The public function name defaults to window.docReady
-      // but you can pass in your own object and own function name and those will be used
-      // if you want to put them in a different namespace
-      funcName = funcName || 'docReady';
-      baseObj = baseObj || window;
-      var i, len, readyList = [], readyFired = false, readyEventHandlersInstalled = false;
-
-      // call this when the document is ready
-      // this function protects itself against being called more than once
-      function ready() {
-        if (!readyFired) {
-          // this must be set to true before we start calling callbacks
-          readyFired = true;
-          for (i = 0, len = readyList.length; i < len; i = i + 1) {
-            // if a callback here happens to add new ready handlers,
-            // the docReady() function will see that it already fired
-            // and will schedule the callback to run right after
-            // this event loop finishes so all handlers will still execute
-            // in order and no new ones will be added to the readyList
-            // while we are processing the list
-            readyList[i].fn.call(window, readyList[i].ctx);
-          }
-          // allow any closures held by these functions to free
-          readyList = [];
-        }
-      }
-
-      function readyStateChange() {
-        if (document.readyState === 'complete') {
-          ready();
-        }
-      }
-
-      // This is the one public interface
-      // docReady(fn, context);
-      // the context argument is optional - if present, it will be passed
-      // as an argument to the callback
-      baseObj[funcName] = function (callback, context) {
-        // if ready has already fired, then just schedule the callback
-        // to fire asynchronously, but right away
-        if (readyFired) {
-          setTimeout(function () {callback(context); }, 1);
-          return;
-        }
-        // add the function and context to the list
-        readyList.push({fn: callback, ctx: context});
-        // if document already ready to go, schedule the ready function to run
-        if (document.readyState === 'complete') {
-          setTimeout(ready, 1);
-        } else if (!readyEventHandlersInstalled) {
-          // otherwise if we don't have event handlers installed, install them
-          if (document.addEventListener) {
-            // first choice is DOMContentLoaded event
-            document.addEventListener('DOMContentLoaded', ready, false);
-            // backup is window load event
-            window.addEventListener('load', ready, false);
-          } else {
-            // must be IE
-            document.attachEvent('onreadystatechange', readyStateChange);
-            window.attachEvent('onload', ready);
-          }
-          readyEventHandlersInstalled = true;
-        }
-      };
-    }('docReady', window));
-  }
-
   // elements
   var elements = {
     lines: [],
@@ -268,7 +345,7 @@ var mobileConsole = (function () {
       width: '100%',
       zIndex: 10000,
       padding: 0,
-      paddingBottom: isMobile() ? '35px' : '25px',
+      paddingBottom: options.browserinfo.isMobile ? '35px' : '25px',
       margin: 0,
       border: '0 none',
       borderTop: '1px solid #808080',
@@ -319,7 +396,7 @@ var mobileConsole = (function () {
       margin: 0,
       display: 'none',
       marginLeft: '10px',
-      marginTop: isMobile() ? '8px' : '4px',
+      marginTop: options.browserinfo.isMobile ? '8px' : '4px',
       tableLayout: 'auto',
       maxWidth: '100%',
       color: '#333333'
@@ -341,12 +418,12 @@ var mobileConsole = (function () {
     tdLeft : createElem('td', 'table_row_data', {
       border: '0 none',
       textAlign: 'left',
-      padding: isMobile() ? '8px 12px' : '4px 8px'
+      padding: options.browserinfo.isMobile ? '8px 12px' : '4px 8px'
     }),
     tdRight : createElem('td', 'table_row_data', {
       border: '0 none',
       textAlign: 'left',
-      padding: isMobile() ? '8px 12px' : '4px 8px',
+      padding: options.browserinfo.isMobile ? '8px 12px' : '4px 8px',
       whiteSpace: 'nowrap',
       overflow: 'hidden'
     }),
@@ -386,7 +463,7 @@ var mobileConsole = (function () {
     },
     input : createElem('div', 'input', {
       boxSizing: 'border-box',
-      height: isMobile() ? '35px' : '29px',
+      height: options.browserinfo.isMobile ? '35px' : '29px',
       fontFamily: 'Consolas, monaco, monospace',
       position: 'absolute',
       bottom: 0,
@@ -400,8 +477,8 @@ var mobileConsole = (function () {
       position: 'absolute',
       bottom: 0,
       width: '25px',
-      lineHeight: isMobile() ? '34px' : '28px',
-      height: isMobile() ? '34px' : '28px',
+      lineHeight: options.browserinfo.isMobile ? '34px' : '28px',
+      height: options.browserinfo.isMobile ? '34px' : '28px',
       textAlign: 'center',
       fontSize: '16px',
       fontFamily: 'Consolas, monaco, monospace',
@@ -414,11 +491,11 @@ var mobileConsole = (function () {
       position: 'absolute',
       bottom: 0,
       width : '100%',
-      fontSize: isMobile() ? '16px' : 'inherit', //prevents ios safari's zoom on focus
+      fontSize: options.browserinfo.isMobile ? '16px' : 'inherit', //prevents ios safari's zoom on focus
       fontFamily: 'Consolas, monaco, monospace',
       paddingLeft: '25px',
       margin: 0,
-      height: isMobile() ? '35px' : '25px',
+      height: options.browserinfo.isMobile ? '35px' : '25px',
       border: '0 none',
       outline: 'none',
       outlineWidth: 0,
@@ -432,7 +509,7 @@ var mobileConsole = (function () {
     autocomplete : createElem('div', 'autocomplete', {
       display: 'none',
       position: 'absolute',
-      bottom: isMobile() ? '35px' : '28px',
+      bottom: options.browserinfo.isMobile ? '35px' : '28px',
       left: 0,
       boxShadow: '1px 2px 5px rgba(0,0,0,0.1)',
       color: '#000000',
@@ -442,7 +519,7 @@ var mobileConsole = (function () {
     autocompleteItem : createElem('a', 'autocompleteitem', {
       display: 'block',
       textDecoration: 'none',
-      fontSize: isMobile() ? '16px' : 'inherit',
+      fontSize: options.browserinfo.isMobile ? '16px' : 'inherit',
       padding: '5px 8px',
       wordWrap: 'break-word',
       whiteSpace: 'nowrap'
@@ -556,8 +633,8 @@ var mobileConsole = (function () {
 
       return function (element, type, msg) {
         if (status.initialized) {
-          color = (msg === 'undefined' || msg === htmlToString(messages.empty)) ? {color: '#808080'} : ((msg  === htmlToString(messages.clear)) ? {color: '#808080', fontStyle: 'italic'} : (lineStyles(type) !== undefined ? lineStyles(type).text : lineStyles.log.text));
-          dot = lineStyles(type) !== undefined ? lineStyles(type).dot : lineStyles.log.dot;
+          color = (typeof msg === 'undefined' || msg === htmlToString(messages.empty)) ? {color: '#808080'} : ((msg  === htmlToString(messages.clear)) ? {color: '#808080', fontStyle: 'italic'} : (lineStyles(type) !== undefined ? lineStyles(type).text : lineStyles.log.text));
+          dot = typeof lineStyles(type) !== 'undefined' ? lineStyles(type).dot : lineStyles.log.dot;
           setCSS(element, color);
           //has dot?
           if (element.childNodes[0].childNodes[0].className.indexOf('dot') !== -1) {
@@ -613,6 +690,16 @@ var mobileConsole = (function () {
       elements.scrollcontainer.scrollTop = elements.scrollcontainer.scrollHeight;
       elements.scrollcontainer.scrollLeft = 0;
     }
+    function destroyConsole() {
+      //conan the destroyer. Very basic; just removes the console element. mobileConsole will still 'pipe' console logging
+      //don't see any reason for now to reverse that.
+      elements.base.parentNode.removeChild(elements.base);
+      status.initialized = false;
+      console.warn(
+        '--==## Mobile Console DESTROYED ##==--' + '\n' +
+        'To enable again: reload the page. Tip: use the minimize button instead of closing.'
+      );
+    }
     function assemble() {
       var i = options.methods.length, key;
 
@@ -626,6 +713,11 @@ var mobileConsole = (function () {
       elements.buttons.toggler = elements.button.cloneNode(false);
       elements.buttons.toggler.innerHTML = elements.arrowDown;
       elements.buttons.toggler.setAttribute('title', 'Minimize console');
+      //add close button
+      elements.buttons.closer = elements.button.cloneNode(false);
+      elements.buttons.closer.innerHTML = '&#10005;';
+      elements.buttons.closer.setAttribute('title', 'Close (destroy) console');
+      setCSS(elements.buttons.closer, { float: 'right', margin: '0'});
 
       //assemble everything
       for (key in elements.buttons) {
@@ -654,12 +746,11 @@ var mobileConsole = (function () {
 
       return elements.base;
     }
-    function toggleLogType() {
-      //togglelogtype is a click handler; 'this' is the button that was clicked
-      var button = this;
+    function toggleLogType(e) {
+      var button = e.currentTarget || e.srcElement;
       var logType = button.innerHTML.toLowerCase();
       var elems = elements.lines[logType], i = elems.length;
-      button.toggled = (button.toggled === undefined) ? true : !button.toggled;
+      button.toggled = (typeof button.toggled === 'undefined') ? true : !button.toggled;
       setCSS(button, { opacity: (button.toggled) ? '0.5' : '' });
       while (i--) {
         setCSS(elems[i], { display: (button.toggled) ? 'none' : '' });
@@ -678,15 +769,17 @@ var mobileConsole = (function () {
             elements.buttons[methods[i]].attachEvent('onclick', toggleLogType);
           }
         }
-        if (options.hideButtons.indexOf(methods[i]) !== -1) {
+        if (options.hideButtons.indexOf(methods[i]) !== -1) { //hide buttons that we don't want
           setCSS(elements.buttons[methods[i]], { display: 'none' });
         }
       }
       if (options.browserinfo.evtLstn) {
         elements.buttons.toggler.addEventListener('click', toggleHeight, false);
+        elements.buttons.closer.addEventListener('click', destroyConsole, false);
         elements.buttons.clear.addEventListener('click', console.clear, false);
       } else {
         elements.buttons.toggler.attachEvent('onclick', toggleHeight);
+        elements.buttons.closer.attachEvent('onclick', destroyConsole);
         elements.buttons.clear.attachEvent('onclick', console.clear);
       }
     }
@@ -700,7 +793,8 @@ var mobileConsole = (function () {
       //expose Public methods and variables
       return {
         toggleHeight : toggleHeight,
-        toggleScroll : toggleScroll
+        toggleScroll : toggleScroll,
+        destroy: destroyConsole
       };
     }
     if (!ref) {
@@ -714,6 +808,13 @@ var mobileConsole = (function () {
     //reference
     var ref;
     //sub helpers
+    function isEmpty(obj) {
+      for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+          return false;
+      }
+      return JSON.stringify(obj) === JSON.stringify({});
+    }
     function isElement(o) {
       return (
         typeof HTMLElement === 'object' ? o instanceof HTMLElement : //DOM2
@@ -721,15 +822,21 @@ var mobileConsole = (function () {
       );
     }
     function objectToString(object) {
-      var simpleObject = {}, prop, classname = getClass(object);
+      var prop, output = '';
       if (!isElement(object)) {
         for (prop in object) {
-          if (!object.hasOwnProperty(prop) || (typeof (object[prop]) === 'object') || (typeof (object[prop]) === 'function')) {
+          if (!object.hasOwnProperty(prop)) {
             continue;
+          } else if (typeof (object[prop]) === 'object') {
+            output += prop + ((Array.isArray(object[prop])) ? ': Array(' + object[prop].length + ')' : ': {&hellip;}');
+          } else if (typeof (object[prop]) === 'function') {
+            output += 'func: f';
+          } else {
+            output += prop + ': <span style="color:#c54300;">"' + object[prop] + '"</span>';
           }
-          simpleObject[prop] = object[prop];
+          output += ', ';
         }
-        return '<em>' + classname + ' ' + JSON.stringify(simpleObject) + '</em>'; // returns cleaned up JSON
+        return '<em>{' + output.slice(0, -2) + '}</em>'; // returns cleaned up JSON
       }
       return htmlToString(object.outerHTML);
     }
@@ -776,7 +883,7 @@ var mobileConsole = (function () {
     function formatStackTrace(trace, origtrace) {
       var callStack = [];
       //original stack is hidden inside trace object, if specified
-      var stackTraceOrig = (trace !== undefined && trace[4] !== undefined) ? trace[4].stack : undefined;
+      var stackTraceOrig = (typeof trace !== 'undefined' && typeof trace[4] !== 'undefined') ? trace[4].stack : undefined;
       //if the first line contains this, skip it. Meant for browsers that begin the stack with the error message itself (already captured before formatStackTrace)
       var traceToProcess = (origtrace && origtrace !== '') ? origtrace : stackTraceOrig,
         i,
@@ -817,10 +924,10 @@ var mobileConsole = (function () {
     }
     function traceToTable(table, trace) {
       var i, tdLeft, tdRight, tr;
-      if (trace === undefined) {
+      if (typeof trace === 'undefined') {
         return;
       }
-      trace.reverse(); //reverse order of trace, as it is in a browser's console
+      trace.reverse(); //reverse order of trace, just like in a browser's console
       i = trace.length;
       while (i--) {
         tdLeft = elements.td.cloneNode(false);
@@ -844,9 +951,6 @@ var mobileConsole = (function () {
         value = htmlToString(value);
         valueColor = '#ad8200';
       }
-      if (value === null) {
-        valueColor = '#808080';
-      }
       if (typeof value === 'string') {
         valueColor = '#c54300';
         //HARD limit, for speed/mem issues with consecutive logging of large strings
@@ -855,22 +959,61 @@ var mobileConsole = (function () {
         } else {
           value = '"' + value + '"';
         }
+      } else if (value === null) {
+        valueColor = '#808080';
+        value = 'null';
+      } else if (typeof value === 'undefined' || value === undefined) {
+        valueColor = '#808080';
+        value = 'undefined';
+      } else if (typeof value === 'object') {
+        if (isEmpty(value)) {
+          value = '{}';
+        } else {
+          valueColor = '';
+          //iterate over object to create another table inside
+          var tempTable = createElem('table', 'stackTraceSubTable', {
+              border: '0 none',
+              margin: 0,
+              display: 'none',
+              marginLeft: '10px',
+              marginTop: options.browserinfo.isMobile ? '8px' : '4px',
+              tableLayout: 'auto',
+              maxWidth: '100%',
+              color: '#333333'
+            }),
+            wrap = document.createElement('div');
+          wrap.appendChild(objectToTable(tempTable, value).cloneNode(true));
+          if (Array.isArray(value)) {
+            value = 'Array(' + value.length + ')' +  wrap.innerHTML;
+          } else {
+            value = wrap.innerHTML;
+          }
+        }
       }
+
       return '<span style="color:' + keyColor + ';">' + key + ':</span> <span style="color:' + valueColor + ';">' + value + '</span>';
     }
     function objectToTable(table, object) {
-      var i;
-      for (i in object) {
-        var tdLeft = elements.td.cloneNode(false), tr = elements.tr.cloneNode(false);
-        tdLeft.innerHTML = colorizeData(i, object[i]);
+      var i, tdLeft, tr;
+      if (isElement(object)){
+        tdLeft = elements.td.cloneNode(false); tr = elements.tr.cloneNode(false);
+        tdLeft.innerHTML = htmlToString(object.outerHTML);
         tr.appendChild(tdLeft);
         table.appendChild(tr);
+      } else {
+        for (i in object) {
+          if (object.hasOwnProperty(i)) {
+            tdLeft = elements.td.cloneNode(false); tr = elements.tr.cloneNode(false);
+            tdLeft.innerHTML = colorizeData(i, object[i]);
+            tr.appendChild(tdLeft);
+            table.appendChild(tr);
+          }
+        }
       }
       return table;
     }
-    function toggleDetails() {
-      //toggleDetails is a click handler; 'this' is the button that was clicked
-      var button = this, i, hidden;
+    function toggleDetails(e) {
+      var button = e.currentTarget || e.srcElement, i, hidden;
       if (button.getAttribute('toggles') === 'table') {
         var tables = button.parentElement.getElementsByTagName('table');
         i = tables.length;
@@ -887,12 +1030,12 @@ var mobileConsole = (function () {
     function newConsole() {
       try {
         //get arguments, set vars
-        var method = arguments[0], className,
-          message =       (arguments[1].newMessage !== undefined) ? arguments[1].newMessage : undefined,
-          stackTrace =    (arguments[1].newStackTrace !== undefined) ? arguments[1].newStackTrace : undefined;
+        var method = arguments[0], className, isHTMLElement,
+          message =       (typeof arguments[1].newMessage !== 'undefined') ? arguments[1].newMessage : undefined,
+          stackTrace =    (typeof arguments[1].newStackTrace !== 'undefined') ? arguments[1].newStackTrace : undefined;
 
-        //if message emtpy, show empty message-message
-        if (message === '') { message = messages.empty; }
+        //if message emtpy or undefined, show empty message-message
+        if (message === '' || typeof message === 'undefined' || message === undefined) { message = messages.empty; }
 
         if (isRepeat(message, method) && method.indexOf('time') === -1) {
           // up the counter and add the dot
@@ -907,12 +1050,9 @@ var mobileConsole = (function () {
 
           //an object requires some more handling
           if (typeof message === 'object' && method !== 'assert' && method !== 'timeEnd') {
-            className = getClass(message);
-            if (className.indexOf('HTML') !== -1 && className !== 'HTMLDocument') {
-              message = htmlToString(message.outerHTML.match(/<(.*?)>/g)[0] + '...' + message.outerHTML.match(/<(.*?)>/g).pop()); //gets first and last tag, adds '...' in middle. e.g. <div>...</div>
-            } else {
-              message = objectToString(message);
-            }
+            message = isElement(message) ?
+                      htmlToString(message.outerHTML.match(/<(.*?)>/g)[0] + '...' + message.outerHTML.match(/<(.*?)>/g).pop()) : //gets e.g. <div>...</div>
+                      objectToString(message);
           } else if (method !== 'assert' && method.indexOf('time') === -1) {
             message = htmlToString(message);
           }
@@ -1011,7 +1151,7 @@ var mobileConsole = (function () {
           }
 
           //populate right side
-          if (stackTrace && stackTrace[stackTrace.length - 1] !== undefined) {
+          if (stackTrace && typeof stackTrace[stackTrace.length - 1] !== 'undefined') {
             rightContainer.appendChild(setCSS(getLink(stackTrace[0].url, stackTrace[0].linkText), {color: '#808080'}));
           }
 
@@ -1051,18 +1191,18 @@ var mobileConsole = (function () {
         }
       } catch (e) {
         //not logging. why? throw error
-        if (isMobile()) { alert(e); }
-        originalConsole.error('mobileConsole generated an error logging this event!');
+        if (options.browserinfo.isMobile) { alert(e); }
+        originalConsole.error('mobileConsole generated an error logging this event! (type: ' + typeof message + ')');
         originalConsole.error(arguments);
         originalConsole.error(e);
         //try to re-log it as an error
         newConsole('error', e);
       }
 
-
     }
     function interceptConsole(method) {
-      var original = console[method], i, stackTraceOrig;
+      var original = console ? console[method] : missingMethod(), i, stackTraceOrig;
+      if (!console) { console = {}; } //create empty console if we have no console (IE?)
       console[method] = function () {
         var args = Array.prototype.slice.call(arguments);
         args.original = original;
@@ -1072,7 +1212,12 @@ var mobileConsole = (function () {
         try { throw new Error(); } catch (e) { stackTraceOrig = e.stack; }
         args.newStackTrace = formatStackTrace(args.newStackTrace, stackTraceOrig);
         if (method === 'clear') {
-          elements.table.innerHTML = '';
+          try {
+            elements.table.innerHTML = '';
+          } catch (e) {
+            console.log('This browser does not allow clearing tables, the console cannot be cleared.');
+            return;
+          }
           history.output.prevMethod = '';
           i = options.methods.length;
           while (i--) {
@@ -1104,9 +1249,8 @@ var mobileConsole = (function () {
         newConsole('error', args);
       };
 
-      //expose Public methods and variables
       return {
-        //nothing yet to expose
+        //nothing to expose
       };
     }
     //return
@@ -1162,13 +1306,13 @@ var mobileConsole = (function () {
       }
     }
     function hoverAutoComplete(e) {
-      if (e === undefined) { return; }
+      if (typeof e === 'undefined') { return; }
       //unset any already hovered elements
-      var hovered = getFromArrayById('hover').element, target = e.target, over;
-      if (hovered !== undefined) {
+      var hovered = getFromArrayById('hover').element, target = e.target || e.srcElement, over;
+      if (typeof hovered !== 'undefined') {
         setCSS(hovered, {
           color: '',
-          backgroundColor: 'rgba(0, 0, 0, 0)'
+          backgroundColor: ''
         }).id = '';
       }
       if (e.type === 'mouseover') {
@@ -1179,19 +1323,20 @@ var mobileConsole = (function () {
       }
       setCSS(target, {
         color: over ? '#FFFFFF' : '',
-        backgroundColor: over ? 'rgba(66, 139, 202, 1)' : 'rgba(0, 0, 0, 0)'
+        backgroundColor: over ? 'rgb(66,139,202)' : ''
       }).id = over ? 'hover' : '';
     }
     function toggleAutoComplete(show) {
       var hidden = (elements.autocomplete.currentStyle ? elements.autocomplete.currentStyle.display : window.getComputedStyle(elements.autocomplete, null).display) === 'none';
-      show = (show === undefined) ? hidden : show;
+      show = (typeof show === 'undefined') ? hidden : show;
       setCSS(elements.autocomplete, {display: (show) ? 'inherit' : 'none'});
       status.acActive = show;
       if (!show) { status.acHovered = false; }
     }
     function clickAutoComplete(e) {
-      e.preventDefault();
-      elements.consoleinput.value = e.target.innerHTML;
+      if (e.preventDefault) { e.preventDefault(); } else { e.returnValue = false; }
+      var tgt = e.target || e.srcElement;
+      elements.consoleinput.value = tgt.innerHTML;
       elements.consoleinput.focus();
       toggleAutoComplete();
     }
@@ -1200,7 +1345,7 @@ var mobileConsole = (function () {
         toggleAutoComplete(false);
         return;
       }
-      var searchString = encodeURI(command), matches, match, row, i, maxAmount = isMobile() ? 3 : 5;
+      var searchString = encodeURI(command), matches, match, row, i, maxAmount = options.browserinfo.isMobile ? 3 : 5;
       elements.autocomplete.innerHTML = '';
       elements.acItems = [];
       matches = findInArray(history.input.commands, searchString);
@@ -1223,9 +1368,11 @@ var mobileConsole = (function () {
         elements.autocomplete.attachEvent('onclick', clickAutoComplete);
       }
       document.onkeydown = function (e) {
-        if (e.target === elements.consoleinput) {
+        e = e || window.event;
+        var tgt = e.target || e.srcElement;
+        if (tgt === elements.consoleinput) {
           if ((e.key === 'Enter' || e.keyCode === 13)) { //enter
-            e.preventDefault();
+            if (e.preventDefault) { e.preventDefault(); } else { e.returnValue = false; }
             if(!status.acHovered) {
               submitCommand(elements.consoleinput.value);
             } else {
@@ -1235,7 +1382,7 @@ var mobileConsole = (function () {
             toggleAutoComplete(false);
             status.acInput = '';
           } else if ((e.keyCode === 38 || e.keyCode === 40)) { //up and down arrows for history browsing
-            e.preventDefault();
+            if (e.preventDefault) { e.preventDefault(); } else { e.returnValue = false; }
             var up = (e.keyCode === 40);
             if(status.acActive) {
               //autocomplete window is opened
@@ -1250,7 +1397,7 @@ var mobileConsole = (function () {
               var hist = history.input.commands;
               history.input.commandIdx += (up) ? 1 : -1;
               history.input.commandIdx = valBetween(history.input.commandIdx, 0, hist.length);
-              elements.consoleinput.value = hist[history.input.commandIdx] === undefined ? '' : decodeURI(hist[history.input.commandIdx]);
+              elements.consoleinput.value = typeof hist[history.input.commandIdx] === 'undefined' ? '' : decodeURI(hist[history.input.commandIdx]);
             }
           }
         }
@@ -1259,7 +1406,9 @@ var mobileConsole = (function () {
         }
       };
       document.onkeyup = function (e) {
-        if (e.target === elements.consoleinput && status.acInput !== elements.consoleinput.value && (e.keyCode !== 38 && e.keyCode !== 40 && e.keyCode !== 27 && e.key !== 'Enter' && e.keyCode !== 13)) {
+        e = e || window.event;
+        var tgt = e.target || e.srcElement;
+        if (tgt === elements.consoleinput && status.acInput !== elements.consoleinput.value && (e.keyCode !== 38 && e.keyCode !== 40 && e.keyCode !== 27 && e.key !== 'Enter' && e.keyCode !== 13)) {
           status.acInput = elements.consoleinput.value.trim();
           autoComplete(elements.consoleinput.value);
         }
@@ -1267,11 +1416,10 @@ var mobileConsole = (function () {
     }
     //init
     function init() {
-      var element = assemble();
+      assemble();
       setBinds();
-      //expose Public methods and variables
       return {
-        //nothing yet to expose
+        //nothing  to expose
       };
     }
     //return
@@ -1283,37 +1431,37 @@ var mobileConsole = (function () {
 
   function init() {
     if (!status.initialized) {
-      status.initialized = true;
-      //populate references
-      if (!mobileConsole) {
-        //taps into native console and adds new functionality
-        mobileConsole =   initConsole();
+      if (consoleElement && mobileConsole) {
+        console.error( 'Mobile Console cannot be reconstructed! Reload the page to enable Mobile Console again.' + '\n' +
+          'Tip: use the minimize button instead of closing.' );
+        return;
+      } else {
+        status.initialized = true;
+        //populate references
+        if (!mobileConsole) {
+          //taps into native console and adds new functionality
+          mobileConsole =   initConsole();
+        }
+        if (!consoleElement && mobileConsole) {
+          //creates the new HTML console element and attaches it to document
+          consoleElement =  initConsoleElement();
+        }
+        if (!commandLine && consoleElement && mobileConsole) {
+          //creates an HTML commandline and attaches it to existing console element
+          commandLine =   initCommandLine();
+        }
       }
-      if (!consoleElement && mobileConsole) {
-        //creates the new HTML console element and attaches it to document
-        consoleElement =  initConsoleElement();
-      }
-      if (!commandLine && consoleElement && mobileConsole) {
-        //creates an HTML commandline and attaches it to existing console element
-        commandLine =   initCommandLine();
-      }
-      //log a 'welcome' message
-      console.info( '--==## Mobile Console v' + options.version + ' ' + (status.initialized ? 'active' : 'inactive' ) + ' ##==--' );
-    } else if (options.browserinfo.isCrap) {
-      console.error(
-        '--==## Error: Browser not supported by Mobile Console ##==--' + '\n' +
-        '--===============================--' + '\n' +
-        'MobileConsole v' + options.version + ', running on ' + navigator.userAgent.toLowerCase()
-      );
     }
+    //log a 'welcome' message
+    console.info( '--==## Mobile Console v' + options.version + ' ' + (status.initialized ? 'active' : 'inactive' ) + ' ##==--' );
   }
 
   //autorun if mobile
-  if (isMobile() || options.overrideAutorun) {
+  if (options.browserinfo.isMobile || options.overrideAutorun) {
     init();
   }
 
-  //expose the mobileConsole
+  //expose the mobileConsole's methods
   return {
     init : init,
     about: about,
