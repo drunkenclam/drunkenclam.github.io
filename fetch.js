@@ -106,7 +106,7 @@ var app = new Vue({
         aaPos: '',
         mic: '',
         nextBlob: '',
-        bh24: false,
+        // bh24: false,
         ilpic: false,
         il: false,
         ilSrc: [],
@@ -636,89 +636,50 @@ var app = new Vue({
 
     ],
       optionsT: [ 'All',
-        "murbo",
-        "cleavagetweet",
-        "mavrin",
+        "acket",
         "suicidegirls",
-        //"showmethereal",
-        "nsfwio",
         "sexypositions",
-        "succubusdesires",
         "bustybikinigirls",
         'huge-bikini-boobs',
         'hasthatlook',
         'busty-andyouknowit',
         'legendarybeautyposter',
-        'nonameuserstuff',
         'justbigger',
         'whatbustygirlsdo',
-        'superboobsandbutts',
         'bustyattention',
-        'nitropro',
-        'nakednightmare',
-        'leolauspt',
-        'color4me',
-        'trimmedpussy',
-        'qqtony',
-        'my-taste-in-boobs',
         'xxx-sexbomb',
-        'terrabeauty',
-        'estopmain',
-        'justafanofbeauty',
         'partybuttnaked',
-        'beauty-adoring',
-        'eroticvisualart',
         'sneakpeaking',
-        'vylain',
         'finefemaleart',
-        'sensualsideofme',
-        'xraymike123',
-        'pleasure-treasures',
-        'lesfantastiques',
-        'naughtilydelicious',
-        'morphing-only',
-        'jsc-sexy-hot-girls',
-        'enjoy-by-awesome-girls',
         'w-y-s-f',
         'scottysplace',
-        'beautiful-tangerine2',
         'onlybombs',
         'sexygirlsandporn',
-        'wolfshond',
-        'almostperfectboobs',
-        //'jdbetter',
         'capitol-j',
         'squritabh',
-        'myperfectpicturesisstolen',
-        //'herandis',
-        'slender-and-young',
         'extremeangles',
-        'flatgurls',
-        'sheissopretty',
-        'omgchoppedgoateedinosaurfan',
-        'beautifulsexynude',
-        'smashablebabes',
-        'casi56',
         'jef2828',
-        'sensualartaz',
-        'lorddragonwind',
-        'leaddawg',
-        'pinups-plus',
-        'no-bra-day',
-        'stunningnakedladies',
         'myinterestingposts',
-        'bellezanatural11',
-        'robertweissner',
-        'moistpubes2',
-        'helga-lovekaty-hott',
-        'vonschreck',
-        'theeroticexhibition',
-        'socialdeviant-paulhd',
-        'nsfwrandomness',
-        'bestnudepicsofmodels',
-        //'mirimarnrw',
         'my-personal-matrix',
-
+        'sithsidious',
+        'taboosexdesires',
+        'watchfromedge',
+        'fantasticbeauty',
+        'arnold-ziffel',
+        'donddon59',
+        'c3pee00sfemaleperfection',
+        'whatyoucantmeasure',
+        'aimerlesfemmes',
+        'jdbetter',
+        'boobsbuttsandbodies',
+        'alongerview',
+        'captainx2c',
+        'babes-eve3',
+        'starkilluminations',
+        'beautifulgirlsdaily123',
+        'mk343',
+        '2xphun',
+        'mrredneckrc',
         //meh
       ],
       optionsI: [ 'All',
@@ -845,6 +806,8 @@ var app = new Vue({
         'vavaca',
 
       ],
+      optionsN: [ 'All',
+      ],
       optionsFNG: [ 'All',
       ],
       optionsF: [ 'All',
@@ -957,6 +920,9 @@ var app = new Vue({
             imageUrl.indexOf('smugmug.com') > 0 ||
             imageUrl[0].indexOf('500px') > 0 ||
             imageUrl.indexOf('500px') > 0 ||
+            imageUrl.indexOf('pixhost') > 0 ||
+            imageUrl.indexOf('imagebam') > 0 ||
+            imageUrl.indexOf('imx.to') > 0 ||
             imageUrl.indexOf('adsttc.com') > 0 ||
             imageUrl.indexOf('puu.sh') > 0 ||
             imageUrl.indexOf('nasa.gov') > 0 ||
@@ -1962,6 +1928,8 @@ var app = new Vue({
         app.fetchI();
       } else if (app.picked === 'pint') {
         app.fetchP();
+      } else if (app.picked === 'nsfwa') {
+        app.fetchN();
       } else if (app.picked === 'FNG') {
         app.fetchFNG();
       } else if (app.picked === '500px') {
@@ -1969,6 +1937,125 @@ var app = new Vue({
       } else if (app.picked === 'flickr') {
         app.fetchF();
       };
+    },
+
+    fetchN: function (event) {
+      console.log(app.selected);
+      var sr = [];
+      sr = this.optionsN;
+      var counter = 0;
+      pic = [];
+      k = 0;
+      var FNGarr = [];
+      fetch('https://ratv-cors-proxy.herokuapp.com/https://nsfwalbum.com/backend.php')
+        .then(function (response) {
+            switch (response.status) {
+                // status "OK"
+                case 200:
+                    return response.text();
+                // status "Not Found"
+                case 404:
+                    throw response;
+            }
+        })
+        .then(function (template) {
+            // console.log(template);
+            var indexes = [...template.matchAll(new RegExp('<a href="/album/', 'gi'))].map(a => a.index);
+            // console.log(indexes)
+            var imagesfn = '';
+            var z = 0;
+            // var titlefn = '';
+            // var datefn = '';
+            for(var i = 0; i < indexes.length; i++) {
+              imagesfn = template.substring(indexes[i]+16, indexes[i] + 22);
+              // imagesfn = imagesfn.substring(16, imagesfn.indexOf('" '));
+              FNGarr.push(imagesfn);
+            }
+            FNGarr = FNGarr.filter(function(elem, index, self) {
+                   return index === self.indexOf(elem);
+            })
+            console.log(FNGarr)
+            for(var ii = 0; ii < FNGarr.length; ii++) {
+              fetch('https://ratv-cors-proxy.herokuapp.com/https://nsfwalbum.com/album/' + FNGarr[ii])
+                .then(function (response1) {
+                  // console.log(response1)
+                    switch (response1.status) {
+                        // status "OK"
+                        case 200:
+                            return response1.text();
+                        // status "Not Found"
+                        case 404:
+                            throw response1;
+                    }
+                })
+                .then(function (template1) {
+                    console.log(template1);
+                    var indexes1 = [...template1.matchAll(new RegExp('data-src', 'gi'))].map(a => a.index);
+                    console.log(indexes1)
+                    // var n = template1.indexOf('dateModified');
+                    // var datefn = template1.substring(n+15, n+25);
+                    // console.log(datefn)
+                    var datefn = ''
+                    var v = template1.indexOf('<title>');
+                    var titlefn = template1.substring(v+7, template1.indexOf('</title>'));
+                    console.log(titlefn)
+                    // console.log(FNGarr[z])
+                    var image = '';
+                    for(var i = 0; i < indexes1.length; i++) {
+                      image = template1.substring(indexes1[i]+10, indexes1[i] + 500);
+                      image = image.substring(0, image.indexOf('" '));
+                      console.log(image)
+                      var rr = i+1;
+                      var titlefng = titlefn + ' (' + rr + ' / ' + indexes1.length + ')';
+                      pic.push([image, FNGarr[z], datefn, titlefng, '', '', '', '', image]);
+                      app.fetched = ' / ' + pic.length;
+                    }
+                    counter++;
+                    z++;
+                    if (counter === FNGarr.length-1) {
+                      console.log(counter)
+                      console.log(pic)
+                      app.imgList.push(pic[0][0]);
+                      app.imgList.push(pic[1][0]);
+                      app.nextpic();
+                    }
+                    // console.log(image)
+                })
+                .catch(function (response1) {
+                    // "Not Found"
+                    console.log(response1.statusText);
+                });
+            }
+
+            // var shit = json.data.children[i].data.created-8*60*60;
+            // var ts = Math.round((new Date()).getTime() / 1000);
+            // var minutes = Math.round((ts-shit)/60);
+            // var date = Math.round(minutes/60);
+            // var days = Math.round(date/24);
+            // var formattedTime = "";
+            // pic.push([
+            //   json.data.children[i].data.url,
+            //   'https://www.reddit.com' + json.data.children[i].data.permalink,
+            //   formattedTime,
+            //   json.data.children[i].data.title,
+            //   shit,
+            //   json.data.children[i].data.subreddit,
+            //   json.data.children[i].data.num_comments,
+            //   json.data.children[i].data.author,
+            //   json.data.children[i].data.url,
+            // ]);
+            // app.fetched = ' / ' + pic.length;
+        })
+        .catch(function (response) {
+            // "Not Found"
+            console.log(response.statusText);
+        });
+
+      // var arr = [], l = document.links;
+      // for(var i=0; i<l.length; i++) {
+      //   if (l[i].href.indexOf('gallery') > 0) {if (!arr.includes(l[i].href)) {arr.push(l[i].href)}}
+      // }
+      // for (var knut=0; knut<)
     },
 
     fetchFNG: function (event) {
@@ -2348,6 +2435,7 @@ var app = new Vue({
           return response.json();
         }).then(function(json) {
           var tp = json.response.posts;
+          console.log(tp)
           //console.log('tp.lenght: ' + tp.length);
           if (tp.length >= 0) {
             for (var z = 0; z < tp.length; z++) {
@@ -2361,6 +2449,7 @@ var app = new Vue({
                   } else {picNo = 1; shitload = []};
                   //console.log(tp[z].photos.length);
                   var imgID = tp[z].photos[0].original_size.url;
+                  console.log(imgID)
                   var blogname = tp[z].blog_name;
                   var posturl = tp[z].post_url;
                   var createdT = tp[z].timestamp;
@@ -2388,16 +2477,19 @@ var app = new Vue({
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
                   if (minutes < 60) {formattedTime = minutes + ' min ago';}
-                  pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload, comments]);
+                  if (imgID.indexOf('flickr') === -1) {
+                    pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload, comments]);
+                  }
                   app.fetched = ' / ' + pic.length;
                 //}
-              } else if (tp[z].type === 'video' && app.checked) {
+              } else if (tp[z].type === 'video' && app.checked && tp[z].video_url) {
                   var imgID = tp[z].video_url;
                   var blogname = tp[z].blog_name;
                   var posturl = tp[z].post_url;
                   var createdT = tp[z].timestamp;
                   var tagline = tp[z].summary;
                   var picNo = 1;
+                  console.log(imgID)
                   //imgNo = json.data.images.length;
                   //imgID += 't';
                   //imgID = 'http://i.imgur.com/' + imgID + '.jpg';
@@ -2414,7 +2506,9 @@ var app = new Vue({
                   if (date < 24) {formattedTime = date + ' hours ago';}
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
                   if (minutes < 60) {formattedTime = minutes + ' min ago';}
-                  pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo]);
+                  if (imgID.indexOf('flickr') === -1) {
+                    pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo]);
+                  }
                   app.fetched = ' / ' + pic.length;
                 }
             }
@@ -2795,7 +2889,7 @@ var app = new Vue({
             // app.imgList.push(pic[1][0]);
             // pic2 = JSON.parse(JSON.stringify(pic));
             // console.log(pic2);
-            app.bru = pic[k][5];
+            if (app.picked === 'tumblr') {app.bru = pic[k][1]} else {app.bru = pic[k][5]}
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -2866,7 +2960,8 @@ var app = new Vue({
         };
 
         app.postlink = pic[k][2];
-        if (pic[k][5] != '') {app.title = pic[k][5]} else {if (!chicken3) {app.title = pic[k][1]} else {app.title = ''}};
+        // if (pic[k][5] != '') {app.title = pic[k][5]} else {if (!chicken3) {app.title = pic[k][1]} else {app.title = ''}};
+        if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][1]};
         app.created = pic[k][3] + ' at';
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         aa = [];
@@ -2879,7 +2974,7 @@ var app = new Vue({
           app.imgListA = pic[k][11];
         }
         app.loaded = k+1;
-        if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
+        // if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
       } else if (app.picked === 'pint') {
         if (pic[k][0].indexOf('.mp4') != -1) {app.vid=true}
         else {app.vid=false};
@@ -2894,7 +2989,7 @@ var app = new Vue({
         app.created = pic[k][3] + ' at ' + pic[k][1];
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         app.loaded = k+1;
-        if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
+        // if (pic[k][3].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
       } else { // reddit, insta, 500px, flickr
         app.vid = false;
         if (typeof pic[k][9] != 'undefined') {app.vid=false; app.albums()}
@@ -2934,7 +3029,7 @@ var app = new Vue({
           app.created = pic[k][2] + ' by ' + pic[k][3];
           if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][3]};
           if (pic[k][8]) {pic[k][0] = pic[k][8]}
-          if (pic[k][2].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
+          // if (pic[k][2].indexOf('day') != -1) {app.bh24 = true} else {app.bh24 = false}
         } else { //reddit
           app.created = pic[k][2] + ' in /r/' + pic[k][5];
           if (pic[k][3].indexOf('&amp;') != -1) {pic[k][3] = pic[k][3].replace(/&amp;/g, "&")};
@@ -2943,7 +3038,7 @@ var app = new Vue({
           if (pic[k][6] > 0) {app.title = pic[k][3] + ' (' + pic[k][6] + ')'} else {app.title = pic[k][3]};
           // console.log('muuuuh')
           console.log(pic[k][2]);
-          if (pic[k][2].indexOf('day') === 2) {app.bh24 = true} else {app.bh24 = false}
+          // if (pic[k][2].indexOf('day') === 2) {app.bh24 = true} else {app.bh24 = false}
         }
         //console.log(pic[k]);
         if (typeof pic[k][9] != 'undefined') {
@@ -3035,14 +3130,18 @@ var app = new Vue({
         app.bibo = 'The End!';
         app.derp = true;
       } else {
-        if (pic[k][12]) {
+        if (pic[k][12] && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
           app.bibo = pic[k][2] + ' ' + pic[k][12];
+        } else if (pic[k][12] && app.picked === 'tumblr') {
+            app.bibo = pic[k][3] + ' ' + pic[k][12];
+        } else if (app.picked === 'tumblr') {
+            app.bibo = pic[k][3];
         } else {
           app.bibo = pic[k][2];
         }
         app.derp = true;
       }
-      app.bru = pic[k][5];
+      if (app.picked === 'tumblr') {app.bru = pic[k][1]} else {app.bru = pic[k][5]}
       if (k === 0) {
         window.addEventListener("orientationchange", function() {
           console.log('orientation change! ' + window.screen.orientation.type)
@@ -3746,7 +3845,7 @@ var app = new Vue({
         //app.toggleFS();
       } else
       // if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW') && pic[k][6] > 0) {
-      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW' || app.picked === 'FNG')) {
+      if (imgNo === '' && (app.picked === 'reddit' || app.picked === 'redditSFW' || app.picked === 'tumblr' || app.picked === 'FNG')) {
         if (!app.showComms && swup) {
           swup = false;
           if (imgDiv.offsetWidth < currentOne.width) {
@@ -3778,7 +3877,7 @@ var app = new Vue({
           app.comments = [];
           app.commentsL = [];
           app.ilSrc = [];
-          if (app.picked === 'FNG') {
+          if (app.picked === 'FNG' || app.picked === 'tumblr') {
             app.showComms = true;
           } else {
             app.commentsToggle()
@@ -4001,7 +4100,7 @@ var app = new Vue({
           app.derp = !app.derp;
         } else
         // currentOne.offsetLeft < -40 &&
-        if (!gimme && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
+        if (!gimme && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0) && app.picked != 'tumblr') {
           var element99 = document.getElementById("currentOne");
           element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
@@ -4159,6 +4258,7 @@ var app = new Vue({
         if (!document.webkitIsFullScreen && e.target.id === 'currentOne') {
           if (mobile) {
             // if (k === 0) {console.log('huihui'); app.pinch(e)}
+            console.log('ssssss')
             app.toggleFS()}
         }
         // if (document.webkitIsFullScreen && e.target.id === "imgDiv" && app.vid) {
@@ -4169,12 +4269,7 @@ var app = new Vue({
         } else if (document.webkitIsFullScreen && e.target.id != "video") {
           console.log('tap2');
           var meep = e.center.y/imgDiv.clientHeight;
-          if (imgNo === '' && app.picked === 'tumblr' && !app.showComms) {
-            chicken3 = !chicken3;
-            app.chicken3 = !app.chicken3;
-            showtitle = !showtitle;
-          }
-          else if (imgNo === '' && meep < 0.5 && !app.showComms && currentOne.y != 0) {
+          if (imgNo === '' && meep < 0.5 && !app.showComms && currentOne.y != 0) {
             chicken3 = !chicken3;
             app.chicken3 = !app.chicken3;
             showtitle = !showtitle;
@@ -4185,7 +4280,7 @@ var app = new Vue({
             document.documentElement.style.setProperty('--move-left', '0')
           }
           if (imgNo != '' && meep > 0.5) {console.log('upAlbum!'); app.flipAlbum()}
-          else if (meep > 0.5) {console.log('up!'); app.up()}
+          else if (meep > 0.5) {console.log(meep + ' up!'); app.up()}
           else if (imgNo != '' && meep < 0.5) {console.log('down!'); app.down()};
         }
       }
