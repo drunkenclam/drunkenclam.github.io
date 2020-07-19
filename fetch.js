@@ -1901,8 +1901,10 @@ var app = new Vue({
     fetchNow: function (event) {
       if (window.screen.orientation.type === 'portrait-primary' || window.screen.orientation.angle !== 0) {
         mobile = true;
-        if (!mobileConsole.status.initialized) {
-            mobileConsole.init();
+        if (typeof mobileConsole != 'undefined') {
+          if (!mobileConsole.status.initialized) {
+              mobileConsole.init();
+          }
         }
       } else {
         mobile = false;
@@ -2435,7 +2437,7 @@ var app = new Vue({
           return response.json();
         }).then(function(json) {
           var tp = json.response.posts;
-          console.log(tp)
+          // console.log(tp)
           //console.log('tp.lenght: ' + tp.length);
           if (tp.length >= 0) {
             for (var z = 0; z < tp.length; z++) {
@@ -2449,12 +2451,12 @@ var app = new Vue({
                   } else {picNo = 1; shitload = []};
                   //console.log(tp[z].photos.length);
                   var imgID = tp[z].photos[0].original_size.url;
-                  console.log(imgID)
+                  // console.log(imgID)
                   var blogname = tp[z].blog_name;
                   var posturl = tp[z].post_url;
                   var createdT = tp[z].timestamp;
                   var tagline = tp[z].summary;
-                  var comments = [];
+                  // var comments = [];
                   // for (var kk = 0; kk < tp[z].notes.length; kk++) {
                   //   if (tp[z].notes[kk].type === 'reply') {
                   //     comments.push(tp[z].notes[kk].reply_text);
@@ -2478,7 +2480,7 @@ var app = new Vue({
                   if (minutes < 90) {formattedTime = date + ' hour ago';}
                   if (minutes < 60) {formattedTime = minutes + ' min ago';}
                   if (imgID.indexOf('flickr') === -1) {
-                    pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload, comments]);
+                    pic.push([imgID, blogname, posturl, formattedTime, shit, tagline, picNo, shitload, imgID]);
                   }
                   app.fetched = ' / ' + pic.length;
                 //}
@@ -2945,8 +2947,11 @@ var app = new Vue({
         if (pic[k][7] === 'video') {app.vid=true; console.log('tumblr video!')}
         else {
           app.vid=false;
+          app.iglink = 'https://www.instagram.com/explore/tags/' + pic[k][5];
+          app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
+          app.glink = 'https://www.google.com/searchbyimage?&image_url=' + pic[k][8];
           if (pic[k][8].length > 0) {
-            console.log(pic[k][8]);
+            // console.log(pic[k][8]);
             app.title = app.title + ' (' + pic[k][8].length + ')';
             for (var ee = 0; ee < pic[k][8].length; ee++) {
               app.title = app.title + ' ' + pic[k][8][ee];
@@ -3061,13 +3066,6 @@ var app = new Vue({
         // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
       } else {
         // console.log('zoompic[k][15]: ' + pic[k][15])
-        if (pic[k][8] != 'video') {
-          console.log(k)
-          console.log(pic[k][8])
-          console.log(pic[k+1][8])
-          // var element99 = document.getElementById("currentOne");
-          // element99.classList.add("pop");
-        }
         if (pic[k][15] === 'zoompw' || pic[k][15] === 'zoomvw') {
           console.log('zoom w');
           document.documentElement.style.setProperty('--min-w', '100vw')
