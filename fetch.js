@@ -676,7 +676,6 @@ var app = new Vue({
         'captainx2c',
         'babes-eve3',
         'starkilluminations',
-        'beautifulgirlsdaily123',
         'mk343',
         '2xphun',
         'mrredneckrc',
@@ -1300,7 +1299,9 @@ var app = new Vue({
       userbtn.hidden = true;
       gbtn.hidden = true;
       ybtn.hidden = true;
-      if (app.picked === 'FNG') {
+      if (app.picked === 'tumblr') {
+        window.open(pic[k][2], '_blank');
+      } else if (app.picked === 'FNG') {
         var j = app.currentImg+2;
         var s = pic[app.currentImg][3].split(' (');
         var w = s[0];
@@ -2947,7 +2948,8 @@ var app = new Vue({
         if (pic[k][7] === 'video') {app.vid=true; console.log('tumblr video!')}
         else {
           app.vid=false;
-          app.iglink = 'https://www.instagram.com/explore/tags/' + pic[k][5];
+          var susu = pic[k][5].replace(/ /g, '');
+          app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
           app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
           app.glink = 'https://www.google.com/searchbyimage?&image_url=' + pic[k][8];
           if (pic[k][8].length > 0) {
@@ -2966,7 +2968,7 @@ var app = new Vue({
 
         app.postlink = pic[k][2];
         // if (pic[k][5] != '') {app.title = pic[k][5]} else {if (!chicken3) {app.title = pic[k][1]} else {app.title = ''}};
-        if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = pic[k][1]};
+        if (pic[k][5] != '') {app.title = pic[k][5]} else {app.title = ''};
         app.created = pic[k][3] + ' at';
         if (pic[k][6] > 1) {app.imgNo = ' (' + pic[k][6] + ')'} else {app.imgNo = ''};
         aa = [];
@@ -4098,7 +4100,7 @@ var app = new Vue({
           app.derp = !app.derp;
         } else
         // currentOne.offsetLeft < -40 &&
-        if (!gimme && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0) && app.picked != 'tumblr') {
+        if (!gimme && pic[k][8] != 'video' && (current.z != 1 || currentOne.x < 0)) {
           var element99 = document.getElementById("currentOne");
           element99.classList.add("pop");
           current.x = 0; current.y = 0; current.z = 1;
