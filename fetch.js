@@ -1318,6 +1318,7 @@ var app = new Vue({
       } else {
         if (q === undefined) {q = 'https://reddit.com/user/' + pic[k][7]};
         console.log('userincomms ' + q)
+        app.loading = true;
         var url = q;
         aicA = [];
         fetch('https://ratv-cors-proxy.herokuapp.com/' + q + '/submitted/new.json?limit=25').then(function(response) {
@@ -1554,6 +1555,7 @@ var app = new Vue({
           Vue.set(app.commentsL, pppp, eee);
           console.log('count: ' + eee);
 
+          app.loading = false;
           for (var z = 0; z < aicA.length; z++) {
             // console.log(q.indexOf(aicA[z][0]))
             //if (t.substr(t.length - 5) === aicA[z][0].substr(aicA[z][0].length - 5)) {
@@ -2068,6 +2070,7 @@ var app = new Vue({
       var counter = 0;
       pic = [];
       k = 0;
+      app.loading = true;
       var FNGarr = [];
       fetch('https://ratv-cors-proxy.herokuapp.com/https://fitnakedgirls.com/fitness-porn-photo-galleries/?order=newest')
         .then(function (response) {
@@ -2082,6 +2085,7 @@ var app = new Vue({
         })
         .then(function (template) {
             // console.log(template);
+            app.loading = false;
             var indexes = [...template.matchAll(new RegExp('thumb"><a href="https://fitnakedgirls.com/gallery', 'gi'))].map(a => a.index);
             var imagesfn = '';
             var z = 0;
@@ -2417,6 +2421,7 @@ var app = new Vue({
 
     fetchT: function (event) {
       console.log(app.selected);
+      app.loading = true;
       var sr = [];
       var limit = 25;
       if (app.selected != 'All') {sr.push('bla', app.selected, app.selected, app.selected, app.selected, app.selected); limit = 100} else {sr = this.optionsT; limit = 25};
@@ -2530,6 +2535,7 @@ var app = new Vue({
           app.sort();
           titleLink = 5;
           counter++;
+          app.loading = false;
           //console.log('counter: ' + counter + ' j: ' + j + ' sr.length: ' + sr.length);
           if (counter === j-1) {
             app.imgList.push(pic[0][0]);
@@ -2687,6 +2693,7 @@ var app = new Vue({
     fetchR: function (event) {
       console.log(app.selected);
       var sr = [];
+      app.loading = true;
       var limit = 25;
       if (app.selected === 'BestOf') {
         sr = this.optionsRbo;
@@ -2893,6 +2900,7 @@ var app = new Vue({
             // pic2 = JSON.parse(JSON.stringify(pic));
             // console.log(pic2);
             if (app.picked === 'tumblr') {app.bru = pic[k][1]} else {app.bru = pic[k][5]}
+            app.loading = false;
             app.nextpic();
             //console.log('fäddich!')
           };
@@ -3130,7 +3138,7 @@ var app = new Vue({
         app.bibo = 'The End!';
         app.derp = true;
       } else {
-        if (pic[k][12] && (app.picked === 'reddit' || app.picked === 'redditSFW')) {
+        if (pic[k][12] && (app.picked === 'reddit' || app.picked === 'redditSFW' || app.picked === 'FNG')) {
           app.bibo = pic[k][2] + ' ' + pic[k][12];
         } else if (pic[k][12] && app.picked === 'tumblr') {
             app.bibo = pic[k][3] + ' ' + pic[k][12];
