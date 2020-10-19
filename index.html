@@ -164,7 +164,7 @@
       #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; margin-top: env(safe-area-inset-top); text-align: center; z-index: var(--z-indx); backface-visibility: hidden;}
       #ralbum { color: #7292df; font-size: medium; background-color: black; position: fixed; top:-1px; right:0px; z-index: 12; padding-left: 5px; padding-right: 15px}
       #sub { font-size: small; position: fixed; top:-3px; left:0px; z-index: 10; padding-left: 45px}
-      #mic { font-size: small; position: fixed; top:3px; right:0px; z-index: 11; padding-left: 5px; padding-right: 14px}
+      #mic { font-size: small; position: fixed; top:-3px; right:0px; z-index: 11; padding-left: 5px; padding-right: 24px}
       #entries {height: 100vh}
       #behind24 {background-color: white; position: fixed; top:0px; right:0px; width:2px; height:2px; z-index: 99}
       #nextv {height: 20vh}
@@ -465,7 +465,7 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.72</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.722</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->

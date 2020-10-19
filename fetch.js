@@ -4475,7 +4475,7 @@ var app = new Vue({
       fetch(request).then(function(response) {
         return response.json();
       }).then(function(json) {
-        // console.log(json.sizes.size[json.sizes.size.length-1]);
+        //console.log(json.sizes.size[json.sizes.size.length-1]);
         pic[k+3][0] = json.sizes.size[json.sizes.size.length-1].source;
       }).catch(function(err) {
         pic[k+3][0] = '404.jpg';
