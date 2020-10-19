@@ -92,7 +92,7 @@
         } */
       }
       @media all and (orientation: portrait) {
-        #progresslabel { position: fixed; top:-3px; font-weight: bold; left: 25px; font-size: x-small; color:white; z-index: 18;}
+        #progresslabel { position: fixed; top:-3px; font-weight: bold; left: 35px; font-size: x-small; color:white; z-index: 18;}
         #progress { position: fixed; top:0px; left: 0px; height: 9px; width: 100%; z-index: 13;}
         #radios { margin-top: 10px}
         a { color: white; }
@@ -163,7 +163,7 @@
       } */
       #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; margin-top: env(safe-area-inset-top); text-align: center; z-index: var(--z-indx); backface-visibility: hidden;}
       #ralbum { color: #7292df; font-size: medium; background-color: black; position: fixed; top:-1px; right:0px; z-index: 12; padding-left: 5px; padding-right: 15px}
-      #sub { font-size: small; position: fixed; top:3px; left:0px; z-index: 10; padding-left: 14px}
+      #sub { font-size: small; position: fixed; top:3px; left:0px; z-index: 10; padding-left: 35px}
       #mic { font-size: small; position: fixed; top:3px; right:0px; z-index: 11; padding-left: 5px; padding-right: 14px}
       #entries {height: 100vh}
       #behind24 {background-color: white; position: fixed; top:0px; right:0px; width:2px; height:2px; z-index: 99}
@@ -433,7 +433,7 @@
       <div id="lel"><a :href="hoho" target="_blank">{{hoho}}</a></div>
       <!-- <v-touch v-on:tap.passive="tap" v-on:swipeup.passive="up" v-on:swipedown.passive="down" v-on:panleft.passive="touchnextX" v-on:panright.passive="touchnextX" v-bind:pan-options="{ direction: 'horizontal', threshold: 0, pointers: 0 }"> -->
       <div class="parent" align="center" id="entries">
-        <div v-if="showconf" id="settings" style="margin-top: 27px">
+        <div v-if="showconf" id="settings" style="margin-top: 35px">
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="zero" value="redditSFW" v-model="picked" v-on:click="options = optionsRS; selected = 'All'">
           <label style="padding-top: 10px;padding-right: 10px;" for="zero">Reddit SFW</label></span>
           <span style="white-space: nowrap"><input style="padding-top: 10px;" type="radio" id="one" value="reddit" v-model="picked" v-on:click="options = optionsR; selected = 'All'">
@@ -465,7 +465,7 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.7</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.71</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
