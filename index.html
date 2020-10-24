@@ -394,16 +394,16 @@
         transition: all .5s ease;
       } */
       #igbtn { position: absolute; background-color: blue; color: white; border-radius: 10px; text-align: center; z-index: 51;
-             height: 50px; width: 50px; vertical-align: middle; line-height: 50px;
+             height: 60px; width: 60px; vertical-align: middle; line-height: 60px;
              left: 40px; bottom: 170px; }
       #userbtn { position: absolute; background-color: blue; color: white; border-radius: 10px; text-align: center; z-index: 51;
-             height: 50px; width: 50px; vertical-align: middle; line-height: 50px;
+             height: 60px; width: 60px; vertical-align: middle; line-height: 60px;
              left: 120px; bottom: 170px; }
       #gbtn { position: absolute; background-color: blue; color: white; border-radius: 10px; text-align: center; z-index: 51;
-            height: 50px; width: 50px; vertical-align: middle; line-height: 50px;
+            height: 60px; width: 60px; vertical-align: middle; line-height: 60px;
             left: 200px; bottom: 170px; }
       #ybtn { position: absolute; background-color: blue; color: white; border-radius: 10px; text-align: center; z-index: 51;
-            height: 50px; width: 50px; vertical-align: middle; line-height: 50px;
+            height: 60px; width: 60px; vertical-align: middle; line-height: 60px;
             left: 280px; bottom: 170px; }
     </style>
   </head>
@@ -465,7 +465,7 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.8</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.81</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
@@ -506,12 +506,12 @@
             </transition>
             <a :href="glink" target="_blank">
               <transition name="slike-fadedown" mode="out-in">
-                <div id="gbtn" v-if="showComms">G</div>
+                <div id="gbtn" v-if="showComms">gPic</div>
               </transition>
             </a>
             <a :href="ylink" target="_blank">
               <transition name="slike-fadedown" mode="out-in">
-                <div id="ybtn" v-if="showComms">Y</div>
+                <div id="ybtn" v-if="showComms">gName</div>
               </transition>
             </a>
             <!-- </transition-group> -->

@@ -2958,7 +2958,8 @@ var app = new Vue({
           app.vid=false;
           var susu = pic[k][5].replace(/ /g, '');
           app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
-          app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
+          // app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
+          app.ylink = 'https://www.google.de/search?q=' + susu + '&tbm=isch';
           app.glink = 'https://www.google.com/searchbyimage?&image_url=' + pic[k][8];
           if (pic[k][8].length > 0) {
             // console.log(pic[k][8]);
@@ -3037,7 +3038,8 @@ var app = new Vue({
         }
         app.iglink = 'https://www.instagram.com/explore/tags/' + susu;
         app.userlink = 'https://www.reddit.com/user/' + pic[k][7];
-        app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
+        // app.ylink = 'https://yandex.com/images/search?source=collections&rpt=imageview&url=' + pic[k][8];
+        app.ylink = 'https://www.google.de/search?q=' + pic[k][3] + '&tbm=isch';
         app.glink = 'https://www.google.com/searchbyimage?&image_url=' + pic[k][8];
         // console.log(app.iglink);
         if (app.picked === 'insta' || app.picked === '500px' || app.picked === 'flickr') {
