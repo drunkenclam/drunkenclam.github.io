@@ -1307,7 +1307,7 @@ var app = new Vue({
       userbtn.hidden = true;
       gbtn.hidden = true;
       ybtn.hidden = true;
-      slider.hidden=true;
+      slider.hidden=true; //yes
       slider2.hidden=true;
       if (app.picked === 'tumblr') {
         window.open(pic[k][2], '_blank');
