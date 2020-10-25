@@ -170,7 +170,8 @@
       #nextv {height: 20vh}
       #nextimg {height: 20vh}
       #nextalbumimg {height: 20vh}
-      #slider {position: fixed; top:30%; left:30%; z-index: 88}
+      #slider {position: fixed; top:30%; left:10%; width: 80%; z-index: 88}
+      #slider2 {position: fixed; top:50%; left:10%; width: 80%; z-index: 88}
       .nextinsta {
         position: fixed; top:100px; left:500px;
       }
@@ -465,7 +466,7 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.81</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.82</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
@@ -474,6 +475,12 @@
               <!-- <transition name="zuzu" mode="out-in"> -->
                 <div id="headline" v-bind:style="{ bottom: headBot + 'px', top: headTop + 'px'}" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
               <!-- </transition> -->
+              <div id="slider">
+                <input @input="cowbell($event)"  type="range" min="0" max="100" step="1" id="cowbell">
+              </div>
+              <div id="slider2">
+                <input @input="cowbell2($event)"  type="range" min="0" max="100" step="1" value="0" id="cowbell2">
+              </div>
               <transition name="slike-fadedown" mode="out-in">
                 <div id="commsID" class="comms" v-show="showComms" ref="commsRef" tabindex="10">
                   <div class="imgurlinks1" v-show="il" v-for="z in ilSrc">

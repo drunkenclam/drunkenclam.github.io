@@ -1053,6 +1053,14 @@ var app = new Vue({
       app.currentImg = app.currentImg - 1;
       app.nextpic();
     },
+    cowbell: function(yep) {
+      console.log(cowbell.value);
+      document.getElementById('headline').style.top=cowbell.value+"px";
+    },
+    cowbell2: function(yep) {
+      console.log(cowbell2.value);
+      document.getElementById('headline').style.left=cowbell2.value+"px";
+    },
 
     getCommentsFromArray: function(arr) {
       var text = '';
@@ -1299,6 +1307,8 @@ var app = new Vue({
       userbtn.hidden = true;
       gbtn.hidden = true;
       ybtn.hidden = true;
+      slider.hidden=true;
+      slider2.hidden=true;
       if (app.picked === 'tumblr') {
         window.open(pic[k][2], '_blank');
       } else if (app.picked === 'FNG') {
