@@ -35,6 +35,7 @@ var chicken2 = false;
 var chicken3 = false;
 var chicken4 = false;
 var chicken5 = false;
+var chicken8 = true;
 var wentBack = false;
 var ath = 0;
 var full = false;
@@ -118,6 +119,7 @@ var app = new Vue({
         chicken3: false,
         chicken4: false,
         chicken5: false,
+        chicken8: true,
         full: false,
         gonext: true,
         showconf: true,
@@ -1059,7 +1061,7 @@ var app = new Vue({
     },
     cowbell2: function(yep) {
       console.log(cowbell2.value);
-      document.getElementById('headline').style.left=cowbell2.value+"px";
+      document.getElementById('headline').style.height=cowbell2.value+"px";
     },
 
     getCommentsFromArray: function(arr) {
@@ -1307,8 +1309,7 @@ var app = new Vue({
       userbtn.hidden = true;
       gbtn.hidden = true;
       ybtn.hidden = true;
-      slider.hidden=true;
-      slider2.hidden=true;
+      app.chicken8 = false;
       if (app.picked === 'tumblr') {
         window.open(pic[k][2], '_blank');
       } else if (app.picked === 'FNG') {
