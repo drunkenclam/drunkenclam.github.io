@@ -35,7 +35,7 @@ var chicken2 = false;
 var chicken3 = false;
 var chicken4 = false;
 var chicken5 = false;
-var chicken8 = true;
+var chicken8 = false;
 var wentBack = false;
 var ath = 0;
 var full = false;
@@ -119,7 +119,7 @@ var app = new Vue({
         chicken3: false,
         chicken4: false,
         chicken5: false,
-        chicken8: true,
+        chicken8: false,
         full: false,
         gonext: true,
         showconf: true,
@@ -1196,6 +1196,7 @@ var app = new Vue({
     },
 
     commentsToggle: function () {
+      app.chicken8 = !app.chicken8;
       var pieces = pic[k][1].split("/");
       var commentsTree = 'https://www.reddit.com/r/' + pieces[4] + '/comments/' + pieces[6] + '.json';
       // console.log(commentsTree);
@@ -1309,7 +1310,6 @@ var app = new Vue({
       userbtn.hidden = true;
       gbtn.hidden = true;
       ybtn.hidden = true;
-      app.chicken8 = false;
       if (app.picked === 'tumblr') {
         window.open(pic[k][2], '_blank');
       } else if (app.picked === 'FNG') {
