@@ -1196,7 +1196,6 @@ var app = new Vue({
     },
 
     commentsToggle: function () {
-      app.chicken8 = !app.chicken8;
       var pieces = pic[k][1].split("/");
       var commentsTree = 'https://www.reddit.com/r/' + pieces[4] + '/comments/' + pieces[6] + '.json';
       // console.log(commentsTree);
@@ -2958,6 +2957,7 @@ var app = new Vue({
       app.mic = '';
       //ratio = 0;
       app.showComms = false;
+      app.chicken8 = false;
       app.ilSrc = [];
       app.il = false;
       app.hihi = 0;
@@ -4136,6 +4136,7 @@ var app = new Vue({
           }
           update();
         } else if (app.showComms && e.target.id != 'example-2' && e.target.id != 'userbtn') {
+          app.chicken8 = true;
           app.showComms = false;
           app.ilSrc = [];
           app.il = false;
