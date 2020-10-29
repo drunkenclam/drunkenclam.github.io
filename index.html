@@ -476,12 +476,12 @@
               <!-- <transition name="zuzu" mode="out-in"> -->
                 <div id="headline" v-bind:style="{ bottom: headBot + 'px', top: headTop + 'px', padding-top: padTop + 'px'}" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
               <!-- </transition> -->
-              <div id="slider" v-if="chicken8">
+              <!-- <div id="slider" v-if="chicken8">
                 <input @input="cowbell($event)"  type="range" min="-100" max="100" step="1" id="cowbell">
               </div>
               <div id="slider2" v-if="chicken8">
                 <input @input="cowbell2($event)"  type="range" min="0" max="100" step="1" value="24" id="cowbell2">
-              </div>
+              </div> -->
               <transition name="slike-fadedown" mode="out-in">
                 <div id="commsID" class="comms" v-show="showComms" ref="commsRef" tabindex="10">
                   <div class="imgurlinks1" v-show="il" v-for="z in ilSrc">
