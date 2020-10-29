@@ -161,7 +161,8 @@
         width: 50px;
         height: 50px;
       } */
-      #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; margin-top: env(safe-area-inset-top); text-align: center; z-index: var(--z-indx); backface-visibility: hidden;}
+      /* margin-top: env(safe-area-inset-top);  */
+      #headline { font-size: medium; background-color: black; position: fixed; left: 0px; width: 100%; text-align: center; z-index: var(--z-indx); backface-visibility: hidden;}
       #ralbum { color: #7292df; font-size: medium; background-color: black; position: fixed; top:-1px; right:0px; z-index: 12; padding-left: 5px; padding-right: 15px}
       #sub { font-size: small; position: fixed; top:-3px; left:0px; z-index: 10; padding-left: 24px}
       #mic { font-size: small; position: fixed; top:-3px; right:0px; z-index: 11; padding-left: 5px; padding-right: 24px}
@@ -466,14 +467,14 @@
         <label v-on:click="toggleFS">{{loaded}} {{fetched}}</label>
         <div id="h4title" v-on:click="toggleFS"><h4 v-if="chicken2">{{created}}: <a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></h4></div>
         </div>
-        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.86</div>
+        <div id="infodiv" v-if="!chicken2">{{ref_info}} v0.99.87</div>
         <a :href="imgList[Math.abs(currentImg) % imgList.length]" target="_blank">
           <div id="container" v-on:click="toggleSize">
           <!-- <span style="white-space:nowrap"> -->
             <!-- <transition-group v-if="chicken === 0" tag="div" name="slide-fade" @before-leave="beforeLeave" @after-leave="afterLeave"> -->
             <div id="imgDiv" v-for="number in [currentImg]" v-bind:key="number">
               <!-- <transition name="zuzu" mode="out-in"> -->
-                <div id="headline" v-bind:style="{ bottom: headBot + 'px', top: headTop + 'px'}" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
+                <div id="headline" v-bind:style="{ bottom: headBot + 'px', top: headTop + 'px', padding-top: padTop + 'px'}" v-if="chicken3"><a :href="postlink" target="_blank">{{title}}</a><a :href="imageSrcA" target="_blank"> {{imageSrcA}}</a></div>
               <!-- </transition> -->
               <div id="slider" v-if="chicken8">
                 <input @input="cowbell($event)"  type="range" min="-100" max="100" step="1" id="cowbell">

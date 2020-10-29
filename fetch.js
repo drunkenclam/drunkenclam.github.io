@@ -62,6 +62,7 @@ var app = new Vue({
     return {
       headTop: '',
       headBot: '',
+      padTop: '',
       loadski: true,
       message: 'Click for slide',
       show: true,
@@ -3139,10 +3140,12 @@ var app = new Vue({
         if ((window.screen.orientation.type === 'portrait-primary' && document.webkitIsFullScreen) && (imgDiv.offsetHeight - headpos) > 56) {
           app.headBot = headpos;
           app.headTop = '';
+          app.padTop = '';
           // document.documentElement.style.setProperty('--head-pos', headpos + 'px')
         } else {
           app.headBot = '';
           app.headTop = -1;
+          app.padTop = 20;
           // document.documentElement.style.setProperty('--head-pos', (imgDiv.offsetHeight - headline.offsetHeight - 27) + 'px')
         }
       }
